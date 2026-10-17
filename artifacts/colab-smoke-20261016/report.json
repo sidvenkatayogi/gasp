@@ -1,0 +1,116 @@
+{
+  "success": true,
+  "commands": [
+    {
+      "label": "venv",
+      "args": [
+        "/usr/bin/python3",
+        "-m",
+        "venv",
+        "--without-pip",
+        "/content/gasp-smoke-venv"
+      ],
+      "returncode": 0,
+      "seconds": 0.06606977499995992
+    },
+    {
+      "label": "pip-bootstrap",
+      "args": [
+        "/usr/bin/python3",
+        "-m",
+        "pip",
+        "--python",
+        "/content/gasp-smoke-venv/bin/python",
+        "install",
+        "pip"
+      ],
+      "returncode": 0,
+      "seconds": 2.9765916339999876
+    },
+    {
+      "label": "torch-install",
+      "args": [
+        "/content/gasp-smoke-venv/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "torch==2.7.1",
+        "--index-url",
+        "https://download.pytorch.org/whl/cpu"
+      ],
+      "returncode": 0,
+      "seconds": 31.825177868000083
+    },
+    {
+      "label": "dependencies",
+      "args": [
+        "/content/gasp-smoke-venv/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "transformers==4.57.6",
+        "tokenizers==0.22.2",
+        "numpy==2.2.6",
+        "pytest==9.0.2",
+        "math-verify==0.8.0",
+        "peft==0.18.0",
+        "accelerate==1.12.0"
+      ],
+      "returncode": 0,
+      "seconds": 27.58708881000007
+    },
+    {
+      "label": "package-install",
+      "args": [
+        "/content/gasp-smoke-venv/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "--no-deps",
+        "."
+      ],
+      "returncode": 0,
+      "seconds": 4.156229929000119
+    },
+    {
+      "label": "packages",
+      "args": [
+        "/content/gasp-smoke-venv/bin/python",
+        "-m",
+        "pip",
+        "freeze"
+      ],
+      "returncode": 0,
+      "seconds": 0.3163364100000763
+    },
+    {
+      "label": "tests",
+      "args": [
+        "/content/gasp-smoke-venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--junitxml",
+        "/content/gasp-smoke-jjbpokbf/tests.xml"
+      ],
+      "returncode": 0,
+      "seconds": 31.13345671800016
+    },
+    {
+      "label": "smoke",
+      "args": [
+        "/content/gasp-smoke-venv/bin/python",
+        "-m",
+        "gasp",
+        "smoke",
+        "--output",
+        "/content/gasp-smoke-jjbpokbf/run"
+      ],
+      "returncode": 0,
+      "seconds": 8.230519176999906
+    }
+  ],
+  "python": "3.13.16 (main, Oct  1 2026, 15:40:24) [GCC 13.3.0]",
+  "source_archive_sha256": "f4f256be99c1c09ec8f649de23edb054266f8a8670484065caf10ce21b1a39fa",
+  "wall_seconds": 106.32527009199998
+}

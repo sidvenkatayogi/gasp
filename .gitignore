@@ -1,0 +1,17 @@
+.venv/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+data/
+runs/
+*.pt
+.ipynb_checkpoints/
+references/paper.html
+dist/
+build/
+artifacts/notebook-smoke-*/
+artifacts/local-smoke/

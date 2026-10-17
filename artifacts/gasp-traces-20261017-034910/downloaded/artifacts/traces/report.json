@@ -1,0 +1,40 @@
+{
+  "success": false,
+  "commands": [
+    {
+      "label": "hardware",
+      "returncode": 0,
+      "seconds": 0.46546772399995007
+    },
+    {
+      "label": "venv",
+      "returncode": 0,
+      "seconds": 0.11496538400001555
+    },
+    {
+      "label": "pip-bootstrap",
+      "returncode": 0,
+      "seconds": 3.1225556809999944
+    },
+    {
+      "label": "dependencies",
+      "returncode": 0,
+      "seconds": 202.3214488499999
+    },
+    {
+      "label": "packages",
+      "returncode": 0,
+      "seconds": 0.415646541000001
+    },
+    {
+      "label": "contexts",
+      "returncode": -2,
+      "seconds": 2237.306945415
+    }
+  ],
+  "started_at": 1792208962.5477204,
+  "gasp-colab.zip_sha256": "700074062b0e778557a088ca13359928637424d5b8bd3cbc2bd355c1a9f098ac",
+  "gasp-inputs.zip_sha256": "a3f28f7ae762294a6ce272e2091cf656d233d997b5c706998686a51d304b1775",
+  "error": "Traceback (most recent call last):\n  File \"/tmp/ipykernel_2872/3349368170.py\", line 77, in <cell line: 0>\n    run(\"contexts\", args, timeout=8*3600+900)\n    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ipykernel_2872/3349368170.py\", line 48, in run\n    completed.check_returncode()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/usr/lib/python3.13/subprocess.py\", line 508, in check_returncode\n    raise CalledProcessError(self.returncode, self.args, self.stdout,\n                             self.stderr)\nsubprocess.CalledProcessError: Command '['/content/gasp-cuda-venv/bin/python', '-m', 'gasp', 'prepare-eval-contexts', '--config', 'data/full-v3/resolved_config.json', '--source', 'data/raw/gsm_raw.jsonl', '--output', 'data/full-v3/eval-contexts.jsonl', '--max-seconds', '28800', '--resume']' died with <Signals.SIGINT: 2>.\n",
+  "finished_at": 1792211406.3676965
+}

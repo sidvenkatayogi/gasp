@@ -1,0 +1,14 @@
+{
+  "config": "configs/full.json",
+  "seeds": [
+    42,
+    52,
+    62
+  ],
+  "conditions": [
+    "unified",
+    "split"
+  ],
+  "label": "gasp-full",
+  "launch_automatically": false
+}

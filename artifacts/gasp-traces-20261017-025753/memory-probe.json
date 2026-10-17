@@ -1,0 +1,34 @@
+{
+  "success": true,
+  "synthetic_memory_probe": true,
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "updates": [
+    {
+      "role": "agent",
+      "seconds": 57.14356036199979,
+      "state_transfer_seconds": 0.0011261539998486114,
+      "grad_norm": 537.0609741210938,
+      "peak_allocated_bytes": 37427635712,
+      "peak_reserved_bytes": 39936065536,
+      "optimizer_bytes": 14216705356
+    },
+    {
+      "role": "polluter",
+      "seconds": 65.82859154300013,
+      "state_transfer_seconds": 9.236286659000143,
+      "grad_norm": 537.0609741210938,
+      "peak_allocated_bytes": 37427635712,
+      "peak_reserved_bytes": 39936065536,
+      "optimizer_bytes": 28433410712
+    },
+    {
+      "role": "agent",
+      "seconds": 60.605280388999745,
+      "state_transfer_seconds": 12.78297290599994,
+      "grad_norm": 535.6988525390625,
+      "peak_allocated_bytes": 37428422144,
+      "peak_reserved_bytes": 40871395328,
+      "optimizer_bytes": 28433410712
+    }
+  ]
+}

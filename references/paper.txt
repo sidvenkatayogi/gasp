@@ -1,0 +1,1250 @@
+                                                Learning Robust Reasoning through Guided Adversarial Self-Play
+                                             Shuozhe Li 1 Vaishnav Tadiparthi 2 Kwonjoon Lee 2 Nakul Agarwal 2 Hossein Nourkhiz Mahjoub 2
+                                                               Ehsan Moradi Pari 2 Lizhang Chen 1 Amy Zhang 1 Liu Leqi 1
+                                                    1
+                                                        University of Texas at Austin, Austin, TX, USA ● 2 Honda Research Institute USA, San Jose, CA, USA
+                                                                               Correspondence to: Shuozhe Li <shuozhe.li@utexas.edu>.
+
+
+
+
+arXiv:2602.00173v1 [cs.LG] 30 Jan 2026
+                                         Figure 1. GASP trains robust reasoners that resist misleading context, detect and repair errors, and answer reliably.
+
+                                                                 Abstract                                    1. Introduction
+                                                                                                             Reinforcement learning from verifiable rewards (RLVR)
+                                           Reinforcement learning from verifiable rewards                    (Yu et al., 2025b) has turned large language models into
+                                           (RLVR) produces strong reasoning models, yet                      strong “reasoning” systems. On optimizing post-training
+                                           they can fail catastrophically when the condi-                    only for final-answer correctness, recent large reasoning
+                                           tioning context is fallible (e.g., corrupted chain-               models (LRMs) such as DeepSeek-R1 (Guo et al., 2025)
+                                           of-thought, misleading partial solutions, or mild                 achieve near-saturated performance on math and coding
+                                           input perturbations), since standard RLVR opti-                   benchmarks by producing long chain-of-thought (CoT) so-
+                                           mizes final-answer correctness only under clean                   lutions. RLVR can also induce qualitative changes in behav-
+                                           conditioning. We introduce GASP (Guided                           ior: models sometimes express uncertainty, double-check
+                                           Adversarial Self-Play), a robustification method                  intermediate steps, and revise an answer mid-generation—
+                                           that explicitly trains detect-and-repair capabilities             “aha-moment” self-reflection behaviors that correlate with
+                                           using only outcome verification. Without human                    higher success rates (Yang et al., 2025).
+                                           labels or external teachers, GASP forms an adver-                 These behaviors are largely an incidental byproduct of opti-
+                                           sarial self-play game within a single model: a pol-               mizing final-answer correctness: RLVR does not explicitly
+                                           luter learns to induce failure via locally coherent               train when to distrust the conditioning context, how to diag-
+                                           corruptions, while an agent learns to diagnose and                nose inconsistencies, or how to reliably recover when the
+                                           recover under the same corrupted conditioning.                    context is polluted. However, in real deployments, mod-
+                                           To address the scarcity of successful recoveries                  els rarely operate in such perfectly reliable settings: the
+                                           early in training, we propose in-distribution repair              conditioning context—the prompt, a partial solution trace,
+                                           guidance, an imitation term on self-generated re-                 or a collaborator’s reasoning in multi-agent scenarios (Cui,
+                                           pairs that increases recovery probability while pre-              2025)—may be noisy, misleading, or distribution-shifted,
+                                           serving previously acquired capabilities. Across                  and the system must decide what to trust versus what to
+                                           four open-weight models (1.5B–8B), GASP trans-                    re-derive. Recoverability tests (Li & Goyal, 2025) show
+                                           forms strong-but-brittle reasoners into robust ones               that, even on the correctly answered questions, inserting a
+                                           that withstand misleading and perturbed context                   short distracting or locally corrupted snippet into an oth-
+                                           while often improving clean accuracy. Further                     erwise correct CoT can cause strong math models to fail
+                                           analysis shows that adversarial corruptions induce                catastrophically. Instead of questioning the injected step and
+                                           an effective curriculum, and in-distribution guid-                recover from corruption, models often treat the visible tra-
+                                           ance enables rapid recovery learning with mini-                   jectory as authoritative and follow the corruption; strikingly,
+                                           mal representational drift.                                       this failure mode can exhibit inverse scaling (Li & Goyal,
+                                                                                                             2025). Diagnosability benchmarks such as MR-GSM8K
+                                                                                                             and MR-Bench (Zeng et al., 2023; 2024) reveal a comple-
+
+                                                                                                         1
+                                Learning Robust Reasoning through Guided Adversarial Self-Play
+
+
+
+
+Figure 2. A brittle model follows corruptions and fails, while a robust model detects the inconsistency, and repairs to reach the correct
+answer; corresponding results show GASP markedly improves recoverability, diagnosability, reliability, and clean accuracy.
+mentary weakness under a different kind of fallible context:           test-time prompting.
+models that solve the problem well can collapse when asked
+                                                                       A central challenge is that recovery trajectories are ini-
+to diagnose a provided solution, locate the first erroneous
+                                                                       tially rare: under fallible context, outcome-only policy opti-
+step, and explain the mistake. Beyond explicit reasoning
+                                                                       mization often sees batches with no successes, producing
+traces, reliability benchmarks such as RUPBench (Wang &
+                                                                       uninformative updates. To address this, we introduce in-
+Zhao, 2024) show that reasoning can also be brittle when
+                                                                       distribution repair guidance: a lightweight imitation term
+the input context itself is perturbed by mild lexical, syntac-
+                                                                       on self-generated repair snippets that are high-likelihood
+tic, and semantic edits, leading to substantial drops across
+                                                                       under the current policy. This increases early recovery rates
+commonsense and logical tasks.
+                                                                       and makes outcome-based RL updates informative without
+Together, these stress-tests point to a common deficiency              relying on off-distribution teacher fixes. Empirically, in-
+in robustness to conditioning context: many LRMs behave                distribution guidance both accelerates recovery learning and
+as strong clean problem solver but are unreliable when the             better preserves previously acquired capabilities (smaller
+conditioning information is fallible. While emergent self-             representation drift); we further isolate this mechanism with
+reflection indicates that models can sometimes notice issues           a minimal navigation analogue analysis (§4.3).
+and recover, current training pipelines do not target the
+                                                                       We call our training procedure GASP (Guided Adversarial
+capability we ultimately care about in noisy settings: detect
+                                                                       Self-Play). Across four open-weight reasoning models
+errors, repair them, and reach the correct answer.
+                                                                       (1.5B–8B), GASP transforms strong-but-brittle reasoners
+In this work, we ask: Can we convert a strong-but-brittle              into robust ones: it improves diagnosability, recoverabil-
+LRM into a robust reasoner by training robustness to                   ity, and reliability under natural lexical/syntactic/seman-
+fallible conditioning context using only verifiable out-               tic perturbations—while also strengthening self-reflection
+come rewards? We focus on a regime where base task                     (self-revision from its own incorrect solutions) and often
+competence is already present (e.g., from RLVR or instruc-             improving clean accuracy via more cautious reasoning. Our
+tion tuning) and train a reasoning model robust to corrupted           contributions are:
+context. To do this without human annotations or exter-
+nal teacher models, we develop an adversarial self-play                • Robust reasoning under fallible context. We formalize
+framework (Cheng et al., 2024) for robust reasoning. We                  robustness to unreliable conditioning context and unify
+instantiate two role-conditioned behaviors over the same                 three stress-tests: diagnosability, recoverability, and per-
+underlying model: a polluter that learns to introduce sub-               turbation reliability.
+tle corruptions of the conditioning context that maximize              • Adversarial self-play with verifiable rewards. We intro-
+downstream failure, and an agent that learns to diagnose and             duce a two-role game where a polluter learns locally co-
+neutralize these corruptions while preserving final-answer               herent corruptions that induce failure and an agent learns
+correctness. Both roles are optimized with a GRPO-style ob-              to detect-and-repair, using only terminal correctness re-
+jective using only verifiable terminal rewards. Because the              wards.
+polluter trains against the current agent, self-play induces           • In-distribution repair guidance. We add a lightweight
+an adaptive curriculum: as the agent becomes harder to fool,             imitation term on self-generated repairs that increases
+the polluter must discover increasingly effective corruption             early recovery rates.
+patterns, and the agent correspondingly learns stronger veri-          • Empirical gains and analysis. We show consistent ro-
+fication and repair strategies. Crucially, the agent is trained          bustness improvements across models, and find GASP
+under the same corrupted conditioning used at test time, so              also increases self-revision success and can improve clean
+robustness arises from learning rather than from specialized             accuracy; a navigation analogue and representation analy-
+                                                                         ses suggest in-distribution guidance accelerates recovery
+
+                                                                   2
+                               Learning Robust Reasoning through Guided Adversarial Self-Play
+
+  learning under sparse outcome rewards while better pre-              connection, we target a concrete capability: given a par-
+  serving previously acquired capabilities.                            tially corrupted chain-of-thought, produce the correct final
+                                                                       answer.
+2. Preliminaries                                                       Notably, this capability is not entirely absent from current
+                                                                       systems. Inference-time–scaled models trained with RLVR
+A problem instance is a question q with a ground-truth
+                                                                       sometimes exhibit spontaneous self-correction and revision
+final answer a⋆ . A reasoning model πθ generates a token
+                                                                       behaviors as an incidental byproduct of optimizing for final-
+sequence consisting of a chain-of-thought c = (c1 , . . . , cT )
+                                                                       answer correctness. However, since these behaviors are
+followed by a final answer a; we write a full generation as
+                                                                       not explicitly trained for, models can still fail catastrophi-
+a trajectory τ = (c, a) ∼ πθ (⋅ ∣ q). For any ratio α ∈ [0, 1],
+                                                                       cally when confronted with locally misleading intermediate
+let c0∶α denote the prefix containing the first α fraction of
+                                                                       context (Li & Goyal, 2025).
+tokens in c. Verifiable Rewards: all RL signals assume
+the existence of, and depend only on, a final-answer verifier          We seek to train this capability using only verifiable outcome
+using an outcome reward r(τ ; q, a⋆ ) = I{a = a⋆ }. RL                 rewards, without human step-level labels and without any
+with verifiable rewards: We view text generation as an                 external editor/teacher model at training time. To this end,
+episodic decision-making process where the model emits                 we formulate learning as a two-role adversarial self-play
+tokens autoregressively until termination. The objective               game over a shared trajectory. We build self-play episodes
+is to maximize expected terminal correctness: J(θ) =                   from questions the current agent solves reliably, and sample
+E(q,a⋆ )∼D, τ ∼πθ (⋅∣q) [r(τ ; q, a⋆ )].                               a correct trace to serve as clean context. This decouples
+                                                                       robustness learning from competence acquisition: after we
+2.1. Group Relative Policy Optimization (GRPO)                         replace a local window with a coherent corruption, incor-
+                                                                       rect answers primarily reflect susceptibility to misleading
+For a generic conditioning context x (e.g., a question q,              conditioning rather than inability to solve q, details in §4.1.
+a polluted steer spoll , or a clean window context for the             A polluter then proposes a maliciously edited version of
+polluter), GRPO (Shao et al., 2024) samples a group of                 this local window that is intended to induce downstream
+trajectories {τi }G
+                  i=1 ∼ πθold (⋅ ∣ x) and assigns each trajec-         failure while remaining syntactically coherent. Conditioned
+tory a terminal score Ri = R(τi ; x), where R is any task-             on the resulting polluted context, the agent must diagnose
+specific terminal reward (e.g., verifiable correctness). Let           the inconsistency, repair the trajectory, and reach the correct
+R̄ = mean(R) and σR = std(R) for R = {R1 , . . . , RG }.               final answer under the same conditioning used at test time.
+                                                    i −R̄
+We form group-relative advantages Âi (R) = R      σR +ϵ
+                                                          , and
+broadcast them to all tokens: Âi,t (R) = Âi (R), ∀t ∈                3.2. Constructing off-trajectory corruptions
+{1, . . . , ∣oi ∣}. The GRPO objective parameterized by R is
+                                                                       For each problem (q, a⋆ ) that the agent solves reliably under
+                              1 ∣oi ∣
+                    ⎡ G                                                solo reasoning, we first sample a correct trajectory τ =
+                    ⎢1
+  JGRPO (θ; R) = E⎢⎢ ∑            ∑ min (ρi,t (θ)Âi,t (R),            (c, a⋆ ) ∼ πθ (⋅ ∣ q), where c = (c1 , . . . , cT ). We select a
+                    ⎢ G i=1 ∣oi ∣ t=1
+                    ⎣                                                  truncation ratio α ∈ {0, 0.25, 0.5, 0.75}, and let c0∶α denote
+                                               ⎤                       the prefix containing the first α fraction of tokens in c. This
+                                               ⎥
+        clip(ρi,t (θ), 1 − ε, 1 + ε)Âi,t (R))⎥⎥.         (1)          prefix represents the shared reasoning history that will be
+                                               ⎥
+                                               ⎦                       treated as fixed context. Following the truncation point, we
+Optionally, we add a KL regularizer to a reference policy.             extract a short clean window wclean , consisting of the next
+                                                                       ≈ 10% of tokens from the same correct trajectory. This
+                                                                       window serves as a local, ground-truth continuation that is
+3. Method                                                              internally consistent with both the problem and the prefix.
+3.1. Overview: adversarial self-play for robust reasoning              To construct an off-trajectory corruption, the clean window
+Our goal is to convert a strong-but-brittle reasoner into a            is replaced by a corrupted variant wpoll that is locally coher-
+robust one that stays correct even when the conditioning               ent in style but contains at least one misleading reasoning
+context is unreliable. We operationalize robustness as diag-           step and/or perturbed text. The resulting polluted steer is
+nosability (identify errors), recoverability (repair and solve),
+and reliability (resist perturbations). GASP trains these be-
+haviors via adversarial self-play and outcome verification,                              spoll = (q, c0∶α , wpoll ),
+rather than test-time prompting. Empirically, we find that
+models exhibiting stronger “aha-moment” behaviors—e.g.,
+explicit uncertainty, checking, and revision—tend to be sub-           which removes the original clean continuation and exposes
+stantially more robust in these settings. Motivated by this            the agent to the corrupted context as shown in Figure 2.
+
+                                                                   3
+                              Learning Robust Reasoning through Guided Adversarial Self-Play
+
+3.3. Agent training objective: recover under the                      deployment conditioning spoll , we have g(wfix ) =
+     polluted steer                                                   ω∇θ log πθ (wfix ∣ spoll ) with weight ω > 0. A first-order
+                                                                      improvement satisfies
+Conditioned on spoll , the agent produces an off-trajectory
+completion τoff ∼ πθ (⋅ ∣ spoll ) and receives only a terminal           ∆J ≈ α ∇θ J(θ)⊺ g(wfix )
+verifiable reward. We therefore optimize the agent by in-                                                                          2
+                                                                              ≈ α ω πθ (wfix ∣ spoll ) ∥∇θ log πθ (wfix ∣ spoll )∥2 ,
+stantiating the generic GRPO objective JGRPO (θ; R) from
+(1) with the recoverability reward Rrec (τoff ; spoll , a⋆ ) =
+                                                                      where the dominant term scales linearly with πθ (wfix ∣
+I{aoff = a⋆ } i.e.,
+                                                                      spoll ) (full proof in §A.3). Therefore, for candidate repairs
+               rec
+              JGRPO (θ) = JGRPO (θ; Rrec ),                           wθfix , wT
+                                                                               fix
+                                                                                   with comparable weights and gradient norms,
+where the group-relative advantages Âi,t (Rrec ) are com-                         πθ (wθfix ∣ spoll ) ≫ πθ (wT
+                                                                                                              fix
+                                                                                                                  ∣ spoll )
+puted from the terminal rewards Rrec (τi ; spoll , a⋆ ) within                      Ô⇒       ∣∆J(wθfix )∣ ≫ ∣∆J(wT
+                                                                                                                 fix
+                                                                                                                     )∣.
+each sampled group. As we show next, optimizing outcome-
+       rec
+only JGRPO  is typically insufficient when polluted contexts
+make recovery trajectories low probability.
+
+3.4. Repair guidance under learning-signal scarcity
+Motivation: outcome-only learning is signal-scarce un-
+der pollution. Under a polluted steer spoll , the agent ini-
+tially almost never recovers: outputs typically follow the
+misleading window and terminate with an incorrect answer.
+This creates a learning-signal scarcity problem for outcome-
+                                                                      Figure 3. For fixes with similar lengths, teacher (GPT-5) (Singh
+only GRPO, since group-relative advantages are informative            et al., 2025) generated fixes have higher negative log-likelihood
+only when some sampled trajectories succeed. Increasing               than self-generated fixes, indicating that the model assigns lower
+the group size G raises the chance of observing a recovery            probability to teacher fixes than to its own fixes.
+but is computationally expensive and does not change how              Self-generated in-distribution repair targets. We con-
+rarely recovery behaviors are sampled; see §A.1. This moti-           struct a diagnosis prompt pfix θ that includes (q, c0∶α ) and
+vates a complementary mechanism that directly increases               contrasts (wclean , wpoll ), and sample an on-policy repair
+the probability of sampling successful recoveries under spoll ,       wθfix ∼ πθ (⋅ ∣ pfix                 fix
+                                                                                       θ ). We then use wθ as an imitation target
+so informative groups arise even with moderate G.                     under the deployment conditioning spoll = (q, c0∶α , wpoll )
+                                                                      by upweighting log πθ (wθfix ∣ spoll ). By construction, this
+Guided objective. To increase early recovery frequency                tends to yield repairs with substantially higher likelihood
+without increasing G, we augment outcome-only GRPO                    under deployment than teacher fixes: πθ (wθfix ∣ spoll ) ≫
+with an auxiliary repair guidance term that upweights short           πθ (wTfix
+                                                                                ∣ spoll ), so the same-sized update yields a larger
+“repair” continuations back to a successful trajectory:               expected improvement, leading to better learning efficiency
+         rec           rec                                            (verified in §4).
+        JG-GRPO (θ) = JGRPO (θ) + λ Jguide (θ).
+        rec
+Here JGRPO    is instantiated as in §3.3, and Jguide is an            Representation preservation. Beyond immediate first-
+imitation-style objective defined on repair snippets under            order gain, in-distribution repair targets tend to better pre-
+the deployment conditioning spoll .                                   serve internal representations. Since self-generated re-
+                                                                      pairs wθfix already have non-negligible likelihood under
+Teacher-guided repairs can be off-distribution. A                     spoll (Figure 3), increasing log πθ (wθfix ∣ spoll ) typically
+straightforward approach uses a strong external teacher               requires only less parameter change (Zhu et al., 2025).
+                                             fix
+policy πT to generate a repair snippet wT        ∼ πT (⋅ ∣ p)         By contrast, cloning an off-distribution teacher fix with
+from a diagnosis prompt p that exposes the inconsistency              πθ (wTfix
+                                                                                ∣ spoll ) ≈ 0 demands a much larger likelihood-ratio
+(e.g., including both wclean and wpoll ), and then behavior-          adjustment, which can induce larger gradient bursts and
+clones this snippet under the deployment conditioning spoll .         greater latent drift in SFT-like updates (Huan et al., 2025).
+Empirically, teacher fixes can be semantically correct yet            We verify this stability/retention effect in §4.
+inefficient as learning signals because they often lie in low-
+probability regions of the student policy; see §A.2.
+                                                                      3.5. Adversarial self-play: optimizing the polluter
+Advantage of in-distribution guidance. For a generic                  So far, wpoll was an externally constructed corruption. We
+policy gradient on a positive sample wfix under the                   now generate wpoll online in a self-play loop. For each
+
+                                                                  4
+                                 Learning Robust Reasoning through Guided Adversarial Self-Play
+
+reliably solved problem (q, a⋆ ), we first sample a clean                  outcome reward without teacher/human labels. Our experi-
+trajectory τ = (c, a⋆ ) ∼ πθ (⋅ ∣ q), choose α, and extract the            ments are organized around three questions:
+clean window wclean as in Section 3.2. We then prompt
+the same model to act as a polluter: conditioned on the                    • Q1: Robustness and downstream utility. Does GASP
+local clean context (q, c0∶α , wclean ), it outputs a corrupted              improve diagnosability, recoverability, and reliability,
+window wpoll ∼ πθ (⋅ ∣ q, c0∶α , wclean ; polluter_prompt),                  and do these robustness gains translate into better clean
+which defines the polluted steer spoll = (q, c0∶α , wpoll ).                 accuracy and self-revision (post-hoc correction when
+                                                                             prompted with the model’s own incorrect solution)?
+Polluter reward. After sampling wpoll , we run the agent                   • Q2: Efficiency. Under a fixed rollout budget, does in-
+under the polluted steer and evaluate the same verifiable                    distribution repair guidance reduce the exploration bur-
+correctness reward:                                                          den for agent—producing recoveries sooner and reaching
+                                                                             higher performance faster—than outcome-only GRPO
+       τoff ∼ πθ (⋅ ∣ spoll ),     rsolve = I{aoff = a⋆ }.                   and teacher-guided repair?
+                                                                           • Q3: Representation Drift. Does in-distribution guid-
+The polluter receives reward when its corruption causes
+                                                                             ance reduce representation drift and better preserve out-
+failure: Rpoll = 1 − rsolve .
+                                                                             of-domain performance relative to off-distribution teacher
+                                                                             guidance?
+Polluter objective. We optimize the polluter by instanti-
+ating the generic GRPO objective JGRPO (θ; R) from (1)                     4.1. Experimental setup
+on the polluted-window trajectories. For each clean con-
+text xpoll = (q, c0∶α , wclean ), the polluter samples a window            Models. We run experiments on four open-weight
+wpoll ∼ πθ (⋅ ∣ xpoll ; polluter_prompt), which induces the                instruction-tuned reasoning models spanning 1.5B–8B pa-
+polluted steer spoll = (q, c0∶α , wpoll ). After rolling out the           rameters: DeepSeek-R1-Distill-Qwen-1.5B, DeepScaleR-
+agent under spoll , we assign the polluter the terminal re-                1.5B, Qwen3-4B, and Qwen3-8B. Note, these are already
+ward Rpoll (wpoll ; xpoll , a⋆ ) = 1 − I{aoff = a⋆ }, τoff ∼ πθ (⋅ ∣       strong reasoning and instruction following models, which
+spoll ). We then update the polluter with                                  makes them well-suited for role-conditioned self-play: un-
+                                                                           der a POLLUTE prompt, the same backbone can reliably
+               poll
+              JGRPO (θ) = JGRPO (θ; Rpoll ),                               generate plausible corruptions that induce failures in the
+                                                                           AGENT role, creating a non-degenerate training game with
+where the group-relative advantages Âi,t (Rpoll ) are com-                informative adversaries.
+puted from the rewards Rpoll (wipoll ; xpoll , a⋆ ) over a group
+of Gpoll sampled windows for the same xpoll .                              Training questions and solvable subset. We sample 7.5k
+                                                                           problems from the MATH training split and restrict training
+Overall self-play updates (GASP). Training alternates                      to instances the initial checkpoint solves reliably: for each
+two GRPO-style updates using the same parameters θ: (i) an                 candidate, we draw K=4 solutions at temperature 0.7 and
+agent update that maximizes recoverability under polluted                  keep it only if all final answers are correct. For each retained
+context (GRPO plus the in-distribution repair guidance term                (q, a⋆ ) during training, we sample a clean on-policy trajec-
+from Section 3.4), and (ii) a polluter update that maximizes
+  poll
+                                                                           tory τ = (c, a⋆ ) ∼ πθ (⋅ ∣ q), choose α ∈ {0, 0.25, 0.5, 0.75},
+JGRPO  . Concretely, we alternate ascent steps                             and extract the subsequent clean window wclean (the next
+                 agent                         poll                        ≈ 10% of tokens, capped to a fixed length). The polluter gen-
+θ ← θ + ηrec ∇θ JG−GRPO (θ), θ ← θ + ηpoll ∇θ JGRPO (θ),
+                                                                           erates wpoll online from this context, and the agent learns
+          agent
+where JG−GRPO       (θ) denotes the guided objective (e.g.,                recovery under the polluted steer spoll = (q, c0∶α , wpoll ).
+  rec
+JGRPO (θ)+λJguide (θ)). When optimizing the polluter, we
+treat rsolve as a black-box outcome of the agent rollout and               Prompts and role conditioning. Both roles are imple-
+do not backpropagate through τoff . This self-play induces                 mented by prompting the same backbone model. The
+an adaptive curriculum: as the agent becomes harder to                     AGENT uses the standard deployment system prompt un-
+fool, the polluter must discover increasingly effective local              changed (no added “be robust” or “check for errors” instruc-
+corruptions, and the agent correspondingly learns stronger                 tions), while POLLUTE uses a prompt with a constrained
+error-detection and repair behaviors under the same deploy-                edit budget that encourages non-gibberish but misleading
+ment conditioning spoll .                                                  corruptions. Full prompts are in §B; reported robustness
+                                                                           gains come from training, not test-time prompt engineering.
+4. Experiments
+                                                                           Baselines. In the main results table, we focus on two
+We evaluate GASP as a training procedure for turning                       reference points that directly isolate the effect of our guid-
+strong-but-brittle LRMs into robust reasoners using only                   ance mechanism: (i) the initial checkpoint (no additional
+
+                                                                       5
+                                Learning Robust Reasoning through Guided Adversarial Self-Play
+
+                                     Clean Accuracy Recoverability    Diagnosability              Reliability         Self-Revision Avg
+Model                 Method             GSM8K         GSM8K       MR-GSM8K MHPP               GSM8K       CQA         ∆ GSM8K Avg
+                     Initial ckpt        58.7          12.4             12.1          8.4       24.3       16.2            0.2      18.9
+R1-Distill-Qwen-1.5B ASP               60.2 ± 1.6    34.4 ± 4.5       15.8 ± 2.1   11.2 ± 1.8 38.7 ± 2.3 19.5 ± 2.1     2.1 ± 0.3   26.0
+                     GASP-T            65.8 ± 1.7    52.7 ± 4.2       24.1 ± 2.2   17.3 ± 1.9 57.5 ± 2.7 28.8 ± 2.3     2.8 ± 0.4   35.6
+                      GASP             70.3 ± 2.4    95.6 ± 2.2       87.4 ± 3.1   82.1 ± 3.5 91.2 ± 2.8 91.7 ± 2.9     6.1 ± 0.5   74.9
+                      Initial ckpt       67.9          14.3             13.8          9.1       25.6       17.4            0.2      21.2
+DeepScaleR-1.5B       ASP              69.2 ± 1.2    36.7 ± 5.1       18.3 ± 2.4   13.5 ± 2.0 41.4 ± 2.5 22.1 ± 2.3     1.9 ± 0.3   29.0
+                      GASP-T           70.8 ± 1.4    56.0 ± 4.6       27.8 ± 2.6   20.6 ± 2.1 61.8 ± 2.9 33.1 ± 2.5     2.6 ± 0.4   39.1
+                      GASP             72.4 ± 2.1    98.6 ± 1.1       90.2 ± 2.7   85.8 ± 3.2 94.3 ± 2.1 92.6 ± 2.4     8.2 ± 0.6   77.4
+                      Initial ckpt       77.2          13.8             15.4         11.2       27.9       19.8            2.3      23.9
+Qwen3-4B              ASP              79.2 ± 1.1    40.5 ± 5.2       22.7 ± 2.6   17.9 ± 2.3 45.6 ± 2.8 26.3 ± 2.5     4.6 ± 0.5   33.8
+                      GASP-T           81.4 ± 1.2    61.4 ± 4.0       34.9 ± 2.7   27.4 ± 2.4 67.5 ± 2.6 39.1 ± 2.7     6.3 ± 0.6   45.4
+                      GASP             82.9 ± 1.9    98.2 ± 1.2       92.8 ± 2.3   88.5 ± 2.9 96.1 ± 1.8 94.7 ± 2.1     9.3 ± 0.7   80.4
+                      Initial ckpt       84.9          14.7             18.2         13.5       33.3       22.1           4.2       27.3
+Qwen3-8B (lora)       ASP              87.3 ± 1.5    44.4 ± 2.1       26.9 ± 2.8   21.4 ± 2.5 59.8 ± 2.9 30.2 ± 2.7    6.4 ± 0.6    39.5
+                      GASP-T           89.9 ± 1.6    66.9 ± 2.4       40.7 ± 2.9   32.5 ± 2.6 88.6 ± 2.7 44.1 ± 2.6    8.8 ± 0.7    53.2
+                      GASP             93.7 ± 3.2    98.7 ± 0.8       95.1 ± 1.9   91.6 ± 2.4 97.8 ± 1.1 96.3 ± 1.6    10.7 ± 0.8   83.4
+Table 1. Main robustness results (pass@1). Mean ± std over 3 training runs for ASP/GASP-T/GASP; Initial ckpt is a single evaluation.
+Clean Accuracy: GSM8K under clean prompting. Recoverability: GSM8K accuracy under corrupted context (held-out GPT-5 polluter).
+Diagnosability: ACCreason on MR-GSM8K and MHPP (Zeng et al., 2023; 2024). Reliability: accuracy on perturbed GSM8K and
+CommonsenseQA from RUPBench (Wang & Zhao, 2024). Self-Revision: improved GSM8K accuracy on the failed questions after
+self-revision (Tie et al., 2025). Avg: unweighted mean of the seven metrics. GASP-T uses teacher-generated (GPT-5) repair guidance in
+place of self-guided in-distribution repairs. Lora (Hu et al., 2022) were used for 8B model see details in Section E.
+
+training), and (ii) GASP trained with outcome-only GRPO               final-answer accuracy under the resulting polluted steer.
+under polluted steers (i.e., adversarial self-play without any
+repair guidance). Additional comparisons—including GPT-               Diagnosability. We evaluate whether the model can judge
+5 polluter and ablations that disable polluter updates (fixed         a provided solution, identify the first erroneous step, and
+corruptions)— are reported in §A.9. All methods are run               explain the error. On MR-GSM8K and MR-Ben’s coding
+under matched rollout budgets by controlling group sizes              subset (MHPP), we follow the benchmark protocols and
+and maximum generation lengths.                                       report ACCreason (first-error-step + correct explanation)
+Unless otherwise stated, we use the same truncation set α ∈           (Zeng et al., 2023; 2024). Exact prompting and answer
+{0, 0.25, 0.5, 0.75}, window-length cap, and final-answer             extraction are in §C.
+verifier across all methods. Full hyperparameters (GRPO
+clip, KL coefficient if used, group sizes, learning rates, and        Reliability. We evaluate robustness to natural lexical/syn-
+training steps) are given in §E.                                      tactic/semantic perturbations using the GSM8K and Com-
+                                                                      monsenseQA subsets of RUPBench (Wang & Zhao, 2024).
+4.2. Evaluation benchmarks and metrics
+                                                                      Self-revision. We measure whether a model can correct
+We evaluate four complementary capabilities and summa-
+                                                                      its own mistakes when shown its erroneous solution. On
+rize the main results in Table 2. To isolate robustness to
+                                                                      GSM8K, we first run the model once under the standard
+fallible context from base-task competence, we report Re-
+                                                                      (clean) prompt and collect instances it answers incorrectly.
+coverability, Diagnosability, and Reliability primarily on a
+                                                                      For each such instance, we provide the original question
+clean-solved subset of each benchmark: for every instance,
+                                                                      together with the model’s generated (incorrect) solution
+we sample K=4 solutions under the standard (clean) prompt
+                                                                      and prompt it to revise and output a corrected final answer,
+(temperature 0.7) and retain it only if all final answers are
+                                                                      following Tie et al. (2025). We report the resulting accuracy
+correct. This conditioning ensures that failures reflect col-
+                                                                      on the model’s incorrect subset.
+lapse under misleading context rather than inability to solve
+the underlying problem. For completeness, we also report
+                                                                      4.3. A navigation analogue: guidance increases recovery
+performance on the full benchmarks in Appendix §A.9.
+                                                                           probability and prevents drift
+Recoverability. We evaluate robustness to locally mis-                To isolate the optimization roles of the outcome-RL term
+leading intermediate context on GSM8K. On the clean-                  and our in-distribution repair guidance, we construct a mini-
+solved subset, we sample a correct solution, truncate its             mal navigation analogue of guided learning. The key phe-
+chain-of-thought at α ∈ {0, 0.25, 0.5, 0.75}, and replace the         nomenon we want to reproduce is: a policy that already
+subsequent window with a locally coherent corruption gen-             knows an optimal solution from a clean start can never-
+erated by a held-out polluter (GPT-5). We then measure                theless struggle to recover once placed on a misleading
+
+                                                                  6
+                                 Learning Robust Reasoning through Guided Adversarial Self-Play
+
+
+
+
+         (a) GRPO              (b) GRPO (In-Dist Guided)                     (c)                                     (d)
+Figure 4. Guidance accelerates off-trajectory recovery and preserves retention in a maze analogue. (a,b) Trajectories during
+recovery training from a misleading start (blue) to the goal (red); the star denotes the original clean start used to train the initial rail
+policy. GRPO-only explores broadly and drifts, while in-distribution guidance quickly returns to the rail and exploits prior knowledge. (c)
+Success rate from the misleading start; (d) clean-start success during recovery training (retention). Curves show mean ± std over 5 seeds,
+each evaluated with 10 rollouts per checkpoint.
+
+suboptimal trajectory, because successful recovery rollouts              Metrics. We report (Figure 5c) success rate from the
+are initially too rare to provide informative gradient update            misleading start during training, and (Figure 5d) retention
+under outcome-only reward.                                               by periodically evaluating success from the original clean
+                                                                         start; this detects whether recovery training induces drift
+Environment. We use a deterministic grid maze with 8-                    that damages the previously learned optimal behavior.
+connected actions (up/down/left/right and diagonals) and
+sparse terminal reward: an episode receives reward 1 iff the
+agent reaches the target within a horizon H, and 0 otherwise.            Results and interpretation. With GRPO-only (Figure 5a),
+Figure 5a shows the layout. The clean start is the         in★           the policy spends substantial time exploring within the mis-
+the top-right; the goal is the      ●
+                                    in the bottom-left. The              leading region before discovering the narrow rejoin junction;
+                     ●
+misleading start ( ) lies on a suboptimal corridor that is               even after rejoining the rail, it frequently fails to leverage the
+locally plausible but requires backtracking through a narrow             previously learned route and keeps wandering—evidence
+junction to rejoin the optimal route.                                    of forgetting of the clean-start policy during recovery train-
+                                                                         ing. With in-distribution guidance (Figure 5b), the agent
+                                                                         rapidly learns a short “repair” maneuver that returns to R
+Two-stage protocol (“know the rail” → “recover from
+                                                                         and then efficiently stitches the previously learned rail to
+off-rail”). We first train a base policy π0 with GRPO from
+                                                                         the goal. Consistently, the learning curve in Figure 5c
+                 ★                  ●
+the clean start ( ) to the goal ( ). This yields a policy that
+                                                                         shows that guidance achieves high success much earlier
+reliably executes a consistent rail (pink arrows) under clean
+                                                                         than GRPO-only.
+starts. We then switch the initial state distribution to the
+                   ●
+misleading start and continue training from π0 to solve                  These observations mirror the core difficulty in off-trajectory
+                    ● ●
+the recovery task ( → ).                                                 recovery: when the agent is initialized in a misleading re-
+                                                                         gion (off the rail), the probability of reaching the goal, pθ , is
+Methods compared. We compare two training variants                       initially very small. Under outcome-only GRPO with group
+under the misleading-start: (i) GRPO-only, which opti-                   size G, most update batches contain no successful rollouts
+mizes the sparse terminal reward under the misleading start              (all terminal rewards are zero), so group-relative normaliza-
+state, and (ii) GRPO + in-distribution guidance (ours),                  tion yields near-zero advantages and produces essentially
+which adds a lightweight imitation term on self-generated                no directed gradient toward the rare “repair-then-finish” be-
+repair snippets. Concretely, let R denote the set of states              havior. Learning therefore reduces to blind exploration until
+visited by π0 when rolling out from the clean start, whenever            an accidental recovery trajectory appears, which explains
+an on-policy rollout reaches R (back to rail), we extract that           the delayed takeoff of GRPO-only in Figure 5c.
+trajectory segment and add it to a replay buffer Bfix . We               In-distribution repair guidance breaks this deadlock by
+then optimize an auxiliary behavioral-cloning objective on               explicitly upweighting short on-policy “repair” segments
+minibatches from Bfix :                                                  that rejoin the previously learned rail R, thereby increas-
+                                  ∣τ ∣
+           Jguide (θ) =     E [ ∑ log πθ (at ∣ st )],                    ing the frequency of successful batches early in training.
+                          τ ∼Bfix t=0                                    Once recoveries become common enough to appear within
+The overall objective matches our method: J(θ) =                         groups, GRPO can reliably propagate credit through the
+JGRPO (θ) + λJguide (θ). Because repair snippets are har-                long-horizon dependency (repair → exploit prior skill →
+vested from on-policy rollouts, they are in-distribution under           reach goal), while preserving the original clean-start behav-
+the current policy.                                                      ior as reflected by the stable retention curve in Figure 5d.
+
+                                                                     7
+                                Learning Robust Reasoning through Guided Adversarial Self-Play
+
+
+
+
+              (a)                                (b)                                (c)                               (d)
+Figure 5. Representation drift correlates with QA drops. (a,c) show PCA shift of layerwise mean hidden states on a fixed TruthfulQA /
+CommonsenseQA probe set. Each marker is a transformer layer i, plotted as (∆mi,1 , mi,2 ) after 2D PCA, where ∆mi,1 is the layer’s
+mean PC1 change from the base model (base lies on ∆PC1=0). The boxed d(∗) is the Euclidean distance between base vs. post-training
+centroids in PCA space (global drift). (b,d) show methods with larger drift (e.g., GASP-T) suffer larger accuracy drops, while low-drift
+GASP largely preserves accuracy.
+                                                                        setting: it achieves faster recovery learning while induc-
+                                                                        ing smaller representation drift and better retention on an
+                                                                        external QA benchmark.
+                                                                        5. Related Work
+                                                                        A growing line of work studies how models can improve
+                                                                        their own reasoning by generating feedback, revisions, or
+                                                                        new training data without relying on additional human an-
+                                                                        notations (Zhou et al., 2025; Li et al.). At inference time,
+Figure 6. Guidance improves learning efficiency. Self-guided            iterative self-revision frameworks such as S ELF -R EFINE
+GASP reaches substantially higher recoverability, diagnosability,       (Madaan et al., 2023) and R EFLEXION(Shinn et al., 2023)
+and reliability earlier than teacher-guided GASP-T and unguided         treat the model as its own critic: the system produces an
+self-play ASP. Each reports the mean success rate averaged over
+the corresponding benchmark suite for that capability §4.2 at the       initial solution, generates natural-language feedback or re-
+given training step; shaded regions denote ±1 std over 3 runs.          flections from task outcomes, and uses this feedback to
+                                                                        revise subsequent attempts (often via an explicit memory
+4.4. Efficiency and Representation Retention in LLM                     buffer) without weight updates. At training time, self-
+                                                                        bootstrapping methods such as STA R (Zelikman et al.,
+The maze analogue isolates why recovery training is hard                2022) iteratively generate rationales, filter by final-answer
+and what guidance can do. We now turn to the LLM setting                correctness, and fine-tune on the resulting self-generated
+to study how the source of guidance shapes both learning                traces, while SC O R E (Kumar et al., 2024) more directly
+efficiency and representational stability when training re-             targets correction by training multi-turn self-correction poli-
+covery behaviors on top of an already capable models.                   cies with online RL and addressing distribution mismatch
+Self-guided GASP improves MR-GSM8K substantially ear-                   and collapse in offline self-correction fine-tuning. In paral-
+lier and reaches a higher final score than GASP-T as shown              lel, self-play fine-tuning methods such as SPIN (Chen et al.,
+in Figure 6. This efficiency advantage coincides with a                 2024) refine a model by iteratively generating synthetic re-
+clear stability difference: GASP-T exhibits much larger                 sponses and optimizing objectives that compare synthetic
+layerwise representation shift. Concretely, we compute d(∗)             outputs to human-annotated data; follow-up work analyzes
+by (i) collecting mean hidden-state representations on a                instability in pairwise self-play objectives and proposes
+fixed TruthfulQA probe set, (ii) projecting them onto a 2D              more stable variants (Wang et al., 2025). Broader discussion
+PCA basis, and (iii) measuring the Euclidean distance be-               of Reinforcement fine-tuning (RFT) at Appendix A.8.
+tween the pre- and post-training centroids in this PCA space.           6. Conclusion
+Larger d(∗) therefore indicates a larger global movement of             We introduced GASP, an adversarial self-play framework
+the model’s representations on the probe distribution.                  for robust reasoning under fallible conditioning using only
+This representation movement tracks downstream interfer-                verifiable outcome rewards. By coupling a polluter that
+ence: the method with larger shift (teacher guided GASP)                learns creating corruptions with an agent that learns to
+also suffers a larger drop in TruthfulQA accuracy, while self-          detect-and-repair under the polluted conditioning, GASP
+guided GASP largely preserves it. Overall, in-distribution              turns strong-but-brittle reasoners into robust ones while typ-
+repair guidance is more continual-learning friendly in our              ically preserving and often improving clean performance.
+
+                                                                    8
+                              Learning Robust Reasoning through Guided Adversarial Self-Play
+
+Impact Statement                                                      A critical perspective. arXiv preprint arXiv:2503.20783,
+                                                                      2025.
+This paper presents work whose goal is to advance the ro-
+bustness of machine learning models for reasoning under             Madaan, A., Tandon, N., Gupta, P., Hallinan, S., Gao,
+fallible or misleading context. By improving a model’s               L., Wiegreffe, S., Alon, U., Dziri, N., Prabhumoye, S.,
+ability to detect and repair errors using verifiable feedback        Yang, Y., et al. Self-refine: Iterative refinement with self-
+alone, this work may contribute to more reliable and trust-          feedback. Advances in Neural Information Processing
+worthy AI systems in practical deployments. While there are          Systems, 36:46534–46594, 2023.
+many potential societal consequences of improved reason-
+ing robustness, we do not foresee specific negative impacts         Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C.,
+beyond those already well established for general advances            Mishkin, P., Zhang, C., Agarwal, S., Slama, K., Ray, A.,
+in machine learning.                                                  et al. Training language models to follow instructions
+                                                                      with human feedback. Advances in neural information
+                                                                      processing systems, 35:27730–27744, 2022.
+References
+                                                                    Shao, Z., Wang, P., Zhu, Q., Xu, R., Song, J., Bi, X., Zhang,
+Chen, Z., Deng, Y., Yuan, H., Ji, K., and Gu, Q. Self-play
+                                                                      H., Zhang, M., Li, Y., Wu, Y., et al. Deepseekmath: Push-
+  fine-tuning converts weak language models to strong lan-
+                                                                      ing the limits of mathematical reasoning in open language
+  guage models. arXiv preprint arXiv:2401.01335, 2024.
+                                                                      models. arXiv preprint arXiv:2402.03300, 2024.
+Cheng, P., Dai, Y., Hu, T., Xu, H., Zhang, Z., Han, L., Du,
+                                                                    Shinn, N., Cassano, F., Gopinath, A., Narasimhan, K., and
+  N., and Li, X. Self-playing adversarial language game
+                                                                      Yao, S. Reflexion: Language agents with verbal rein-
+  enhances llm reasoning. Advances in Neural Information
+                                                                      forcement learning. Advances in Neural Information
+  Processing Systems, 37:126515–126543, 2024.
+                                                                      Processing Systems, 36:8634–8652, 2023.
+Cui, J. Communication and generalization in multi-agent
+                                                                    Singh, A., Fry, A., Perelman, A., Tart, A., Ganesh, A.,
+  learning. PhD thesis, 2025.
+                                                                      El-Kishky, A., McLaughlin, A., Low, A., Ostrow, A.,
+Guo, D., Yang, D., Zhang, H., Song, J., Zhang, R., Xu, R.,            Ananthram, A., et al. Openai gpt-5 system card. arXiv
+  Zhu, Q., Ma, S., Wang, P., Bi, X., et al. Deepseek-r1: In-          preprint arXiv:2601.03267, 2025.
+  centivizing reasoning capability in llms via reinforcement
+                                                                    Tie, G., Yuan, Z., Zhao, Z., Hu, C., Gu, T., Zhang, R.,
+  learning. arXiv preprint arXiv:2501.12948, 2025.
+                                                                      Zhang, S., Wu, J., Tu, X., Jin, M., et al. Can llms correct
+Hu, E. J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang,         themselves? a benchmark of self-correction in llms. arXiv
+  S., Wang, L., Chen, W., et al. Lora: Low-rank adaptation            preprint arXiv:2510.16062, 2025.
+  of large language models. ICLR, 1(2):3, 2022.
+                                                                    von Werra, L., Belkada, Y., Tunstall, L., Beeching,
+Huan, M., Li, Y., Zheng, T., Xu, X., Kim, S., Du, M.,                 E., Thrush, T., Lambert, N., Huang, S., Rasul, K.,
+  Poovendran, R., Neubig, G., and Yue, X. Does math                   and Gallouédec, Q. TRL: Transformers Reinforce-
+  reasoning improve general llm capabilities? understand-             ment Learning, 2020. URL https://github.com/
+  ing transferability of llm reasoning. arXiv preprint                huggingface/trl.
+  arXiv:2507.00432, 2025.
+                                                                    Wang, Y. and Zhao, Y. Rupbench: Benchmarking reasoning
+Kumar, A., Zhuang, V., Agarwal, R., Su, Y., Co-Reyes, J. D.,         under perturbations for robustness evaluation in large lan-
+  Singh, A., Baumli, K., Iqbal, S., Bishop, C., Roelofs,             guage models. arXiv preprint arXiv:2406.11020, 2024.
+  R., et al. Training language models to self-correct via
+  reinforcement learning. arXiv preprint arXiv:2409.12917,          Wang, Y., Sun, H.-L., Huzhang, G., Chen, Q.-G., Xu, Z.,
+  2024.                                                              Luo, W., Zhang, K., and Zhang, L. Triplets better than
+                                                                     pairs: Towards stable and effective self-play fine-tuning
+Li, A. O. and Goyal, T. Off-trajectory reasoning: Can                for llms. In The Thirty-ninth Annual Conference on Neu-
+  llms collaborate on reasoning trajectory? arXiv preprint           ral Information Processing Systems, 2025.
+  arXiv:2510.06410, 2025.
+                                                                    Yang, S., Wu, J., Chen, X., Xiao, Y., Yang, X., Wong, D. F.,
+Li, S., Yamakov, D., and Julien, C. Smart homes reimag-               and Wang, D. Understanding aha moments: from exter-
+  ined: Human-guided llms for efficient and secure home               nal observations to internal mechanisms. arXiv preprint
+  automation.                                                         arXiv:2504.02956, 2025.
+
+Liu, Z., Chen, C., Li, W., Qi, P., Pang, T., Du, C., Lee,           Yu, Q., Zhang, Z., Zhu, R., Yuan, Y., Zuo, X., Yue, Y., Dai,
+  W. S., and Lin, M. Understanding r1-zero-like training:             W., Fan, T., Liu, G., Liu, L., et al. Dapo: An open-source
+
+                                                                9
+                               Learning Robust Reasoning through Guided Adversarial Self-Play
+
+  llm reinforcement learning system at scale. arXiv preprint
+  arXiv:2503.14476, 2025a.
+Yu, T., Ji, B., Wang, S., Yao, S., Wang, Z., Cui, G., Yuan,
+  L., Ding, N., Yao, Y., Liu, Z., et al. Rlpr: Extrapolating
+  rlvr to general domains without verifiers. arXiv preprint
+  arXiv:2506.18254, 2025b.
+
+Zelikman, E., Wu, Y., Mu, J., and Goodman, N. Star: Boot-
+  strapping reasoning with reasoning. Advances in Neural
+  Information Processing Systems, 35:15476–15488, 2022.
+Zeng, Z., Chen, P., Liu, S., Jiang, H., and Jia, J. Mr-gsm8k:
+  A meta-reasoning benchmark for large language model
+  evaluation. arXiv preprint arXiv:2312.17080, 2023.
+Zeng, Z., Liu, Y., Wan, Y., Li, J., Chen, P., Dai, J., Yao, Y.,
+  Xu, R., Qi, Z., Zhao, W., et al. Mr-ben: A comprehensive
+  meta-reasoning benchmark for large language models.
+  arXiv e-prints, pp. arXiv–2406, 2024.
+
+Zhao, Y., Liu, Y., Liu, J., Chen, J., Wu, X., Hao, Y., Lv, T.,
+  Huang, S., Cui, L., Ye, Q., et al. Geometric-mean policy
+  optimization. arXiv preprint arXiv:2507.20673, 2025.
+Zheng, C., Liu, S., Li, M., Chen, X.-H., Yu, B., Gao,
+  C., Dang, K., Liu, Y., Men, R., Yang, A., et al.
+  Group sequence policy optimization. arXiv preprint
+  arXiv:2507.18071, 2025.
+Zhou, R., Li, S., Zhang, A., and Leqi, L. Expo: Unlocking
+  hard reasoning with self-explanation-guided reinforce-
+  ment learning. arXiv preprint arXiv:2507.02834, 2025.
+
+Zhu, H., Zhang, Z., Huang, H., Su, D., Liu, Z., Zhao, J.,
+  Fedorov, I., Pirsiavash, H., Sha, Z., Lee, J., et al. The path
+  not taken: Rlvr provably learns off the principals. arXiv
+  preprint arXiv:2511.08567, 2025.
+
+
+
+
+                                                                   10
+                              Learning Robust Reasoning through Guided Adversarial Self-Play
+
+A. Appendix
+A.1. Learning Signal Scarcity
+Formally, define the agent’s recovery rate under the polluted steer as
+                                                 pθ ≜          Pr             [aoff = a⋆ ],
+                                                        τoff ∼πθ (⋅∣spoll )
+
+i.e., the probability that an on-policy rollout conditioned on spoll ends with the correct final answer. GRPO samples a group
+of G rollouts for the same (q, spoll ). Assuming these rollouts are approximately independent, the probability that the group
+contains at least one successful recovery is
+                                        Pr(any success in group) = 1 − (1 − pθ )G .
+In the rare-recovery regime where Gpθ ≪ 1 (equivalently pθ ≪ 1/G), this simplifies to the intuitive approximation
+                                                    1 − (1 − pθ )G ≈ Gpθ ,
+meaning the chance of seeing any success in a group grows only linearly with both group size G and recovery rate pθ .
+When pθ is tiny (empirically typical under pollution), most groups contain no successful trajectories, so the terminal rewards
+are nearly identical across the group (often all zeros) and group-relative normalization produces uninformative advantages.
+As a result, the GRPO update provides little directed pressure toward recovery and is dominated by noise.
+
+A.2. Limitations of Repair Guidance with a Teacher Model
+                                                                                                       fix
+A straightforward approach is to use a strong external teacher policy πT to generate a repair snippet wT   ∼ πT (⋅ ∣ p) from
+                                                                             clean      poll
+a diagnosis prompt p that exposes the inconsistency (e.g., including both w        and w ), and then behavior-clone this
+snippet under the deployment conditioning spoll :
+                                              T                       fix
+                                             Jguide (θ) = E[ log πθ (wT   ∣ spoll )].
+The resulting agent objective is
+                                                          rec           T
+                                            Jagent (θ) = JGRPO (θ) + λ Jguide (θ).
+
+Empirically, teacher fixes can be semantically correct yet inefficient as learning signals because they often lie in low-
+probability regions of the student policy. Concretely, under the polluted steer,
+                                              πθ (wθfix ∣ spoll ) ≫ πθ (wT
+                                                                         fix
+                                                                             ∣ spoll )
+                                            for typical on-policy continuations wθfix ,
+so the update must push probability mass into regions that the current policy rarely visits. Moreover, under an explicit KL
+                                                                      fix           fix
+penalty to a reference policy, increasing the likelihood of a repair wT   with πθ (wT   ∣ spoll ) ≈ 0 requires a large deviation
+from the reference, so the KL term directly suppresses the update and slows learning.
+
+A.3. Why In-Distribution Guidance Yields Larger First-Order Gains
+Setup. Fix a polluted steer (deployment conditioning) spoll . Let the model generate a full continuation o = (o1 , . . . , oT )
+(e.g., repair text plus the remaining reasoning and final answer) according to an autoregressive policy πθ (o ∣ spoll ) =
+  T
+∏t=1 πθ (ot ∣ spoll , o<t ). Let r(o) ∈ [0, 1] denote the terminal verifiable reward (e.g., correctness indicator). Define the
+(conditional) deployment objective
+                                               J(θ ∣ spoll ) ∶= Eo∼πθ (⋅∣spoll )[r(o)].                                     (2)
+(An unconditional objective that averages over (q, a⋆ ) and corresponding spoll follows by linearity of expectation.)
+
+Guidance update. Consider an imitation-style guidance term that increases the likelihood of a specific repair snippet wfix
+under the deployment conditioning spoll :
+                                      Lguide (θ) ∶= ω log πθ(wfix ∣ spoll ),                  ω > 0.                        (3)
+A gradient-ascent step with step size η > 0 is
+                             θ+ = θ + η g,        g ∶= ∇θ Lguide (θ) = ω ∇θ log πθ(wfix ∣ spoll ).                          (4)
+
+                                                                    11
+                                 Learning Robust Reasoning through Guided Adversarial Self-Play
+
+Goal. We prove that the first-order improvement in J(θ ∣ spoll ) due to the guidance step contains a dominant term that
+scales linearly with πθ (wfix ∣ spoll ). In particular, under mild near-orthogonality assumptions (standard in high-dimensional
+                                                                                                                   2
+score-function analyses), the leading contribution is proportional to πθ (wfix ∣ spoll )∥∇θ log πθ (wfix ∣ spoll )∥2 , matching the
+scaling used in §3.4.
+
+A.4. Main decomposition
+Lemma A.1 (First-order gain decomposition). Let θ+ be defined by (4). Then a first-order Taylor expansion gives
+
+                                    ∆J ∶= J(θ+ ∣ spoll ) − J(θ ∣ spoll ) ≈ η ∇θ J(θ ∣ spoll )⊺ g.                                                                                                                                                                                                                                                                                                                                             (5)
+
+Moreover, writing πθ (⋅) as shorthand for πθ (⋅ ∣ spoll ),
+
+                                 ∇θ J(θ ∣ spoll ) = Eo∼πθ[r(o) ∇θ log πθ (o)],                                                                                                                                                                                                                                                                                                                                                                (6)
+
+                               ∇θ J(θ ∣ spoll )⊺ g = ω Eo∼πθ[r(o) ⟨∇θ log πθ (o), ∇θ log πθ (wfix )⟩].                                                                                                                                                                                                                                                                                                                                        (7)
+
+Finally, letting Ωfix denote the set of continuations whose prefix equals wfix ,
+
+                                                                                                                Ωfix ∶= {o ∶ o1∶∣wfix ∣ = wfix },
+
+the inner product decomposes exactly as
+
+                           ∇θ J(θ ∣ spoll )⊺ g = ω ∑ πθ (o) r(o) ⟨∇θ log πθ (o), ∇θ log πθ (wfix )⟩ +                                                                                                                                                                                                                                                                                                                                         (8)
+                                                                                                      o∈Ωfix
+                                                                                                      ´¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¸¹ ¹ ¹ ¹ ¹ ¹¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹¶
+                                                                                                                                                                                                                                                                 T1
+
+
+
+                                         ω ∑ πθ (o) r(o) ⟨∇θ log πθ (o), ∇θ log πθ (wfix )⟩ .                                                                                                                                                                                                                                                                                                                                                 (9)
+                                              o∉Ωfix
+                                              ´¹ ¹ ¹ ¹ ¹ ¹ ¹¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¸¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¶
+                                                                                                                                                                                                        T2
+
+
+Proof. Equation (5) is the first-order Taylor approximation of J(⋅ ∣ spoll ) around θ. For (6), apply the score-function
+identity:
+             ∇θ J(θ ∣ spoll ) = ∇θ ∑ πθ (o) r(o) = ∑ πθ (o) r(o) ∇θ log πθ (o) = Eo∼πθ [r(o)∇θ log πθ (o)].
+                                          o                                                                                                       o
+                                   fix
+Substituting g = ω∇θ log πθ (w ) yields (7). The split (9) is obtained by partitioning the support of o into Ωfix and its
+complement.
+
+A.5. Isolating the in-distribution scaling
+We now show that T1 contains a term proportional to πθ (wfix ∣ spoll ). For any o ∈ Ωfix , write o = wfix ○ z, where z is the
+suffix after the snippet. Then
+
+                                    πθ (o ∣ spoll ) = πθ (wfix ∣ spoll ) πθ (z ∣ spoll , wfix ),                                                                                                                                                                                                                                                                                                                                             (10)
+                                                                 poll                                                                                                     fix                                poll                                                                                                                    poll                                     fix
+                                log πθ (o ∣ s                                          ) = log πθ (w                                                                                         ∣s                                    ) + log πθ (z ∣ s                                                                                                       , w ),                                                                            (11)
+                                                                 poll                                                                                                                           fix                                poll                                                                                                                                             poll                                  fix
+                            ∇θ log πθ (o ∣ s                                           ) = ∇θ log πθ (w                                                                                                            ∣s                                    ) + ∇θ log πθ (z ∣ s                                                                                                                          , w ).                                (12)
+
+Plugging (10)–(12) into T1 from (9) gives
+
+ T1 = πθ (wfix ∣ spoll ) Ez∼πθ (⋅∣spoll ,wfix ) [r(wfix ○ z)⟨∇θ log πθ (wfix ) + ∇θ log πθ (z ∣ spoll , wfix ), ∇θ log πθ (wfix )⟩]
+                                                                                                                                                                                                                                                                       2
+    = πθ (wfix ∣ spoll ) Ez∼πθ (⋅∣spoll ,wfix ) [r(wfix ○ z)(∥∇θ log πθ (wfix )∥2 + ⟨∇θ log πθ (z ∣ spoll , wfix ), ∇θ log πθ (wfix )⟩)].
+                                                                                                                                                                                                                                                                                                                                                                                                                                             (13)
+
+                                                                                                                                                                                                  12
+                                                                     Learning Robust Reasoning through Guided Adversarial Self-Play
+
+Define the (conditional) success probability after emitting the repair snippet:
+                                                                                         Qθ (spoll , wfix ) ∶= Ez∼πθ (⋅∣spoll ,wfix ) [r(wfix ○ z)] ∈ [0, 1].                                                                                                                                                                                                                                                                                                                                                                                                  (14)
+Then (13) can be written as
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          2
+                                                                T1 = πθ (wfix ∣ spoll ) Qθ (spoll , wfix ) ∥∇θ log πθ (wfix ∣ spoll )∥2 +                                                                                                                                                                                                                                                                                                                                                                                                                      (15)
+
+
+                         πθ (wfix ∣ spoll ) Ez[r(wfix ○ z) ⟨∇θ log πθ (z ∣ spoll , wfix ), ∇θ log πθ (wfix )⟩] .                                                                                                                                                                                                                                                                                                                                                                                                                                               (16)
+                         ´¹ ¹ ¹ ¹ ¹ ¹ ¹¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¸ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹ ¹¶
+                                                                                                                                                                                                                                                                   Esuffix
+
+
+Near-orthogonality assumption (standard). The remaining terms Esuffix and T2 are cross inner-products between score
+functions of different token sequences (or different segments of the same sequence). In very high-dimensional parameter
+spaces, these cross terms are typically small unless the sequences are extremely similar; see, e.g., the orthogonality-based
+analysis in Appendix A of ExPO. Formally, we assume the following bounded-cross-term condition.
+Assumption A.2 (Small cross score inner-products). There exist nonnegative constants ϵsuffix and ϵoff such that
+
+                 ∣Ez∼πθ (⋅∣spoll ,wfix )[r(wfix ○ z) ⟨∇θ log πθ (z ∣ spoll , wfix ), ∇θ log πθ (wfix ∣ spoll )⟩]∣ ≤ ϵsuffix ,                                                                                                                                                                                                                                                                                                                                                                                                                                  (17)
+
+                                                       ∣ ∑ πθ (o ∣ spoll ) r(o) ⟨∇θ log πθ (o ∣ spoll ), ∇θ log πθ (wfix ∣ spoll )⟩∣ ≤ ϵoff .                                                                                                                                                                                                                                                                                                                                                                                                                  (18)
+                                                              o∉Ωfix
+
+Proposition A.3 (Dominant scaling with πθ (wfix ∣ spoll )). Under Assumption A.2, the first-order improvement satisfies
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        2
+                        ∆J ≈ η ω πθ (wfix ∣ spoll ) Qθ (spoll , wfix ) ∥∇θ log πθ (wfix ∣ spoll )∥2 + η ω ξ,                                                                                                                                                                                                                                                                                                                                                                                                                                                   (19)
+
+where the residual ξ is bounded as ∣ξ∣ ≤ πθ (wfix ∣ spoll )ϵsuffix + ϵoff . In particular, when cross terms are small (small
+ϵsuffix , ϵoff ), the dominant contribution scales linearly with πθ (wfix ∣ spoll ).
+
+Proof. Combine Lemma A.1 with (16):
+
+                 ∇θ J(θ ∣ spoll )⊺ g = ω (T1 + T2 ) = ω(πθ (wfix ∣ spoll )Qθ ∥∇θ log πθ (wfix )∥22 + Esuffix + T2 ).
+
+Apply Assumption A.2 to bound Esuffix and T2 , and multiply by η per (5).
+
+Recovering the simplified expression used in §3.4. If wfix is a near-certain repair under the current policy (i.e.,
+Qθ (spoll , wfix ) ≈ 1), and cross terms are negligible (so ξ ≈ 0), Proposition A.3 reduces to
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                 2
+                                                                                                       ∆J ≈ η ω πθ (wfix ∣ spoll ) ∥∇θ log πθ (wfix ∣ spoll )∥2 ,                                                                                                                                                                                                                                                                                                                                                                                              (20)
+which is the scaling statement referenced in §3.4.
+
+A.6. Corollary: why in-distribution repairs yield larger gains
+Corollary A.4 (Preference for in-distribution repairs). Let w(1) and w(2) be two candidate repair snippets under the same
+spoll . Assume they have comparable weights and score norms, and comparable downstream success probabilities:
+                                                                                                                                                                                             2                                                                                                                                                                                               2
+    ω (1) ≈ ω (2) ,     ∥∇θ log πθ (w(1) ∣ spoll )∥2 ≈ ∥∇θ log πθ (w(2) ∣ spoll )∥2 ,                                                                                                                                                                                                                                                                                                                                                        Qθ (spoll , w(1) ) ≈ Qθ (spoll , w(2) ),
+and cross terms are negligible. Then the ratio of first-order gains satisfies
+                                                                                                                                                                                 ∆J(w(1) )   πθ (w(1) ∣ spoll )
+                                                                                                                                                                                           ≈                    .                                                                                                                                                                                                                                                                                                                                              (21)
+                                                                                                                                                                                 ∆J(w(2) )   πθ (w(2) ∣ spoll )
+In particular, if w(1) is substantially more likely under the current policy than w(2) (more in-distribution), then it yields a
+substantially larger expected first-order improvement for the same-sized update.
+
+Proof. Apply Proposition A.3 to each snippet and cancel the approximately equal factors.
+
+                                                                                                                                                                                                                                                                                 13
+                               Learning Robust Reasoning through Guided Adversarial Self-Play
+
+A.7. Why Few Successes Yield Noisy GRPO Updates
+We formalize the claim that when successful trajectories are rare, GRPO’s outcome-only update is noisy because the
+success-conditioned contribution is estimated from very few samples (often one), yielding a low signal-to-noise ratio.
+
+Setup. Fix a conditioning context s (e.g., a polluted steer spoll in Sec. 4.4). GRPO samples a group of G rollouts {τi }G     i=1
+from a behavior policy πθold . Each rollout τi has token sequence oi = (oi,1 , . . . , oi,∣oi ∣ ) and terminal reward Ri ∈ {0, 1}
+(verifiable correctness). GRPO forms the group-normalized reward
+                                                                             ¿
+                                   Ri − R             1 G                    Á1 G
+                            R̃i ∶=        ,     R ∶= ∑ Rj ,           sR ∶= ÁÀ ∑ (Rj − R)2 ,                                 (22)
+                                   sR + ε            G j=1                      G j=1
+
+and assigns Âi,t = R̃i for all tokens t (Sec. 3.2).
+To isolate the variance mechanism, we analyze the unclipped surrogate (equivalently, the first-order/small-step regime where
+ρi,t (θ) ≈ 1 and the min /clip does not activate). Define the per-trajectory score-gradient average
+
+                                                          1 ∣oi ∣
+                                            Si (θ) ∶=          ∑ ∇θ log πθ (oi,t ∣ s, oi,<t ),                               (23)
+                                                         ∣oi ∣ t=1
+so that the corresponding (unclipped) GRPO gradient estimator can be written as
+
+                                                                  1 G
+                                                       ĝ(θ) ∶=     ∑ R̃i Si (θ).                                            (24)
+                                                                  G i=1
+(Clipping and KL regularization can only downweight some terms and thus do not remove the scarcity-induced noise;
+Remark A.8 discusses this.)
+
+Closed form of group-normalized rewards for binary outcomes. Let K ∶= ∑G
+                                                                       i=1 Ri be the number of successes in the
+group.
+Lemma A.5 (Binary-reward GRPO advantages). Condition on K = k with 1 ≤ k ≤ G − 1. Then R = k/G and sR =
+√
+  k(G − k)/G. Consequently,
+                                          ⎧      √
+                                          ⎪        G−k
+                                          ⎪ak ∶=
+                                          ⎪
+                                          ⎪         k
+                                                        ,   if Ri = 1,
+                                    R̃i = ⎨       √                                                 (25)
+                                          ⎪
+                                          ⎪           k
+                                          ⎪
+                                          ⎪bk ∶= − G−k    , if Ri = 0,
+                                          ⎩
+(up to the negligible ε in (22)). If k = 0 (all failures) or k = G (all successes), then sR = 0 and R̃i ≈ 0 for all i due to ε, so
+ĝ(θ) ≈ 0.
+
+Proof. When K = k, the reward multiset contains k ones and G − k zeros, so R = k/G. The variance is
+                                          1                                      k(G − k)
+                                  s2R =     (k(1 − k/G)2 + (G − k)(0 − k/G)2 ) =          ,
+                                          G                                        G2
+             √
+hence sR =       k(G − k)/G. Plugging into (22) yields (25). For k ∈ {0, G} we have sR = 0 and R̃i = (Ri − R)/ε ≈ 0.
+
+Decomposition as a difference of two sample means. Let S (1) ∶= {i ∶ Ri = 1} and S (0) ∶= {i ∶ Ri = 0}. Define the
+within-group sample means
+                                       1                      1
+                                S̄1 ∶=     ∑ Si (θ), S̄0 ∶=         ∑ Si (θ).                                 (26)
+                                       k i∈S (1)            G − k i∈S (0)
+Lemma A.6 (Gradient estimator given K = k). Condition on K = k with 1 ≤ k ≤ G − 1. Then
+                                                                  √
+                                                                    k(G − k)
+                                   ĝ(θ) = ck (S̄1 − S̄0 ), ck ∶=            .                                               (27)
+                                                                      G
+In particular, when k = 1, the update depends on a single success trajectory via S̄1 = Si⋆ .
+
+                                                                   14
+                                Learning Robust Reasoning through Guided Adversarial Self-Play
+
+Proof. By Lemma A.5, R̃i = ak on successes and R̃i = bk on failures. Thus
+                                    1                              1
+                          ĝ(θ) =     (ak ∑ Si (θ) + bk ∑ Si (θ)) = (ak k S̄1 + bk (G − k) S̄0 ).
+                                    G    i∈S (1)       i∈S (0)
+                                                                   G
+               √                              √
+Using ak k =       k(G − k) and bk (G − k) = − k(G − k) yields (27).
+
+Variance and signal-to-noise.        Assume that conditional on the reward, the score-gradients have finite second moments:
+
+                           µr ∶= E[Si (θ) ∣ Ri = r],        Σr ∶= Cov(Si (θ) ∣ Ri = r),       r ∈ {0, 1}.              (28)
+
+Assume also that {Si (θ)}G                                            G
+                         i=1 are conditionally independent given {Ri }i=1 (standard for independent rollouts).
+Proposition A.7 (Conditional covariance and SNR improve with #successes). Condition on K = k with 1 ≤ k ≤ G − 1. Then
+
+                                                E[ĝ(θ) ∣ K = k] = ck (µ1 − µ0 ),                                      (29)
+                                                                         Σ1    Σ0
+                                              Cov(ĝ(θ) ∣ K = k) = c2k (    +     ).                                   (30)
+                                                                         k    G−k
+Moreover, defining a (squared) signal-to-noise ratio using Frobenius/trace variance,
+                                                                                  2
+                                          2
+                                                                ∥E[ĝ(θ) ∣ K = k]∥2
+                                      SNR (k) ∶=                                               ,                       (31)
+                                                     E[∥ĝ(θ) − E[ĝ(θ) ∣ K = k]∥22 ∣ K = k]
+
+we obtain the closed form
+                                                                   ∥µ1 − µ0 ∥22
+                                              SNR2 (k) =                               .                               (32)
+                                                           tr(Σ1 )/k + tr(Σ0 )/(G − k)
+In particular, SNR(k) is increasing in k (holding other terms fixed), and when k = 1 the success term tr(Σ1 )/k receives no
+averaging reduction, reflecting that the success-conditioned contribution is estimated from a single trajectory.
+
+Proof. From Lemma A.6, ĝ(θ) = ck (S̄1 − S̄0 ). By conditional independence and (28), E[S̄1 ∣ K = k] = µ1 and
+E[S̄0 ∣ K = k] = µ0 , yielding (29). Similarly, Cov(S̄1 ∣ K = k) = Σ1 /k and Cov(S̄0 ∣ K = k) = Σ0 /(G − k), and the
+cross-covariance is zero, so Cov(S̄1 − S̄0 ∣ K = k) = Σ1 /k + Σ0 /(G − k). Multiplying by c2k gives (30). Finally,
+
+                                                                                          tr(Σ1 ) tr(Σ0 )
+                       E[∥ĝ − E[ĝ ∣ K = k]∥22 ∣ K = k] = tr(Cov(ĝ ∣ K = k)) = c2k (           +        ),
+                                                                                             k     G−k
+
+and ∥E[ĝ ∣ K = k]∥22 = c2k ∥µ1 − µ0 ∥22 . Canceling c2k yields (32). Monotonicity in k follows because tr(Σ1 )/k decreases
+with k.
+
+Interpretation (“few successes ⇒ noisy”). Equation (30) shows that the success-side uncertainty scales as Σ1 /k. Thus
+when k is small (especially k = 1), the success-conditioned mean gradient µ1 is estimated with high variance, and (32)
+shows the resulting GRPO update has low SNR. When k = 0, Lemma A.5 implies ĝ(θ) ≈ 0, yielding an uninformative
+update.
+Remark A.8 (Clipping/KL do not eliminate scarcity noise). The analysis above uses the unclipped surrogate for clarity.
+In GRPO, clipping replaces each token term by a quantity whose magnitude is upper-bounded by the unclipped term.
+Therefore, clipping/KL can further reduce the signal magnitude in rare-success batches, but cannot increase the number of
+successes k nor remove the 1/k sampling noise in estimating µ1 .
+
+A.8. Additional Related Works
+Reinforcement fine-tuning (RFT) has become a dominant paradigm for scaling reasoning in large language models. Early
+systems largely followed PPO-style RLHF with learned reward models (Ouyang et al., 2022). More recently, RLVR and
+critic-free objectives such as GRPO (Shao et al., 2024) showed that outcome-based supervision—often only final-answer
+correctness—can elicit strong long chain-of-thought reasoning while simplifying the RL stack. This has triggered a wave of
+
+                                                                 15
+                                  Learning Robust Reasoning through Guided Adversarial Self-Play
+
+work refining GRPO to improve learning efficiency, stability, and bias properties. For instance, DAPO (Yu et al., 2025a)
+adjusts group-relative advantage estimation and relaxes KL constraints to enable faster departure from the base model;
+GMPO (Zhao et al., 2025) replaces GRPO’s arithmetic aggregation with a geometric mean to improve stability; D R .GRPO
+(Liu et al., 2025) analyzes sources of bias and proposes variants that remove length and standard-deviation normalization to
+better match an unbiased policy-gradient objective; and GSPO (Zheng et al., 2025) moves from token-level to sequence-
+level likelihood ratios and clipping, aligning optimization more directly with sequence-level outcomes. Collectively, these
+methods sharpen the optimization of clean reasoning performance: given a reliable prompt and a well-specified objective,
+they aim to make outcome-RL updates more effective and less destabilizing. In deployed settings, this assumption of a
+trustworthy conditioning context often fails: users make mistakes, partial solutions may contain errors, and intermediate
+context can be noisy, misleading, or distribution-shifted. As a result, a model can be a strong solo reasoner yet remain
+brittle under fallible context, where the key capability is not merely to “solve,” but to detect issues, repair the context, and
+recover the correct answer.
+
+A.9. Full Benchmarks
+
+                                                       Recoverability    Diagnosability                  Reliability          Avg
+           Model                    Method                GSM8K       MR-GSM8K MHPP                   GSM8K       CQA         Avg
+                                Initial ckpt                 9.8               4.5           2.9      33.3       37.1     17.5
+                                ASP                       26.3 ± 1.8        11.2 ± 0.7    5.2 ± 0.4 44.4 ± 1.9 45.3 ± 1.8 26.5
+           R1-Distill-Qwen-1.5B GASP- P - FIXED           30.8 ± 1.6        13.0 ± 1.0    6.0 ± 0.5 52.0 ± 2.0 53.5 ± 1.9 31.1
+                                GASP-T                    35.5 ± 1.5        15.1 ± 1.2    7.0 ± 0.6 59.9 ± 2.1 61.2 ± 2.0 35.7
+                                GASP- P - GPT-5           74.2 ± 1.3        40.8 ± 1.9   15.4 ± 1.1 63.9 ± 2.2 64.0 ± 2.0 51.7
+                                GASP                      78.5 ± 1.2        43.7 ± 2.1   16.9 ± 1.2 64.8 ± 2.3 64.7 ± 2.1 53.7
+                                    Initial ckpt            10.2               6.2           3.3      39.2       40.8     19.9
+                                    ASP                   19.6 ± 1.5        12.4 ± 0.8    7.1 ± 0.6 45.4 ± 2.0 48.2 ± 2.1 26.5
+           DeepScaleR-1.5B          GASP- P - FIXED       23.1 ± 1.2        14.6 ± 1.1    8.4 ± 0.7 53.2 ± 2.1 56.5 ± 2.0 31.2
+                                    GASP-T                26.5 ± 1.3        16.7 ± 1.4    9.6 ± 0.9 61.3 ± 2.2 65.1 ± 2.2 35.8
+                                    GASP- P - GPT-5       75.0 ± 1.2        43.2 ± 2.0   17.0 ± 1.3 66.6 ± 2.3 67.5 ± 2.1 53.9
+                                    GASP                  79.7 ± 1.1        46.8 ± 2.3   18.6 ± 1.4 67.3 ± 2.4 68.3 ± 2.3 56.1
+                                    Initial ckpt             8.9              10.7           5.1      46.5       48.7     24.0
+                                    ASP                   28.5 ± 2.0        19.2 ± 1.3    9.6 ± 0.8 56.7 ± 2.2 68.9 ± 2.5 36.6
+           Qwen3-4B                 GASP- P - FIXED       33.2 ± 1.6        22.4 ± 1.4   11.2 ± 1.0 66.8 ± 2.1 73.0 ± 2.0 41.3
+                                    GASP-T                38.5 ± 1.5        25.9 ± 1.7   13.0 ± 1.1 76.5 ± 2.0 78.6 ± 2.3 46.5
+                                    GASP- P - GPT-5       78.0 ± 1.3        56.0 ± 2.2   27.5 ± 1.7 86.3 ± 1.9 79.2 ± 2.1 65.4
+                                    GASP                  81.2 ± 0.9        59.3 ± 2.5   29.8 ± 1.9 88.7 ± 1.8 79.7 ± 2.4 67.7
+                                    Initial ckpt             7.2              16.2          8.2       53.6       69.9     31.0
+                                    ASP                   34.4 ± 2.3        28.7 ± 1.9   14.4 ± 1.2 69.9 ± 2.6 85.4 ± 2.1 46.6
+           Qwen3-8B (lora)          GASP- P - FIXED       40.2 ± 1.7        33.0 ± 1.6   16.6 ± 1.3 79.8 ± 2.0 90.5 ± 1.6 52.0
+                                    GASP-T                46.4 ± 1.6        38.7 ± 2.0   19.4 ± 1.7 89.0 ± 1.9 94.0 ± 1.5 57.5
+                                    GASP- P - GPT-5       83.0 ± 0.8        68.5 ± 2.0   50.5 ± 2.4 89.5 ± 1.6 94.5 ± 1.3 77.2
+                                    GASP                  85.7 ± 0.7        72.7 ± 2.1   54.1 ± 2.8 89.8 ± 1.5 94.8 ± 1.2 79.4
+Table 2. Main robustness results (pass@1). Mean ± std over 3 training runs for ASP/GASP- P - FIXED/GASP-T/GASP- P - GPT 5/GASP;
+Initial ckpt is a single evaluation. Recoverability: GSM8K accuracy under corrupted context (held-out GPT-5 polluter). Diagnosability:
+ACCreason on MR-GSM8K and MHPP (Zeng et al., 2023; 2024). Reliability: accuracy on perturbed GSM8K and CommonsenseQA
+from RUPBench (Wang & Zhao, 2024). Avg: unweighted mean of the five metrics. GASP-T uses teacher-generated (GPT-5) repair
+guidance in place of self-guided in-distribution repairs. GASP- P - FIXED fixes the polluter (no adversarial polluter updates) during training.
+GASP- P - GPT-5 replaces the learned polluter with GPT-5 during training.
+
+B. Prompt Templates and Role Conditioning
+• Agent prompt (system prompt only).
+  [SYSTEM]
+      A conversation between User and Assistant. The user asks a question, and the
+      Assistant solves it.
+      The assistant first thinks about the reasoning process in the mind and then provides
+       the user with the answer.
+      The reasoning process and answer are enclosed within <think> </think> and <answer>
+      </answer> tags, respectively, i.e.,
+      <think> reasoning process here </think><answer> answer here </answer>
+
+
+• Polluter prompt.
+
+                                                                       16
+                   Learning Robust Reasoning through Guided Adversarial Self-Play
+
+
+[SYSTEM]
+You are a helpful assistant.
+
+[USER]
+You will be given:
+  - a math problem,
+  - the student's reasoning prefix (what they have already written),
+  - and a SHORT CONTINUATION TEXT that the student originally wrote.
+
+Your job is to EDIT ONLY that short continuation text so that:
+  - it stays natural, coherent, and in the same style and level of detail,
+  - it contains at least one explicit mathematical statement (numbers / formula /
+    relation),
+  - and at least one of those mathematical statements becomes objectively incorrect.
+
+You must treat the original continuation as a piece of text to be edited IN PLACE, not
+    as a topic to write a new paragraph about.
+
+EDIT PRIORITY:
+  1) If the original continuation already contains any numbers, numeric expressions,
+    indices,
+     or concrete mathematical facts, you MUST introduce the error by MODIFYING those
+    existing
+     numbers or facts (for example, change 21st to 25th; change 1, 10, 19 to 1, 16, 29;
+     change 10 - 1 = 9 to 10 - 1 = 8; change (n-1)d to (n+1)d).
+     In this case you are NOT allowed to introduce entirely new sentences, and you
+    should avoid
+     inventing new numbers that did not appear before, except by locally changing some
+    digits.
+  2) Only if the original continuation contains NO numerical or mathematical content at
+    all
+     may you add a new mathematical statement and make that statement false.
+
+CRITICAL CONSTRAINT ON EQUATIONS:
+  - If the text contains any equations of the form 'a - b = c', 'a + b = c', or 'a * b =
+     c',
+    the rewritten text MUST contain at least one such equation that is mathematically
+    FALSE.
+  - You must NOT leave all such equations mathematically correct after you edit the
+    numbers.
+  - For example, if you change '10 - 1 = 9', you must ensure the new equality is wrong,
+    such as
+    '16 - 1 = 9' or '10 - 1 = 8'.
+
+OUTPUT RULES:
+  - The output must be a lightly edited version of the original continuation, not a new
+    paragraph.
+  - Keep the same number of sentences if possible.
+  - Do NOT state any final numeric answer.
+  - Do NOT say that anything is wrong, misleading, or experimental.
+  - Output ONLY the edited continuation, wrapped exactly in <polluted>...</polluted>
+    tags.
+  - No extra text before or after the <polluted> block.
+
+[PROBLEM]
+{q}
+
+[STUDENT REASONING PREFIX]
+{prefix}
+
+[ORIGINAL SHORT CONTINUATION TO EDIT]
+{continuation}
+
+[YOUR OUTPUT]
+
+
+                                                17
+                         Learning Robust Reasoning through Guided Adversarial Self-Play
+
+ (Only the edited continuation, wrapped in <polluted>...</polluted>.)
+
+
+• Teacher and Self-guidance generation prompt. Including which context is shown (e.g., (q, c0∶α ) and both
+  (wclean , wpoll )) and the instruction to produce a brief appendable repair.
+       [SYSTEM]
+       You are a helpful reasoning assistant. Solve the user's problem.
+
+       [USER]
+       You are helping generate a short "repair continuation" for robustness training.
+
+      You will be given:
+      (1) a problem q
+      (2) the student/agent's reasoning prefix c_0:alpha
+      (3) two alternative next windows:
+          - CLEAN window w_clean (the correct continuation)
+          - POLLUTED window w_poll (a locally coherent but potentially wrong/misleading
+      continuation)
+
+      Your job:
+      Write a SHORT continuation that would come *immediately after the POLLUTED window*
+      and "repairs" the trajectory--i.e., it identifies/corrects the key mistake implied by
+       w_poll and steers back toward the correct solution path.
+
+      Critical constraints (important):
+      - Output ONLY the repair continuation text (no headings, no bullet points, no meta
+      commentary).
+      - Do NOT mention the existence of w_clean or w_poll, and do NOT compare them
+      explicitly.
+      - The continuation must be natural as if the model only saw: (q, c_0:alpha, w_poll).
+      - Keep it short (aim: ~1-4 sentences). Do not re-solve from scratch.
+      - Prefer minimal intervention: point out the inconsistency, fix the specific step,
+      then continue one step forward.
+      - Maintain the same tone/style/level of detail as the prefix.
+      - Do not output the final numeric answer unless the polluted context already forces
+      you to (otherwise stop before the final answer).
+
+       Now generate the repair continuation.
+
+       [PROBLEM q]
+       {q}
+
+       [REASONING PREFIX c_0:alpha]
+       {prefix}
+
+       [CLEAN WINDOW w_clean -- for your reference only]
+       {w_clean}
+
+       [POLLUTED WINDOW w_poll -- this is what the agent saw at deployment]
+       {w_poll}
+
+       [YOUR OUTPUT: repair continuation that follows immediately after w_poll]
+
+
+
+C. Diagnosability Evaluation Details
+• Evaluation prompt:
+ [SYSTEM]
+ Act as a grade school math teacher and score the following problem solution.
+
+ [USER]
+ Question:
+ {data['question']}
+
+                                                      18
+                             Learning Robust Reasoning through Guided Adversarial Self-Play
+
+  Student Solution:
+  {sol_steps}
+  Your task involves three parts:
+  1. **Step-by-step Evaluation:** Go through the student solution carefully and identify
+  key errors and potential misunderstandings that led to the incorrect solution.
+  2. **Final Judgement:** Provide an overall judgement on the correctness of the
+  student's solution.
+  3. **First Error Step:** If the solution is incorrect, generate the step number where
+  the first error occurs, otherwise generate N/A here
+  4. **Error Analysis:** If the solution is incorrect, analyse the cause and reasons for
+  the first error step, otherwise generate N/A here
+  Here's the format I want:
+  Step-by-step Evaluation: [Provide a step by step examination of the student solution and
+  identify key errors and misunderstandings here.]
+  Final Judgement: [Insert only **correct** or **wrong** here]
+  First Error Step: [Insert either N/A or the step number where the first error occurs]
+  Error Analysis: [Insert either N/A or the analysis of error in the first error among
+  solution steps]
+  Please follow this format without any additional introductory or concluding statements.
+
+
+D. Self-Revision Evaluation Details
+• valuation prompt:
+  [SYSTEM]
+      A conversation between User and Assistant. The user asks a question, and the
+      Assistant solves it.
+      The assistant first thinks about the reasoning process in the mind and then provides
+       the user with the answer.
+      The reasoning process and answer are enclosed within <think> </think> and <answer>
+      </answer> tags, respectively, i.e.,
+      <think> reasoning process here </think><answer> answer here </answer>
+
+  [USER]
+  Question:
+  {QUESTION}
+
+  Your previous solution (incorrect):
+  {INCORRECT_SOLUTION}
+
+  Task:
+  1) Identify the key mistake(s) in the previous solution.
+  2) Produce a corrected solution.
+  3) Provide the final answer in the form boxed{answer} at the end of your response.
+
+
+E. Hyperparameters and Implementation Details
+Optimization and precision. Unless otherwise stated, we optimize all models with AdamW (PyTorch implementation)
+using bfloat16 training and gradient checkpointing. We use a cosine learning-rate schedule with warmup ratio 0.1, peak
+learning rate 3 × 10−6 , weight decay 0, and gradient-norm clipping at 1.0. All runs use a set of fixed random seed (42, 52,
+62).
+
+Parameter-efficient fine-tuning. For the 8B backbone (Qwen3-8B), we use LoRA-based fine-tuning to fit training within
+limited hardware. LoRA adapters are applied to the attention and MLP projection layers with rank r = 64 (shared across
+modules). All base model weights are frozen, and only LoRA parameters are updated during training. This configuration
+allows stable GRPO self-play training on 4×A100 GPUs without model or tensor parallelism, while preserving sufficient
+adaptation capacity for robust reasoning and repair behaviors.
+
+GRPO rollouts. We use Group Relative Policy Optimization (GRPO) with clipping parameter ϵ = 0.2 (Eq. 1). For each
+update, we sample G = 64 trajectories per conditioning context at temperature 0.7 (top-k = 50, top-p = 1.0). We cap the
+
+                                                            19
+                              Learning Robust Reasoning through Guided Adversarial Self-Play
+
+maximum prompt length to 1024 tokens and the maximum completion length to 1024 tokens. Unless otherwise specified,
+we use no explicit KL regularization to a reference policy (KL coefficient β = 0). We use λ = 0.07 for the guidance term
+across all models except Qwen3-8B, where we use λ = 0.04. During training, we linearly anneal λ to 0 over the final steps.
+
+Self-play scheduling. GASP alternates optimization between the agent and polluter roles instantiated by the same
+backbone model. We use a blocked update schedule: the agent performs 5 optimizer steps while holding the polluter fixed,
+then the polluter performs 5 optimizer steps while holding the agent fixed, repeating throughout training. When optimizing
+the polluter, the agent’s rollout is treated as a black-box environment outcome (no backpropagation through the agent
+trajectory).
+
+Implementation. We run training with vLLM-based generation for rollouts and standard distributed training utilities and
+modified based on TRL (von Werra et al., 2020).
+
+F. Representation Shift Measurements
+PCA-based representation shift. To quantify representational drift induced by different training procedures, we measure
+layer-wise shifts in hidden-state representations using principal component analysis (PCA), following prior work (Huan
+et al., 2025). Let X denote a fixed probe set of inputs (e.g., TruthfulQA or CommonsenseQA). For each model state
+∗ ∈ {base, post-training} and each transformer layer i ∈ {1, . . . , L}, we collect the hidden states
+                                                              (∗)
+                                                          Hi        ∈ RN ×d ,
+
+where N aggregates token representations over all inputs in X and d is the hidden dimension. We apply PCA with n = 2
+               (∗)
+components to Hi and compute the mean projection onto each principal axis:
+                                         (∗)                               (∗)
+                                       mi,k = mean(projPCk (Hi )) ,                           k ∈ {1, 2}.
+
+We define the PC1 shift relative to the base model as
+                                                        (∗)         (∗)          (base)
+                                                  ∆mi,1 = mi,1 − mi,1                     ,
+
+and form a 2D representation for each layer
+                                                    (∗)              (∗)         (∗)
+                                                   zi     = (∆mi,1 , mi,2 ).
+Each point in the PCA shift plots (e.g., Fig. 5) corresponds to one transformer layer.
+To summarize global representational movement, we compute the centroid across layers
+
+                                                                    1 L (∗)
+                                                        z (∗) =       ∑z ,
+                                                                    L i=1 i
+
+and report the scalar PCA shift magnitude
+                                                   d(∗) = ∥z (∗) − z (base) ∥2 .
+
+Larger d(∗) indicates greater global drift of internal representations on the probe distribution.
+
+
+
+
+                                                                    20
+

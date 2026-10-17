@@ -1,0 +1,19 @@
+Processing ./.
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: gasp-controlled
+  Building wheel for gasp-controlled (pyproject.toml): started
+  Building wheel for gasp-controlled (pyproject.toml): finished with status 'done'
+  Created wheel for gasp-controlled: filename=gasp_controlled-0.2.0-py3-none-any.whl size=34645 sha256=8309fd7373de86c178fcbabc0003aae16a7da3b9a8d473c1b68b18c2a131339b
+  Stored in directory: /tmp/pip-ephem-wheel-cache-rbuffki5/wheels/37/1a/fa/db99e5970702b977e95b6f8846b6acb5dfe9f68cb612f699a6
+Successfully built gasp-controlled
+Installing collected packages: gasp-controlled
+  Attempting uninstall: gasp-controlled
+    Found existing installation: gasp-controlled 0.2.0
+    Not uninstalling gasp-controlled at /content/gasp/src, outside environment /content/gasp-smoke-venv
+    Can't uninstall 'gasp-controlled'. No files were found to uninstall.
+Successfully installed gasp-controlled-0.2.0

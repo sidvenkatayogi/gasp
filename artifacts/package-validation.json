@@ -1,0 +1,21 @@
+{
+  "archive_sha256": "4ee327b32c1372aff3df4027bc958ededcab1d39c75dc1f834bacbeb87cdd572",
+  "extracted_root": "/var/folders/h8/kbfm9vhs7jqdrz9wnfdvv3z80000gn/T/gasp-v2-package-pad4740w/gasp",
+  "imported_source": "/var/folders/h8/kbfm9vhs7jqdrz9wnfdvv3z80000gn/T/gasp-v2-package-pad4740w/gasp/src/gasp/__init__.py",
+  "smoke_exit_code": 0,
+  "source_files": {
+    "src/gasp/verification.py": "dc893caf56c7b8282a823019d50dd48a48207c4dba501436de9b5f7f61250358",
+    "src/gasp/config.py": "742e214876c302e18f3a10c649600d213364d8a915e6eb92912a35b114e97732",
+    "src/gasp/models.py": "dc9866f4436f075154afda415a1d2c33e4423ed2210f615fcba8b4aee64849e7",
+    "src/gasp/evaluation.py": "9612115006932fabb147e500e422cb0c10a02ae0ad6215145455b44fd6076fa7",
+    "src/gasp/__init__.py": "b1cf9fa7db363eb96628891e53c8835f0a26ffa1b420f6808018cfb7eb64383b",
+    "src/gasp/prompts.py": "947be09714f146787fc74af3e4cf16ee66898e0800a4ce32733c3ad9b84116e8",
+    "src/gasp/cli.py": "5e6f285e6475b5141b7260780bde4e31f58f4fc7d1ce7fba5b14d720d3db8ee6",
+    "src/gasp/losses.py": "21e23b83397bdb1f7377ed94521c225d3e4305263f72b7b5c11ae585e8b3c27e",
+    "src/gasp/trainer.py": "01810ad3c1b507322ef0e00b6c9054d6a8a06cb9724085821d948f2454f0777c",
+    "src/gasp/benchmarks.py": "52a5eb3e92b3abe6567ae702bb04b9dca208cb9cd3f8967223d2bf24a8effa10",
+    "src/gasp/__main__.py": "cf7390a2508a0fcad4777a4a629fc5212ab655cb45845975995f835676a834e3",
+    "src/gasp/data.py": "34a08478c4301e222b0354aa4c7d7026e5a977d31709c92a2be776e619e0d9c4"
+  },
+  "final_archive_source_matches_tested_source": true
+}

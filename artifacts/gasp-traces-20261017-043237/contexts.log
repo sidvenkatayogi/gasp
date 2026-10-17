@@ -1,0 +1,24 @@
+`torch_dtype` is deprecated! Use `dtype` instead!
+contexts: processed=4/1319 selected=1 batch_seconds=76.96 elapsed_seconds=76.96
+contexts: processed=8/1319 selected=2 batch_seconds=145.59 elapsed_seconds=222.55
+contexts: processed=12/1319 selected=2 batch_seconds=46.53 elapsed_seconds=269.08
+contexts: processed=16/1319 selected=2 batch_seconds=38.28 elapsed_seconds=307.36
+contexts: processed=20/1319 selected=2 batch_seconds=33.72 elapsed_seconds=341.09
+contexts: processed=24/1319 selected=2 batch_seconds=46.41 elapsed_seconds=387.50
+contexts: processed=28/1319 selected=3 batch_seconds=53.16 elapsed_seconds=440.66
+contexts: processed=32/1319 selected=4 batch_seconds=78.92 elapsed_seconds=519.58
+contexts: processed=36/1319 selected=5 batch_seconds=46.32 elapsed_seconds=565.90
+contexts: processed=40/1319 selected=5 batch_seconds=46.46 elapsed_seconds=612.36
+contexts: processed=44/1319 selected=5 batch_seconds=46.51 elapsed_seconds=658.87
+contexts: processed=48/1319 selected=5 batch_seconds=46.34 elapsed_seconds=705.21
+contexts: processed=52/1319 selected=6 batch_seconds=60.59 elapsed_seconds=765.80
+contexts: processed=56/1319 selected=6 batch_seconds=37.53 elapsed_seconds=803.33
+contexts: processed=60/1319 selected=6 batch_seconds=42.83 elapsed_seconds=846.15
+contexts: processed=64/1319 selected=6 batch_seconds=46.15 elapsed_seconds=892.30
+contexts: processed=68/1319 selected=6 batch_seconds=32.90 elapsed_seconds=925.20
+contexts: processed=72/1319 selected=7 batch_seconds=38.60 elapsed_seconds=963.80
+contexts: processed=76/1319 selected=7 batch_seconds=36.68 elapsed_seconds=1000.49
+contexts: processed=80/1319 selected=7 batch_seconds=38.80 elapsed_seconds=1039.28
+contexts: processed=84/1319 selected=10 batch_seconds=99.71 elapsed_seconds=1138.99
+contexts: processed=88/1319 selected=10 batch_seconds=47.01 elapsed_seconds=1186.00
+contexts: processed=92/1319 selected=12 batch_seconds=58.60 elapsed_seconds=1244.60

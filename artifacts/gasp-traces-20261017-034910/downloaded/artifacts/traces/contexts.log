@@ -1,0 +1,117 @@
+`torch_dtype` is deprecated! Use `dtype` instead!
+contexts: processed=9/1319 selected=1
+contexts: processed=10/1319 selected=1
+contexts: processed=11/1319 selected=1
+contexts: processed=12/1319 selected=1
+contexts: processed=13/1319 selected=1
+contexts: processed=14/1319 selected=1
+contexts: processed=15/1319 selected=1
+contexts: processed=16/1319 selected=1
+contexts: processed=17/1319 selected=1
+contexts: processed=18/1319 selected=1
+contexts: processed=19/1319 selected=2
+contexts: processed=20/1319 selected=2
+contexts: processed=21/1319 selected=2
+contexts: processed=22/1319 selected=2
+contexts: processed=23/1319 selected=3
+contexts: processed=24/1319 selected=3
+contexts: processed=25/1319 selected=4
+contexts: processed=26/1319 selected=4
+contexts: processed=27/1319 selected=4
+contexts: processed=28/1319 selected=4
+contexts: processed=29/1319 selected=4
+contexts: processed=30/1319 selected=4
+contexts: processed=31/1319 selected=4
+contexts: processed=32/1319 selected=4
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/content/gasp/src/gasp/__main__.py", line 2, in <module>
+    main()
+    ~~~~^^
+  File "/content/gasp/src/gasp/cli.py", line 64, in main
+    print(json.dumps(prepare_eval_contexts(Config.load(args.config),args.source,args.output,
+                     ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                          args.questions,args.resume,args.max_seconds),indent=2))
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/gasp/src/gasp/eval_corpus.py", line 89, in prepare_eval_contexts
+    samples = rollout.generate(model, prompt, 4, config.completion_tokens,
+                               "eval_filter", temperature=.7)
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/content/gasp/src/gasp/models.py", line 236, in generate
+    result = model.generate(input_ids=ids, attention_mask=torch.ones_like(ids), **kw)
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/transformers/generation/utils.py", line 2566, in generate
+    result = decoding_method(
+        self,
+    ...<5 lines>...
+        **model_kwargs,
+    )
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/transformers/generation/utils.py", line 2789, in _sample
+    outputs = model_forward(**model_inputs, return_dict=True)
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/transformers/utils/generic.py", line 918, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 449, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+                                       ~~~~~~~~~~^
+        input_ids=input_ids,
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/transformers/utils/generic.py", line 1072, in wrapper
+    outputs = func(self, *args, **kwargs)
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 384, in forward
+    hidden_states = decoder_layer(
+        hidden_states,
+    ...<6 lines>...
+        **kwargs,
+    )
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/transformers/modeling_layers.py", line 94, in __call__
+    return super().__call__(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+    return func(*args, **kwargs)
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 234, in forward
+    hidden_states, _ = self.self_attn(
+                       ~~~~~~~~~~~~~~^
+        hidden_states=hidden_states,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+    return func(*args, **kwargs)
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 163, in forward
+    key_states, value_states = past_key_values.update(key_states, value_states, self.layer_idx, cache_kwargs)
+                               ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/gasp-cuda-venv/lib/python3.13/site-packages/transformers/cache_utils.py", line 742, in update
+    def update(
+    
+KeyboardInterrupt

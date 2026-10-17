@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gasp-controlled"
+version = "0.2.0"
+description = "Controlled unified versus split adversarial self-play experiments"
+requires-python = ">=3.11,<3.14"
+dependencies = ["torch>=2.7,<3", "transformers==4.57.6", "numpy>=1.26,<3"]
+
+[project.optional-dependencies]
+experiment = ["datasets==3.6.0", "peft==0.18.0", "accelerate==1.12.0", "math-verify==0.8.0"]
+notebook = ["jupyterlab==4.4.3", "nbformat==5.10.4", "nbclient==0.10.2", "matplotlib==3.10.3", "pandas==2.2.3"]
+test = ["pytest==9.0.2", "math-verify==0.8.0"]
+
+[project.scripts]
+gasp = "gasp.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+gasp = ["templates/*.txt"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

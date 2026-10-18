@@ -1,0 +1,10 @@
+{
+  "app_id": "ap-BKIIccBJPEzpfwUfQCKuiX",
+  "operation": "detach existing application; preserve function IDs; no new function definition",
+  "before": "info {\n  description: \"gasp-experiment-prepare\"\n  app_id: \"ap-BKIIccBJPEzpfwUfQCKuiX\"\n  environment_name: \"main\"\n  lifecycle {\n    app_state: APP_STATE_EPHEMERAL\n    created_at: 1792287399.407409\n    created_by: \"sidvenkatayogi\"\n  }\n  functions {\n    key: \"worker\"\n    value: \"fu-NVv49OxoQ4q39BGjuL0ofQ\"\n  }\n}\nfunction_info_summaries {\n  key: \"fu-NVv49OxoQ4q39BGjuL0ofQ\"\n  value {\n    gpu_config {\n      count: 1\n      gpu_type: \"A100-80GB\"\n    }\n  }\n}\n",
+  "after": "info {\n  description: \"gasp-experiment-prepare\"\n  app_id: \"ap-BKIIccBJPEzpfwUfQCKuiX\"\n  environment_name: \"main\"\n  lifecycle {\n    app_state: APP_STATE_EPHEMERAL\n    created_at: 1792287399.407409\n    created_by: \"sidvenkatayogi\"\n  }\n  functions {\n    key: \"worker\"\n    value: \"fu-NVv49OxoQ4q39BGjuL0ofQ\"\n  }\n}\nfunction_info_summaries {\n  key: \"fu-NVv49OxoQ4q39BGjuL0ofQ\"\n  value {\n    gpu_config {\n      count: 1\n      gpu_type: \"A100-80GB\"\n    }\n  }\n}\n",
+  "function_ids": {
+    "worker": "fu-NVv49OxoQ4q39BGjuL0ofQ"
+  },
+  "definition_ids": {}
+}

@@ -1,0 +1,96 @@
+✓ Initialized. View run at 
+https://modal.com/apps/sidvenkatayogi/main/ap-XbdgDiPvtEjFBQvV8PqQVj
+✓ Created objects.
+├── ✓ Uploaded 
+│   /Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-experiment-20261018
+│   -0037/redraw_traces.py
+├── ✓ Uploaded 
+│   /Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-experiment-20261018
+│   -0037/trace-redraw-policy.json
+├── ✓ Uploaded 
+│   /Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-experiment-20261018
+│   -0037/source.zip
+├── ✓ Uploaded 
+│   /Users/sidvenkatayogi/Documents/Code/gasp/scripts/run_modal_benchmark.py
+├── ✓ Uploaded 
+│   /Users/sidvenkatayogi/Documents/Code/gasp/scripts/run_modal_experiment.py
+└── ✓ Created Function redraw_worker.
+{"event": "phase", "phase": "volume_commit", "success": true, "seconds": 0.6356118290000001}
+Sun Oct 18 03:52:36 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 610.57.04              KMD Version: 610.57.04     CUDA UMD Version: 13.3     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100 80GB PCIe          On  |   00000002:00:00.0 Off |                    0 |
+| N/A   42C    P0             54W /  300W |       4MiB /  81920MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+`torch_dtype` is deprecated! Use `dtype` instead!
+{"question_id": "gsm8k-test-902", "candidate_index": 0, "numeric_correct": 0, "generated_tokens": 457}
+{"question_id": "gsm8k-test-477", "candidate_index": 0, "numeric_correct": 1, "generated_tokens": 354}
+{"question_id": "gsm8k-test-702", "candidate_index": 0, "numeric_correct": 0, "generated_tokens": 716}
+{"question_id": "gsm8k-test-331", "candidate_index": 0, "numeric_correct": 1, "generated_tokens": 502}
+{"question_id": "gsm8k-test-1233", "candidate_index": 0, "numeric_correct": 1, "generated_tokens": 552}
+{"question_id": "gsm8k-test-442", "candidate_index": 0, "numeric_correct": 1, "generated_tokens": 471}
+{"question_id": "gsm8k-test-296", "candidate_index": 0, "numeric_correct": 0, "generated_tokens": 291}
+{"question_id": "gsm8k-test-404", "candidate_index": 0, "numeric_correct": 1, "generated_tokens": 603}
+{"question_id": "gsm8k-test-309", "candidate_index": 0, "numeric_correct": 1, "generated_tokens": 396}
+{"question_id": "gsm8k-test-1107", "candidate_index": 0, "numeric_correct": 1, "generated_tokens": 678}
+{"question_id": "gsm8k-test-481", "candidate_index": 0, "numeric_correct": 1, "generated_tokens": 507}
+{"question_id": "gsm8k-test-712", "candidate_index": 0, "numeric_correct": 1, "generated_tokens": 380}
+{"event": "phase", "phase": "volume_commit", "success": true, "seconds": 0.8913146189999992}
+{"question_id": "gsm8k-test-902", "candidate_index": 1, "numeric_correct": 1, "generated_tokens": 476}
+{"question_id": "gsm8k-test-477", "candidate_index": 1, "numeric_correct": 1, "generated_tokens": 495}
+{"question_id": "gsm8k-test-702", "candidate_index": 1, "numeric_correct": 1, "generated_tokens": 659}
+{"question_id": "gsm8k-test-331", "candidate_index": 1, "numeric_correct": 1, "generated_tokens": 935}
+{"question_id": "gsm8k-test-1233", "candidate_index": 1, "numeric_correct": 1, "generated_tokens": 629}
+{"question_id": "gsm8k-test-442", "candidate_index": 1, "numeric_correct": 1, "generated_tokens": 410}
+{"question_id": "gsm8k-test-296", "candidate_index": 1, "numeric_correct": 0, "generated_tokens": 403}
+{"question_id": "gsm8k-test-404", "candidate_index": 1, "numeric_correct": 1, "generated_tokens": 431}
+{"question_id": "gsm8k-test-309", "candidate_index": 1, "numeric_correct": 1, "generated_tokens": 385}
+{"question_id": "gsm8k-test-1107", "candidate_index": 1, "numeric_correct": 1, "generated_tokens": 579}
+{"question_id": "gsm8k-test-481", "candidate_index": 1, "numeric_correct": 1, "generated_tokens": 451}
+{"question_id": "gsm8k-test-712", "candidate_index": 1, "numeric_correct": 0, "generated_tokens": 1024}
+{"event": "phase", "phase": "volume_commit", "success": true, "seconds": 0.9061266289999992}
+{"event": "phase", "phase": "volume_commit", "success": true, "seconds": 0.6493334569999973}
+{"event": "phase", "phase": "volume_commit", "success": true, "seconds": 0.6172025660000031}
+{
+  "success": true,
+  "stage": "trace-redraw",
+  "condition": null,
+  "run_id": "gasp-experiment-20261018-0037",
+  "attempt_id": "trace-redraw-20261018-035225",
+  "source_sha256": "9bd62242c886eb4a843aae33be5edfb00f34231a0633f6b43dc7290952fd189f",
+  "durable_volume": "gasp-exploratory-artifacts",
+  "durable_path": "/persist/gasp-experiment-20261018-0037",
+  "result": {
+    "complete": true,
+    "initial_model_sha256": "53c11399aa12b84b41ba41d55627cdb9bf73cc3c6d1fe99832d0eee79d468f01",
+    "counts": {
+      "semantic_trace_redraw": {
+        "sequences": 24,
+        "generated_tokens": 12784,
+        "prompt_tokens": 3450,
+        "allocated_tokens": 24576
+      }
+    },
+    "seconds": 84.535746216,
+    "gpu": "NVIDIA A100 80GB PCIe",
+    "candidate_sha256": "e4a90c7475b4bff9531f7c2355655e03a7c3d0d005f99bdd6ae43a39999da3d3",
+    "semantic_review": "pending"
+  },
+  "worker_seconds": 86.842008369
+}
+✓ App completed. View run at 
+https://modal.com/apps/sidvenkatayogi/main/ap-XbdgDiPvtEjFBQvV8PqQVj

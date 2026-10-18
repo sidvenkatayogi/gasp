@@ -1,0 +1,13 @@
+{
+  "before_baseline_or_training": true,
+  "full_review": true,
+  "source_review": "All100 complete clean reasoning traces; first accepted fresh trace for12 flagged questions; original question set unchanged.",
+  "corruption_review": "All400 windows with original questions, clean window and prefix when required. Record actual false math, local edit constraints, meta instructions and final numeric answer leakage.",
+  "invalid_handling": "Preserve all raw responses. Regenerate individually with exactly the same prompt/model/settings when no mathematical error, answer leakage, meta instruction or clear local-edit violation is found. Accept first passing response by attempt order. At most two replacement requests per context without a further documented decision. No model outcome based selection.",
+  "initial_invalid_indices": [
+    13,
+    14
+  ],
+  "initial_reason": "Original window already has a numeral or a mathematical division relation; GPT appended a new calculation instead of changing existing content. Original responses remain in corpus/v1 response archive.",
+  "context_reuse": "Reuse only identical context IDs and exact request payloads, excluding documented invalid outputs."
+}

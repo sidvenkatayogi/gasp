@@ -1,0 +1,6 @@
+{
+  "complete": true,
+  "contexts": 400,
+  "corpus": "artifacts/gasp-experiment-20261018-0037/corpus-v4/held-out-corruptions.jsonl",
+  "provenance": "artifacts/gasp-experiment-20261018-0037/corpus-v4/held-out-corruptions.jsonl.provenance.json"
+}

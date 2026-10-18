@@ -1,25 +1,57 @@
 # Exploratory unified-versus-split plan
 
-Status: bounded unified and split GPU cycle benchmarks completed; all benchmark
-GPUs released. The full experiment has not launched. The original request was
+Status: both conditions and both analyses completed on 2026-10-18 UTC within the
+10 GPU-hour budget (conservative ledger: 9.7522 hours). No active Modal apps or
+containers remained at the final check. See the
+[results and diagnostic review](../artifacts/gasp-experiment-20261018-0037/comparison/RESULTS.md).
+The user approved the revised plan on 2026-10-18 UTC. Implementation
+passed 133 local tests (four CUDA-only skips) and 137 tests on the real GPU.
+Preparation is complete: 100 retained MATH questions and 100 retained GSM8K
+questions / 400 contexts. GPT corruption generation and the full semantic audit
+are complete. Six outputs do not fully follow the generator prompt; these are disclosed in corpus-v4.
+The required stricter sensitivity uses 95 questions / 380 corruptions. No model
+scores informed these exclusions. The shared baseline completed in 829 worker seconds;
+unified and split each completed all 70 global updates and endpoint evaluation.
+Measured preparation costs and the trace quality
+correction require **35 updates
+per role, seven cycles per condition**, under the approved whole-cycle budget
+adjustment. This decision precedes baseline and trained-model scores.
+The original request was
 100 optimizer updates per role and 20 alternating cycles. The user subsequently
 specified **about 10 total GPU-hours, prioritizing lower compute cost**.
 
 Measured results and calculations are in
-[the cycle report](../artifacts/CYCLE_BENCHMARK.md). For that total budget, recommend
-**50 updates per role, 10 cycles, 100 distinct retained training questions, G=16**,
-one context/update and one paired seed. Keep 100 evaluation questions / 400
-corruptions. This is a recommendation, not a user-approved replacement for the
-original update count. The pair projects to 5.68 GPU-hours for training and
-checkpoints, or 6.82 with a judgmental 20% allowance. The remaining roughly three
-GPU-hours must cover bounded, batched preparation and evaluation; that complete
-pipeline has not been timed and its preparation/evaluation changes remain to be
-implemented. GPT API work runs on CPU and consumes no GPU-hours.
+[the cycle report](../artifacts/CYCLE_BENCHMARK.md). The initial approved target
+was 50 updates per role / 10 cycles, subject to reducing whole cycles to fit the
+measured full pipeline. Keep 100 evaluation questions / 400 corruptions and the
+100-question training pool. GPT API work runs on CPU.
 
-If adopting the smaller plan, use a fresh 100-global-update schedule in each
-condition, evaluate before training and at update 100, and visit the shared
-100-question pool once: 50 active contexts per role, 1,600 trained GRPO
-trajectories per condition. Preserve the five-update role blocks. Do not resume
+The current allocation and calculation are recorded in
+`artifacts/gasp-experiment-20261018-0037/training-budget-decision.json`:
+3.738 charged GPU-hours after source correction (including conservative full
+reservations for two helper startup failures), 3.979 projected paired training
+and checkpoint hours plus a 20% training allowance, 1.15 hours reserved for
+evaluations/initialization/spot-checks, and 0.05 hours for an uncertain disconnect
+cleanup tail: **9.713 hours total**. These are planning reserves, not a completion
+guarantee. The ten-hour watchdog applies. The original source contexts are
+archived; reviewed version 2 replaces 12 traces while keeping all 100 questions.
+
+The execution record is under `artifacts/gasp-experiment-20261018-0037`. Its frozen
+source uses offline preparation batches of 16 questions (64 K=4 samples), while
+live training/evaluation batches remain 16 sequences. This execution choice is
+recorded in both conditions' common config. The shared-baseline spot-check repeats
+one complete clean and one complete corrupted batch in each condition to preserve
+padding shapes: 64 extra answers, for 1,564 total evaluation answers. The compute
+ledger includes 2,883 seconds from the recent cycle diagnostics and all new stage
+worker time plus a lifecycle allowance. GPU jobs release between preparation,
+CPU/API corpus generation/review, baseline and training.
+
+Use a fresh 70-global-update schedule in each condition, evaluate before training
+and at update 70, and visit 70 of the shared 100-question pool without replacement:
+35 active contexts per role, 1,120 trained GRPO trajectories per condition.
+The schedule has seven warmup updates and guidance decays over the final seven
+agent updates; both conditions use the same schedule. Preserve the five-update
+role blocks. Do not resume
 the four-question timing diagnostic as the actual experiment. Use the benchmark's
 matched opt-in HF batch size 16 and declared 2048 input cap (1024 output cap).
 
@@ -37,8 +69,8 @@ relative to our shared-parameter implementation? The treatment includes separate
 optimizer histories and greater total parameter storage; it does not isolate
 gradient interference alone. Keep the 1.5B backbone, G=16 and repair objective.
 No additional training baseline or smaller-model sweep is required for this
-first question. Fifty agent updates see only fifty active question contexts;
-1,600 trajectories across both roles do not represent 1,600 independent problems.
+first question. Thirty-five agent updates see only thirty-five active question contexts;
+1,120 trajectories across both roles do not represent 1,120 independent problems.
 
 1. **Include the initial model as a baseline.** Report each condition's change
    from it as well as the split-minus-unified endpoint difference. One shared
@@ -53,8 +85,7 @@ first question. Fifty agent updates see only fifty active question contexts;
    analysis seed (10002) and 10,000 CPU resamples. Report the corresponding pre/post gains
    and descriptive per-alpha scores. These intervals describe held-out-question
    uncertainty conditional on one training seed and the frozen corpus; they do
-   not estimate training-seed or regenerated-corruption variability. The existing
-   aggregator has no such interval and must be extended before final analysis.
+   not estimate training-seed or regenerated-corruption variability. Question-level paired intervals are implemented in the analysis script.
 3. **Freeze and audit evaluation construction.** Preserve K=4 selection, all
    four alphas and the same independently generated GPT corpus for both models.
    Structurally validate all 400 rows. Before inspecting trained-model outcomes,
@@ -86,11 +117,12 @@ add 150 answers across the shared baseline and two endpoints if broader clean
 competence is to be discussed. A small predeclared step-95/100 probe can examine
 endpoint-phase sensitivity, but the final polluter block's learning rates are
 already below 0.8% of peak. Neither extension should displace the primary paired
-comparison under the compute budget. The primary endpoint stays after cycle ten.
+comparison under the compute budget. These optional extensions are omitted.
+The primary endpoint is after cycle seven.
 
-These are protocol and reporting revisions. Bounded preparation, batched
-evaluation, shared-baseline handling and question-level intervals are not claimed
-to be implemented or validated by the existing training benchmark.
+Bounded preparation, batched evaluation, shared-baseline handling and question-level
+intervals are now implemented and locally tested. Their full real-model pipeline
+is being measured; the earlier training benchmark alone did not validate it.
 
 ## Original 100-updates-per-role proposal (historical)
 

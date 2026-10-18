@@ -1,0 +1,12 @@
+{
+  "success": false,
+  "stage": "prepare",
+  "condition": null,
+  "run_id": "gasp-experiment-20261018-0037",
+  "attempt_id": "prepare-20261018-030217",
+  "source_sha256": "9bd62242c886eb4a843aae33be5edfb00f34231a0633f6b43dc7290952fd189f",
+  "durable_volume": "gasp-exploratory-artifacts",
+  "durable_path": "/persist/gasp-experiment-20261018-0037",
+  "error": "Traceback (most recent call last):\n  File \"/root/run_modal_experiment.py\", line 131, in worker\n    report[\"result\"] = run(stage, condition, persistent, inputs,\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/gasp/scripts/experiment_worker.py\", line 244, in run\n    return prepare(root, cfg, deadline, commit, resume)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/gasp/scripts/experiment_worker.py\", line 86, in prepare\n    result = timed(\"prepare_\" + name, function, cfg, \"data/raw/\" + source + \".jsonl\",\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/gasp/scripts/experiment_worker.py\", line 58, in timed\n    return function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/gasp/src/gasp/eval_corpus.py\", line 74, in prepare_eval_contexts\n    raise ValueError(\"Resume config/source/code differs from the saved preparation\")\nValueError: Resume config/source/code differs from the saved preparation\n",
+  "worker_seconds": 6.468224031
+}

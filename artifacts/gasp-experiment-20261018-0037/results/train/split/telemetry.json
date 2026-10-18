@@ -1,0 +1,66 @@
+{
+  "checkpoint_wall_seconds": 1812.3683951420028,
+  "cuda_elapsed_interval_seconds": 7969.7323750000005,
+  "evaluation_wall_seconds": 1252.8790558340006,
+  "forward_training_tokens": 1148733,
+  "loss_tokens": {
+    "agent": 104039,
+    "polluter": 348377,
+    "repair": 1330
+  },
+  "optimizer_bytes": 28433410712,
+  "optimizer_cpu_bytes": 14216706712,
+  "optimizer_cuda_bytes": 14216704000,
+  "peak_gpu_allocated_bytes": 53684131840,
+  "peak_gpu_reserved_bytes": 58174996480,
+  "peak_process_rss_bytes": 35032109056,
+  "rollouts": {
+    "agent_clean_attempts": {
+      "allocated_tokens": 48128,
+      "generated_tokens": 35122,
+      "prompt_tokens": 5597,
+      "sequences": 47
+    },
+    "agent_completion": {
+      "allocated_tokens": 573440,
+      "generated_tokens": 104039,
+      "prompt_tokens": 228176,
+      "sequences": 560
+    },
+    "agent_corruption": {
+      "allocated_tokens": 35840,
+      "generated_tokens": 21849,
+      "prompt_tokens": 29894,
+      "sequences": 35
+    },
+    "polluter_agent_scoring": {
+      "allocated_tokens": 573440,
+      "generated_tokens": 96290,
+      "prompt_tokens": 204187,
+      "sequences": 560
+    },
+    "polluter_candidate": {
+      "allocated_tokens": 573440,
+      "generated_tokens": 348377,
+      "prompt_tokens": 454000,
+      "sequences": 560
+    },
+    "polluter_clean_attempts": {
+      "allocated_tokens": 45056,
+      "generated_tokens": 29070,
+      "prompt_tokens": 5151,
+      "sequences": 44
+    },
+    "repair_generation": {
+      "allocated_tokens": 35840,
+      "generated_tokens": 21318,
+      "prompt_tokens": 25812,
+      "sequences": 35
+    }
+  },
+  "snapshot_bytes": 0,
+  "total_accounted_wall_seconds": 11035.034883395007,
+  "trainable_parameter_count": 3554176000,
+  "training_wall_seconds": 7969.787432419003,
+  "unique_role_parameter_bytes": 14216704000
+}

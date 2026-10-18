@@ -1,0 +1,23 @@
+{
+  "checkpoint_wall_seconds": 0.0,
+  "cuda_elapsed_interval_seconds": 0.0,
+  "evaluation_wall_seconds": 789.219947491,
+  "forward_training_tokens": 0,
+  "loss_tokens": {
+    "agent": 0,
+    "polluter": 0,
+    "repair": 0
+  },
+  "optimizer_bytes": 0,
+  "optimizer_cpu_bytes": 0,
+  "optimizer_cuda_bytes": 0,
+  "peak_gpu_allocated_bytes": 0,
+  "peak_gpu_reserved_bytes": 0,
+  "peak_process_rss_bytes": 15029460992,
+  "rollouts": {},
+  "snapshot_bytes": 0,
+  "total_accounted_wall_seconds": 789.219947491,
+  "trainable_parameter_count": 1777088000,
+  "training_wall_seconds": 0.0,
+  "unique_role_parameter_bytes": 7108352000
+}

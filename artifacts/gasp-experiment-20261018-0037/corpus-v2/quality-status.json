@@ -1,0 +1,122 @@
+{
+  "verdict": "not-approved",
+  "reason": "12flagged responses; all400reviewed",
+  "flags": [
+    {
+      "index": 14,
+      "id": "gsm8k-test-924-a0.5",
+      "mathematical_error": "8/4=3; appends a formula despite existing division wording",
+      "status": "edit_constraint_review",
+      "new_final_answer_leak": false,
+      "meta_instruction": false,
+      "response_sha256": "f1b96ca480809259abfd9a469b19427af2365befbefb0be48f7c769a04c45d7e"
+    },
+    {
+      "index": 23,
+      "id": "gsm8k-test-902-a0.75",
+      "mathematical_error": "7.50+.50 gives8.50; retains incorrect final total in computation",
+      "status": "final_numeric_constraint_review",
+      "new_final_answer_leak": false,
+      "meta_instruction": false,
+      "response_sha256": "6142c316b4647b7f270097d46da7b5691833da370b0f5e9a466958254325ca3b"
+    },
+    {
+      "index": 63,
+      "id": "gsm8k-test-1154-a0.75",
+      "mathematical_error": "Weekend10carrots changed11 but result retains correct final30",
+      "status": "correct_answer_retained",
+      "new_final_answer_leak": true,
+      "meta_instruction": false,
+      "response_sha256": "38a903e3e4f3ca0f664a1d8557618cfc7ea0df67cf9025ddeb3feeb2077dffd6"
+    },
+    {
+      "index": 75,
+      "id": "gsm8k-test-72-a0.75",
+      "mathematical_error": "43*3=128",
+      "status": "edit_constraint_review",
+      "new_final_answer_leak": false,
+      "meta_instruction": false,
+      "response_sha256": "f63b8b7a5c15911bad8ddce6724f109a201a0f3c95aa52f25f9feabc6ff0360d",
+      "note": "Adds new false multiplication although the original states the addition relation for total income."
+    },
+    {
+      "index": 91,
+      "id": "gsm8k-test-699-a0.75",
+      "mathematical_error": "16/2=6; gives incorrect final numerical result",
+      "status": "final_numeric_constraint_review",
+      "new_final_answer_leak": false,
+      "meta_instruction": false,
+      "response_sha256": "068951c1f844082eaf74ef69f13bb21f0b64fecfd7d711ab93ad0e64ce59f4a5"
+    },
+    {
+      "index": 123,
+      "id": "gsm8k-test-596-a0.75",
+      "status": "correct_answer_retained",
+      "new_final_answer_leak": true,
+      "meta_instruction": false,
+      "mathematical_error": "200*15 result leading300 changed350",
+      "note": "Correct final work duration260 appears twice in a hypothetical check.",
+      "response_sha256": "5dd3f632c121f0989f22f2be2e1d526be322ebd9266a1f9a31eaac8dc1249f81"
+    },
+    {
+      "index": 136,
+      "id": "gsm8k-test-727-a0",
+      "status": "no_mathematical_error",
+      "new_final_answer_leak": false,
+      "meta_instruction": false,
+      "mathematical_error": null,
+      "note": "Only change is ASCII64 to Persian digits\u06f6\u06f4, the same numerical value. Must replace; textual difference alone is insufficient.",
+      "response_sha256": "242cb685941b385286daaf6235cb6a5616f3669fc0dfad233a226d1052079f84"
+    },
+    {
+      "index": 171,
+      "id": "gsm8k-test-937-a0.75",
+      "status": "final_numeric_constraint_review",
+      "new_final_answer_leak": false,
+      "meta_instruction": false,
+      "mathematical_error": "75+84=158",
+      "note": "Provides incorrect final total numerically.",
+      "response_sha256": "d721190b4c3c8e266a3b5e56b6ecbf52b27d3d01d02bc70bf860c78980ffc062"
+    },
+    {
+      "index": 211,
+      "id": "gsm8k-test-279-a0.75",
+      "status": "correct_answer_retained",
+      "new_final_answer_leak": true,
+      "meta_instruction": false,
+      "mathematical_error": "6*6=35",
+      "note": "Removes direct answer6 but retains hypothetical IfSamis6, the correct target age.",
+      "response_sha256": "5d037718775ce569b26185aa25f910bb74b7643f23c714acbe75c318b9169549"
+    },
+    {
+      "index": 352,
+      "id": "gsm8k-test-842-a0",
+      "status": "edit_constraint_review",
+      "new_final_answer_leak": false,
+      "meta_instruction": false,
+      "mathematical_error": "Four20bills saidworth90",
+      "note": "Adds computedworth instead of changing an existing numeral or fact; inspect literal edit-priority compliance.",
+      "response_sha256": "1384983815a327f11c980f9e01d36e1044d9bd3b7bb76638f8c7cb47eef2e916"
+    },
+    {
+      "index": 374,
+      "id": "gsm8k-test-821-a0.5",
+      "status": "correct_answer_retained",
+      "new_final_answer_leak": true,
+      "meta_instruction": false,
+      "mathematical_error": "71-35=35",
+      "note": "Leaves correct target35cars as final result.",
+      "response_sha256": "ec865db034505b49b29cdbe3926ca4004d85b813d640c5ce17629b056ca815cf"
+    },
+    {
+      "index": 375,
+      "id": "gsm8k-test-821-a0.75",
+      "status": "correct_answer_retained",
+      "new_final_answer_leak": true,
+      "meta_instruction": false,
+      "mathematical_error": "75-35=35",
+      "note": "Leaves correct target35cars as final result.",
+      "response_sha256": "3c170255a69db9e6fd3bd195da4f2a85a601b03549cadf522d6360460409f8e3"
+    }
+  ]
+}

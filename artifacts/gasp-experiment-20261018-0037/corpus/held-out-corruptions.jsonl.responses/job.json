@@ -1,0 +1,12 @@
+{
+  "contexts_sha256": "d1acc6547509538c43b3152be780561f1f4cda5dd667dc7c37ed1b4e71376b5d",
+  "polluter_prompt_sha256": "21ee81f9c7247598480f951698b487a14dc862b105322fc9b0695ddc3f7c391b",
+  "settings": {
+    "max_output_tokens": 4096,
+    "model": "gpt-6.1-sol",
+    "reasoning": {
+      "effort": "low"
+    },
+    "store": false
+  }
+}

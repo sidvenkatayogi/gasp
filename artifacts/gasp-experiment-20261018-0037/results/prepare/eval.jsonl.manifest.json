@@ -1,0 +1,308 @@
+{
+  "provenance": {
+    "config": {
+      "accumulation": 1,
+      "adam_beta1": 0.9,
+      "adam_beta2": 0.999,
+      "adam_epsilon": 1e-08,
+      "advantage_epsilon": 1e-08,
+      "block_steps": 5,
+      "checkpoint_every": 10,
+      "completion_tokens": 1024,
+      "condition": "unified",
+      "corruption_tokens": 1024,
+      "device": "auto",
+      "eval_every": 70,
+      "eval_seed": 10001,
+      "eval_temperature": 0.0,
+      "grad_clip": 1.0,
+      "gradient_checkpointing": true,
+      "group_size": 16,
+      "grpo_clip": 0.2,
+      "guidance": 0.07,
+      "guidance_decay_fraction": 0.2,
+      "label": "gasp-exploratory-fixed-budget",
+      "learning_rate": 3e-06,
+      "lora_rank": 16,
+      "max_clean_attempts": 32,
+      "model": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+      "optimizer_offload": true,
+      "precision": "bf16",
+      "preparation_batch_questions": 16,
+      "prompt_tokens": 2048,
+      "repair_tokens": 1024,
+      "revision": "ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562",
+      "role_steps": 35,
+      "rollout_batch_size": 16,
+      "seed": 42,
+      "temperature": 0.7,
+      "tiny": false,
+      "top_k": 50,
+      "top_p": 1.0,
+      "tuning": "full",
+      "verifier": "math_verify",
+      "warmup_ratio": 0.1,
+      "weight_decay": 0.0,
+      "window_cap": 128
+    },
+    "context_preparation": {
+      "candidate_count": 560,
+      "candidate_limit": 1000,
+      "candidate_order_sha256": "eb2141f719c08a9a64e65cdd062c1055c3b5dc80ae7c25553403f4db62f8d9aa",
+      "candidate_shuffle_seed": 10001,
+      "config": {
+        "accumulation": 1,
+        "adam_beta1": 0.9,
+        "adam_beta2": 0.999,
+        "adam_epsilon": 1e-08,
+        "advantage_epsilon": 1e-08,
+        "block_steps": 5,
+        "checkpoint_every": 10,
+        "completion_tokens": 1024,
+        "condition": "unified",
+        "corruption_tokens": 1024,
+        "device": "auto",
+        "eval_every": 100,
+        "eval_seed": 10001,
+        "eval_temperature": 0.0,
+        "grad_clip": 1.0,
+        "gradient_checkpointing": true,
+        "group_size": 16,
+        "grpo_clip": 0.2,
+        "guidance": 0.07,
+        "guidance_decay_fraction": 0.2,
+        "label": "gasp-exploratory-fixed-budget",
+        "learning_rate": 3e-06,
+        "lora_rank": 16,
+        "max_clean_attempts": 32,
+        "model": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+        "optimizer_offload": true,
+        "precision": "bf16",
+        "preparation_batch_questions": 16,
+        "prompt_tokens": 2048,
+        "repair_tokens": 1024,
+        "revision": "ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562",
+        "role_steps": 50,
+        "rollout_batch_size": 16,
+        "seed": 10001,
+        "temperature": 0.7,
+        "tiny": false,
+        "top_k": 50,
+        "top_p": 1.0,
+        "tuning": "full",
+        "verifier": "math_verify",
+        "warmup_ratio": 0.1,
+        "weight_decay": 0.0,
+        "window_cap": 128
+      },
+      "counts": {
+        "eval_clean_trace": {
+          "allocated_tokens": 148480,
+          "generated_tokens": 70633,
+          "prompt_tokens": 20356,
+          "sequences": 145
+        },
+        "eval_filter": {
+          "allocated_tokens": 2293760,
+          "generated_tokens": 1210299,
+          "prompt_tokens": 327400,
+          "sequences": 2240
+        }
+      },
+      "initial_model_sha256": "53c11399aa12b84b41ba41d55627cdb9bf73cc3c6d1fe99832d0eee79d468f01",
+      "kind": "eval_contexts",
+      "prompt_sha256": "398eb41d6b6a729ea0af89bf9e378c5b4459f30282bb6f544ccede03344b4db6",
+      "protocol": "initial-K4-fresh-trace-four-alphas-v1+semantic-trace-correction-v2",
+      "retained_target": 100,
+      "selected_questions": 100,
+      "source_provenance": {
+        "dataset": "openai/gsm8k",
+        "kind": "raw_eval",
+        "revision": "740312add88f781978c0658806c59bc2815b9866",
+        "split": "test"
+      },
+      "source_sha256": "1ec55dad18f0f390f94d20a0bba706c6b71e64148fbab946c6f62a9554832b14",
+      "subset_selection": "Initial deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B@ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562; K=4, T=0.7, all correct; seed=10001; one fresh correct trace; all four alphas; same question subset; semantic clean-trace redraw for12 questions before any model scores",
+      "trace_correction": {
+        "draws": {
+          "10004": {
+            "candidate_sha256": "e4a90c7475b4bff9531f7c2355655e03a7c3d0d005f99bdd6ae43a39999da3d3",
+            "complete": true,
+            "counts": {
+              "semantic_trace_redraw": {
+                "allocated_tokens": 24576,
+                "generated_tokens": 12784,
+                "prompt_tokens": 3450,
+                "sequences": 24
+              }
+            },
+            "gpu": "NVIDIA A100 80GB PCIe",
+            "initial_model_sha256": "53c11399aa12b84b41ba41d55627cdb9bf73cc3c6d1fe99832d0eee79d468f01",
+            "seconds": 84.535746216,
+            "semantic_review": "pending"
+          },
+          "10005": {
+            "candidate_sha256": "0416bc3d819f0e901aa56876600605ba6e2a4113adf807a9a389d5f0216b7b5a",
+            "complete": true,
+            "counts": {
+              "semantic_trace_redraw": {
+                "allocated_tokens": 4096,
+                "generated_tokens": 1800,
+                "prompt_tokens": 520,
+                "sequences": 4
+              }
+            },
+            "gpu": "NVIDIA A100-SXM4-80GB",
+            "initial_model_sha256": "53c11399aa12b84b41ba41d55627cdb9bf73cc3c6d1fe99832d0eee79d468f01",
+            "seconds": 51.981852587999995,
+            "semantic_review": "pending"
+          }
+        },
+        "original_contexts_sha256": "d1acc6547509538c43b3152be780561f1f4cda5dd667dc7c37ed1b4e71376b5d",
+        "paper_deviation": "Additional semantic acceptance enforces the intended sound clean continuation; not a claimed exact author filtering procedure. Online training is unchanged.",
+        "review": [
+          {
+            "candidate_file_sha256": "e4a90c7475b4bff9531f7c2355655e03a7c3d0d005f99bdd6ae43a39999da3d3",
+            "candidate_index": 1,
+            "evidence": "Five notebooks7.50 plus ballpen.50=8",
+            "question_id": "gsm8k-test-902",
+            "scope": "Entire pre-answer reasoning plus original question; numeric verifier passes; no manual edits",
+            "seed": 10004,
+            "verdict": "pass"
+          },
+          {
+            "candidate_file_sha256": "e4a90c7475b4bff9531f7c2355655e03a7c3d0d005f99bdd6ae43a39999da3d3",
+            "candidate_index": 0,
+            "evidence": "9+6-3=12 allergic,32-12=20 unaffected",
+            "question_id": "gsm8k-test-477",
+            "scope": "Entire pre-answer reasoning plus original question; numeric verifier passes; no manual edits",
+            "seed": 10004,
+            "verdict": "pass"
+          },
+          {
+            "candidate_file_sha256": "e4a90c7475b4bff9531f7c2355655e03a7c3d0d005f99bdd6ae43a39999da3d3",
+            "candidate_index": 1,
+            "evidence": "Gordy4800;Gissela+Gordy8800;11600-8800=2800",
+            "question_id": "gsm8k-test-702",
+            "scope": "Entire pre-answer reasoning plus original question; numeric verifier passes; no manual edits",
+            "seed": 10004,
+            "verdict": "pass"
+          },
+          {
+            "candidate_file_sha256": "e4a90c7475b4bff9531f7c2355655e03a7c3d0d005f99bdd6ae43a39999da3d3",
+            "candidate_index": 0,
+            "evidence": "A net24000; B(42000-6000)*.9=32400; difference8400",
+            "question_id": "gsm8k-test-331",
+            "scope": "Entire pre-answer reasoning plus original question; numeric verifier passes; no manual edits",
+            "seed": 10004,
+            "verdict": "pass"
+          },
+          {
+            "candidate_file_sha256": "e4a90c7475b4bff9531f7c2355655e03a7c3d0d005f99bdd6ae43a39999da3d3",
+            "candidate_index": 0,
+            "evidence": "60-24=36; quarter9;27*3=81",
+            "question_id": "gsm8k-test-1233",
+            "scope": "Entire pre-answer reasoning plus original question; numeric verifier passes; no manual edits",
+            "seed": 10004,
+            "verdict": "pass"
+          },
+          {
+            "candidate_file_sha256": "e4a90c7475b4bff9531f7c2355655e03a7c3d0d005f99bdd6ae43a39999da3d3",
+            "candidate_index": 0,
+            "evidence": "40+3*5-3*2=49",
+            "question_id": "gsm8k-test-442",
+            "scope": "Entire pre-answer reasoning plus original question; numeric verifier passes; no manual edits",
+            "seed": 10004,
+            "verdict": "pass"
+          },
+          {
+            "candidate_file_sha256": "e4a90c7475b4bff9531f7c2355655e03a7c3d0d005f99bdd6ae43a39999da3d3",
+            "candidate_index": 0,
+            "evidence": "(17+17+36+18)/4=22",
+            "question_id": "gsm8k-test-404",
+            "scope": "Entire pre-answer reasoning plus original question; numeric verifier passes; no manual edits",
+            "seed": 10004,
+            "verdict": "pass"
+          },
+          {
+            "candidate_file_sha256": "e4a90c7475b4bff9531f7c2355655e03a7c3d0d005f99bdd6ae43a39999da3d3",
+            "candidate_index": 0,
+            "evidence": "15/3+15/5=8 independent limb events",
+            "question_id": "gsm8k-test-309",
+            "scope": "Entire pre-answer reasoning plus original question; numeric verifier passes; no manual edits",
+            "seed": 10004,
+            "verdict": "pass"
+          },
+          {
+            "candidate_file_sha256": "e4a90c7475b4bff9531f7c2355655e03a7c3d0d005f99bdd6ae43a39999da3d3",
+            "candidate_index": 0,
+            "evidence": "240/.4=600;60percent girls=360",
+            "question_id": "gsm8k-test-1107",
+            "scope": "Entire pre-answer reasoning plus original question; numeric verifier passes; no manual edits",
+            "seed": 10004,
+            "verdict": "pass"
+          },
+          {
+            "candidate_file_sha256": "e4a90c7475b4bff9531f7c2355655e03a7c3d0d005f99bdd6ae43a39999da3d3",
+            "candidate_index": 0,
+            "evidence": "48*.75=36;48+36=84",
+            "question_id": "gsm8k-test-481",
+            "scope": "Entire pre-answer reasoning plus original question; numeric verifier passes; no manual edits",
+            "seed": 10004,
+            "verdict": "pass"
+          },
+          {
+            "candidate_file_sha256": "e4a90c7475b4bff9531f7c2355655e03a7c3d0d005f99bdd6ae43a39999da3d3",
+            "candidate_index": 0,
+            "evidence": "Ginger44 left,Amy58;Amy14 more",
+            "question_id": "gsm8k-test-712",
+            "scope": "Entire pre-answer reasoning plus original question; numeric verifier passes; no manual edits",
+            "seed": 10004,
+            "verdict": "pass"
+          },
+          {
+            "candidate_file_sha256": "0416bc3d819f0e901aa56876600605ba6e2a4113adf807a9a389d5f0216b7b5a",
+            "candidate_index": 1,
+            "evidence": "Pre-answer reasoning:0.2kg/person/meal*2meals*5people=2kg/day;42/2=21days;21/7=3weeks.",
+            "note": "The visible answer section after </think> has an incorrect unit/formula restatement. That section is excluded by the unchanged reasoning extractor; no retained prefix or clean window contains it.",
+            "question_id": "gsm8k-test-296",
+            "scope": "Entire pre-answer reasoning, the only source of fractional contexts; frozen numerical verifier passes.",
+            "seed": 10005,
+            "verdict": "pass"
+          }
+        ],
+        "review_sha256": "a0a0dca3ddf0b097ef7d25c111c677ef264186b7faf0800b99c1a455958eb62a",
+        "source_full_audit_sha256": "f9f3c529457dfc701499ade7d42ec86b0a8b97bd4cf74d4495e93ed81ba467aa"
+      },
+      "wall_seconds": 3122.922951995
+    },
+    "contexts_sha256": "885c27b14365b8748e6c788c30aa4283d77e26c945ce3a9d9eaf7daedffc7127",
+    "corpus_sha256": "eed191f8d8e1781d6bea0d97dbb58dedf57a31c41d28a479577c8871d2620260",
+    "generation_settings": {
+      "max_output_tokens": 4096,
+      "model": "gpt-6.1-sol",
+      "reasoning": {
+        "effort": "low"
+      },
+      "store": false
+    },
+    "generator_model": "gpt-6.1-sol",
+    "generator_revision": "gpt-6.1-sol",
+    "held_out": true,
+    "input_sha256": "eed191f8d8e1781d6bea0d97dbb58dedf57a31c41d28a479577c8871d2620260",
+    "kind": "eval",
+    "paper_deviation": "User-selected GPT-6.1 Sol replaces the paper's GPT-5 corruption generator",
+    "polluter_prompt_sha256": "21ee81f9c7247598480f951698b487a14dc862b105322fc9b0695ddc3f7c391b",
+    "prompt_sha256": "398eb41d6b6a729ea0af89bf9e378c5b4459f30282bb6f544ccede03344b4db6",
+    "protocol": "reconstructed-sol-fixed-initial-subset-v1",
+    "response_directory": "/Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-experiment-20261018-0037/corpus-v4/held-out-corruptions.jsonl.responses",
+    "revision_note": "API model identifier, not an immutable dated snapshot; raw responses retained",
+    "scope": "Initial clean-solved questions only; not full GSM8K coverage",
+    "semantic_review": "Not performed by the generator",
+    "source_url": "file:///Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-experiment-20261018-0037/results/prepare-v2/eval-contexts.jsonl",
+    "subset_selection": "Initial deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B@ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562; K=4, T=0.7, all correct; seed=10001; one fresh correct trace; all four alphas; same question subset; semantic clean-trace redraw for12 questions before any model scores"
+  },
+  "rows": 400,
+  "schema": 1,
+  "sha256": "06c8c8cc89993a93d4de239931b2e4162d71056dfcf90fa09416679df514fd21"
+}

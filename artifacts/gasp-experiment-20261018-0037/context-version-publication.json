@@ -1,0 +1,9 @@
+{
+  "original_contexts_sha256": "d1acc6547509538c43b3152be780561f1f4cda5dd667dc7c37ed1b4e71376b5d",
+  "published_contexts_sha256": "885c27b14365b8748e6c788c30aa4283d77e26c945ce3a9d9eaf7daedffc7127",
+  "original_archive": "gasp-experiment-20261018-0037/prepare-v1/eval-contexts.jsonl",
+  "new_version": "gasp-experiment-20261018-0037/prepare-v2/eval-contexts.jsonl",
+  "canonical_worker_input": "gasp-experiment-20261018-0037/prepare/eval-contexts.jsonl",
+  "before_baseline_and_training": true,
+  "reason": "Explicit reviewed source-quality correction. Immutable old cache is preserved; frozen worker reads the intentionally repointed canonical filename."
+}

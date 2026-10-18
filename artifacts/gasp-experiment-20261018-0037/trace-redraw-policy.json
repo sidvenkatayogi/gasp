@@ -1,0 +1,17 @@
+{
+  "recorded_before_drawing": true,
+  "original_contexts_sha256": "d1acc6547509538c43b3152be780561f1f4cda5dd667dc7c37ed1b4e71376b5d",
+  "question_ids": [
+    "gsm8k-test-296"
+  ],
+  "seed": 10005,
+  "candidates_per_question": 4,
+  "model_and_sampling": "Same initial checkpoint and decoding. One batch of four independent samples at seed10005 for the one remaining question.",
+  "selection": "First candidate in draw order passing the unchanged numerical verifier and full semantic reasoning audit. Candidate0 from seed10004 has sound reasoning but malformed answer tags and fails the frozen verifier; it is preserved and not manually repaired.",
+  "criterion": "Read original problem and entire pre-answer reasoning; flag explicit incorrect quantities, equations, relations or contradictory mathematical claims, including subsequently corrected ones. Mere uncertainty without an incorrect asserted relation is not rejected. One ambiguous bound claim is conservatively redrawn. Token-boundary fragments are interpreted in the full original trace, not as complete equations.",
+  "preserved": "All100 questions, original K4 filter evidence and IDs/order, four alpha locations; retain original cache and API responses unchanged. No clean-trace hand edits.",
+  "paper_alignment": "Extra semantic trace acceptance is a reconstruction choice to enforce the sound clean-window assumption in section3.2. It is not a stated author filter and does not alter online training rewards or trace selection.",
+  "outcome_independence": "No baseline or trained model outcomes have been generated or inspected; never select on recoverability.",
+  "api_reuse": "Reuse only responses with exactly identical context ID and request payload; preserve source response hash and original location.",
+  "helper_sha256": "4551610253037939db23852636386cbf59aab9eda2cf8d7aea480a8e890eeb97"
+}

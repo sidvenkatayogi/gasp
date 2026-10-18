@@ -1,0 +1,39 @@
+{"event": "phase", "phase": "import_eval", "seconds": 6.035006714}
+{"event": "phase", "phase": "volume_commit", "success": true, "seconds": 0.6092448480000012}
+`torch_dtype` is deprecated! Use `dtype` instead!
+{"event": "phase", "phase": "initialize_baseline", "seconds": 26.826336205999997}
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+{"phase": "eval_clean", "completed": 16, "total": 100, "batch_seconds": 24.017662453000007}
+{"phase": "eval_clean", "completed": 32, "total": 100, "batch_seconds": 19.454576059000004}
+{"phase": "eval_clean", "completed": 48, "total": 100, "batch_seconds": 28.390949836999994}
+{"phase": "eval_clean", "completed": 64, "total": 100, "batch_seconds": 21.18318888600001}
+{"phase": "eval_clean", "completed": 80, "total": 100, "batch_seconds": 30.89749859599999}
+{"phase": "eval_clean", "completed": 96, "total": 100, "batch_seconds": 20.549017996000003}
+{"phase": "eval_clean", "completed": 100, "total": 100, "batch_seconds": 18.687681853000015}
+{"phase": "eval_corrupted", "completed": 16, "total": 400, "batch_seconds": 20.217045173999992}
+{"phase": "eval_corrupted", "completed": 32, "total": 400, "batch_seconds": 35.04071034000003}
+{"phase": "eval_corrupted", "completed": 48, "total": 400, "batch_seconds": 33.21022924199997}
+{"phase": "eval_corrupted", "completed": 64, "total": 400, "batch_seconds": 16.833961139999985}
+{"phase": "eval_corrupted", "completed": 80, "total": 400, "batch_seconds": 19.641219750999994}
+{"phase": "eval_corrupted", "completed": 96, "total": 400, "batch_seconds": 17.994757720999985}
+{"phase": "eval_corrupted", "completed": 112, "total": 400, "batch_seconds": 22.495404186999963}
+{"phase": "eval_corrupted", "completed": 128, "total": 400, "batch_seconds": 19.62440866700001}
+{"phase": "eval_corrupted", "completed": 144, "total": 400, "batch_seconds": 28.990874048000023}
+{"phase": "eval_corrupted", "completed": 160, "total": 400, "batch_seconds": 16.345721018999996}
+{"phase": "eval_corrupted", "completed": 176, "total": 400, "batch_seconds": 31.300374852000004}
+{"phase": "eval_corrupted", "completed": 192, "total": 400, "batch_seconds": 30.600786460999984}
+{"phase": "eval_corrupted", "completed": 208, "total": 400, "batch_seconds": 24.83087963199995}
+{"phase": "eval_corrupted", "completed": 224, "total": 400, "batch_seconds": 41.68013510499998}
+{"phase": "eval_corrupted", "completed": 240, "total": 400, "batch_seconds": 19.673242582000057}
+{"phase": "eval_corrupted", "completed": 256, "total": 400, "batch_seconds": 18.277785698000002}
+{"phase": "eval_corrupted", "completed": 272, "total": 400, "batch_seconds": 28.000769330000026}
+{"phase": "eval_corrupted", "completed": 288, "total": 400, "batch_seconds": 32.96628044499994}
+{"phase": "eval_corrupted", "completed": 304, "total": 400, "batch_seconds": 16.854659051999988}
+{"phase": "eval_corrupted", "completed": 320, "total": 400, "batch_seconds": 26.183670296999935}
+{"phase": "eval_corrupted", "completed": 336, "total": 400, "batch_seconds": 17.681475944}
+{"phase": "eval_corrupted", "completed": 352, "total": 400, "batch_seconds": 14.472767494999971}
+{"phase": "eval_corrupted", "completed": 368, "total": 400, "batch_seconds": 25.174065919999975}
+{"phase": "eval_corrupted", "completed": 384, "total": 400, "batch_seconds": 34.23639889399999}
+{"phase": "eval_corrupted", "completed": 400, "total": 400, "batch_seconds": 19.534136310000008}
+{"event": "phase", "phase": "shared_initial_evaluation", "seconds": 789.497481861}
+{"event": "phase", "phase": "volume_commit", "success": true, "seconds": 0.6266537920000701}

@@ -80,7 +80,8 @@ def cut_window(trace, tokenizer, alpha, cap):
 
 
 def resolve_config(config):
-    if config.tiny:
+    # A pinned commit is already resolved and remains usable in offline workers.
+    if config.tiny or re.fullmatch(r"[0-9a-f]{40}", config.revision):
         return config
     from huggingface_hub import HfApi
     revision = HfApi().model_info(config.model, revision=config.revision).sha
@@ -112,7 +113,19 @@ def download_sources(directory, math_repo="DigitalLearningGmbH/MATH-lighteval", 
         {"kind": "raw_eval", "dataset": "openai/gsm8k", "revision": gr, "split": "test"})
 
 
-def prepare_train(config, source, output, candidates=7500):
+def prepare_train(config, source, output, candidates=7500, *, retained_target=None,
+                  max_candidates=None, max_seconds=None, resume=False):
+    """Prepare the initial K=4 pool; optional bounds never finalize a short target.
+
+    Bounded preparation checkpoints each whole batch and returns a status dict
+    (plus the manifest on success). max_seconds is a per-invocation soft limit,
+    including model loading, checked after batches. Resume keeps the same
+    candidate cap/target/config but may use a different time allowance.
+    """
+    if retained_target is not None or max_candidates is not None or max_seconds is not None or resume:
+        return _prepare_train_bounded(config, source, output, candidates,
+            retained_target=retained_target, max_candidates=max_candidates,
+            max_seconds=max_seconds, resume=resume)
     start = time.perf_counter()
     config = resolve_config(config).with_changes(seed=42)
     rows, manifest = read_cache(source, "raw_train")
@@ -142,6 +155,161 @@ def prepare_train(config, source, output, candidates=7500):
         "wall_seconds": time.perf_counter()-start,
         "prompt_sha256": sha256(Path(__file__).with_name("prompts.py"))})
     config.save(Path(output).parent/"resolved_config.json")
+
+
+def _prepare_train_bounded(config, source, output, candidates, *, retained_target,
+                           max_candidates, max_seconds, resume):
+    """Commit filter batches and RNG together, so bounded work can resume exactly."""
+    from importlib.metadata import version
+    import os
+    import torch
+    from .models import model_digest, rng_state, restore_rng
+
+    started = time.perf_counter()
+    for name, value in (("candidates", candidates), ("retained_target", retained_target),
+                        ("max_candidates", max_candidates), ("max_seconds", max_seconds)):
+        if value is not None and value <= 0:
+            raise ValueError(f"{name} must be positive")
+    output = Path(output)
+    audit_path, progress_path = Path(str(output)+".audit.jsonl"), Path(str(output)+".progress.pt")
+    if output.exists() or Path(str(output)+".manifest.json").exists():
+        raise FileExistsError("Training preparation exists; use a fresh output path")
+    if resume and not (progress_path.exists() and audit_path.exists()):
+        raise FileNotFoundError("Resume requires both the progress checkpoint and audit")
+    if not resume and (audit_path.exists() or progress_path.exists()):
+        raise FileExistsError("Preparation exists; inspect it and explicitly resume")
+    config = resolve_config(config).with_changes(seed=42)
+    rows, source_manifest = read_cache(source, "raw_train")
+    if any(row.get("split") != "train" for row in rows):
+        raise ValueError("Training preparation requires train-split questions")
+    random.Random(42).shuffle(rows)
+    limit = min(candidates, max_candidates) if max_candidates is not None else candidates
+    candidates_rows = rows[:limit]
+    candidate_ids = [row["id"] for row in candidates_rows]
+    identity = {"config": asdict(config), "source_sha256": source_manifest["sha256"],
+        "candidates": candidates, "max_candidates": max_candidates, "retained_target": retained_target,
+        "candidate_ids": candidate_ids,
+        "runtime": {"torch": torch.__version__, "cuda": torch.version.cuda,
+            "gpu": torch.cuda.get_device_name() if torch.cuda.is_available() else None,
+            "packages": {name: version(name) for name in ("transformers", "numpy", "math-verify")}},
+        "code": {p.name: sha256(p) for p in Path(__file__).parent.glob("*.py")}}
+    saved = torch.load(progress_path, map_location="cpu", weights_only=False) if resume else None
+    if saved is not None and saved["identity"] != identity:
+        raise ValueError("Resume config/source/code differs from the saved preparation")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    order_path = Path(str(output)+".candidate_order.json")
+    order = {"source_sha256": source_manifest["sha256"], "seed": 42,
+             "shuffle": True, "candidate_ids": candidate_ids}
+    if resume and (not order_path.exists() or json.loads(order_path.read_text()) != order):
+        raise ValueError("Resume candidate order differs")
+    if not resume:
+        write_json(order_path, order)
+    model, tok = load_model(config)
+    initial_digest = model_digest(model)
+    prompts, rollout = Prompts(tok, config), Rollouts(tok, config)
+    retained, cursor, prior_seconds = [], 0, 0.
+    if saved is not None:
+        if saved["initial_model_sha256"] != initial_digest:
+            raise ValueError("Resume initial model differs")
+        if audit_path.stat().st_size < saved["audit_size"]:
+            raise ValueError("Resume audit is shorter than the committed checkpoint")
+        with audit_path.open("r+b") as audit:
+            audit.seek(saved["audit_size"])
+            tail = audit.read()
+            if tail:
+                Path(str(audit_path)+f".interrupted-{time.time_ns()}").write_bytes(tail)
+            audit.truncate(saved["audit_size"])
+        retained, cursor = saved["retained"], saved["cursor"]
+        prior_seconds = saved["wall_seconds"]
+        rollout.counts = saved["counts"]
+        restore_rng(saved["rng"])
+
+    def status(complete=False, reason="running"):
+        elapsed = time.perf_counter()-started
+        return {"complete": complete, "reason": reason, "processed": cursor,
+            "total": len(candidates_rows), "selected_questions": len(retained),
+            "retained_target": retained_target, "counts": rollout.counts,
+            "wall_seconds": prior_seconds+elapsed, "invocation_wall_seconds": elapsed}
+
+    def checkpoint(audit):
+        audit.flush()
+        state = {"identity": identity, "retained": retained, "cursor": cursor,
+            "counts": rollout.counts, "rng": rng_state(), "initial_model_sha256": initial_digest,
+            "audit_size": audit_path.stat().st_size, "wall_seconds": prior_seconds+time.perf_counter()-started}
+        temporary = Path(str(progress_path)+".tmp")
+        torch.save(state, temporary)
+        os.replace(temporary, progress_path)
+        write_json(str(output)+".status.json", status())
+
+    batch_size = config.preparation_batch_questions
+    with audit_path.open("a" if resume else "x") as audit:
+        checkpoint(audit)
+        for start in range(cursor, len(candidates_rows), batch_size):
+            if retained_target is not None and len(retained) >= retained_target:
+                break
+            batch_started = time.perf_counter()
+            batch = candidates_rows[start:start+batch_size]
+            entries, valid_rows, batch_prompts = [], [], []
+            try:
+                for index, row in enumerate(batch, start):
+                    entry = {"id": row["id"], "candidate_index": index, "kept": False}
+                    entries.append(entry)
+                    try:
+                        prompt = prompts.agent(row["question"])
+                    except ValueError as exc:
+                        entry["error"] = str(exc)
+                        continue
+                    valid_rows.append((row, entry))
+                    batch_prompts.append(prompt)
+                groups = rollout.generate_many(model, batch_prompts, 4, config.completion_tokens,
+                    "train_filter", temperature=.7) if batch_prompts else []
+                if len(groups) != len(valid_rows) or any(len(group) != 4 for group in groups):
+                    raise RuntimeError("Preparation requires exactly four samples per question")
+                for (row, entry), samples in zip(valid_rows, groups):
+                    scores = [correct(sample.text, row["answer"], config.verifier) for sample in samples]
+                    entry.update(scores=scores, outputs=[sample.text for sample in samples])
+                    if all(scores):
+                        if retained_target is None or len(retained) < retained_target:
+                            retained.append({k:v for k,v in row.items() if k != "reference_trace"} |
+                                            {"filter_scores": scores})
+                            entry["kept"] = True
+                        else:
+                            entry["reason"] = "target_already_reached_in_batch"
+                for entry in entries:
+                    audit.write(json.dumps(entry)+"\n")
+            except BaseException as exc:
+                audit.write(json.dumps({"batch_question_ids": [row["id"] for row in batch],
+                                       "error": f"{type(exc).__name__}: {exc}"})+"\n")
+                audit.flush()
+                write_json(str(output)+".status.json", status(reason="error") |
+                           {"error": f"{type(exc).__name__}: {exc}", "uncommitted_batch": True})
+                raise
+            cursor = start+len(batch)
+            checkpoint(audit)
+            print(json.dumps({"stage": "prepare_train", **status(),
+                              "batch_seconds": time.perf_counter()-batch_started}), flush=True)
+            if max_seconds is not None and time.perf_counter()-started >= max_seconds:
+                break
+    complete = len(retained) >= retained_target if retained_target is not None else cursor == len(candidates_rows)
+    reason = "target_reached" if complete and retained_target is not None else (
+        "candidates_complete" if complete else "time_limit" if cursor < len(candidates_rows) else
+        "candidate_limit" if limit < len(rows) else "source_exhausted")
+    result = status(complete, reason)
+    if not complete:
+        write_json(str(output)+".status.json", result)
+        return result
+    write_json(str(output)+".filter_audit.json", [json.loads(line) for line in audit_path.read_text().splitlines()])
+    manifest = write_cache(output, retained, {"kind": "train", "protocol": "initial-K4-all-correct",
+        "source_sha256": source_manifest["sha256"], "config": asdict(config),
+        "candidate_count": cursor, "candidate_limit": len(candidates_rows),
+        "selected_questions": len(retained), "retained_target": retained_target,
+        "candidate_order_sha256": sha256(order_path), "candidate_shuffle_seed": 42,
+        "initial_model_sha256": initial_digest, "counts": rollout.counts,
+        "wall_seconds": result["wall_seconds"],
+        "prompt_sha256": sha256(Path(__file__).with_name("prompts.py"))})
+    config.save(output.parent/"resolved_config.json")
+    write_json(str(output)+".status.json", result)
+    return manifest | result
 
 
 def validate_eval_provenance(provenance):

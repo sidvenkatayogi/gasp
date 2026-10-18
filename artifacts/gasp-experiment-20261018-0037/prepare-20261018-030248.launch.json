@@ -1,0 +1,8 @@
+{
+  "attempt_id": "prepare-20261018-030248",
+  "stage": "prepare",
+  "condition": null,
+  "max_seconds": 4800,
+  "role_steps": 50,
+  "resume": true
+}

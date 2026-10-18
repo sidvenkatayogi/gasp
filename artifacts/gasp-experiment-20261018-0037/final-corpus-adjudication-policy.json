@@ -1,0 +1,16 @@
+{
+  "before_any_model_evaluation": true,
+  "last_same_prompt_retry_indices": [
+    91,
+    123,
+    211,
+    374,
+    375
+  ],
+  "minor_limitations_after_cap": "If every row contains an objective mathematical error and only edit-priority/final-answer instruction violations remain after the documented retry cap, retain the fixed400-row exploratory corpus with each exception disclosed. Do not claim perfect prompt compliance. Stop for unresolved missing mathematical errors or changed problem/answer/prefix fields.",
+  "primary": "All100questions/400corruptions as planned; one frozen common corpus for botharms.",
+  "required_sensitivity": "Also report the same question-paired bootstrap comparison after excluding everyquestion with any unresolved prompt-instruction violation. Exclusions are fixed from this semantic audit beforebaseline/training outcomes; preserveallfouralphas for retainedquestions. Reportbothresults regardlessofdirection.",
+  "rationale": "A few generator instruction misses do not invalidate a common fixed adversary comparison. Explicit disclosure and an outcome-independent stricter subset bound interpretation without manually rewriting outputs or changing the paper prompt.",
+  "fragment_adjudication": "Completing an unfinished equation with a wrong RHS is an acceptable in-place edit. Generic mathematical wording can be ambiguous under edit-priority rules; context14 is conservatively labeled an edit-priority limitation after three raw responses, rather than certified exact compliance.",
+  "no_more_paid_retries_without_new_documented_decision": true
+}

@@ -1,0 +1,18 @@
+{
+  "complete": true,
+  "counts": {
+    "train_filter": {
+      "allocated_tokens": 5308416,
+      "generated_tokens": 4877950,
+      "prompt_tokens": 815256,
+      "sequences": 5184
+    }
+  },
+  "invocation_wall_seconds": 2045.5085921879997,
+  "processed": 1296,
+  "reason": "target_reached",
+  "retained_target": 100,
+  "selected_questions": 100,
+  "total": 2000,
+  "wall_seconds": 5343.982733485
+}

@@ -1,0 +1,79 @@
+Experiment: /Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-experiment-20261018-0037
+✓ Initialized. View run at 
+https://modal.com/apps/sidvenkatayogi/main/ap-wxUkzDHrZQWvDY76QfKGjF
+✓ Created objects.
+├── ✓ Uploaded 
+│   /Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-experiment-20261018
+│   -0037/source.zip
+├── ✓ Uploaded 
+│   /Users/sidvenkatayogi/Documents/Code/gasp/scripts/run_modal_benchmark.py
+├── ✓ Uploaded 
+│   /Users/sidvenkatayogi/Documents/Code/gasp/scripts/run_modal_experiment.py
+└── ✓ Created Function worker.
+{"event": "phase", "phase": "volume_commit", "success": true, "seconds": 1.23497562}
+Sun Oct 18 00:36:35 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 610.57.04              KMD Version: 610.57.04     CUDA UMD Version: 13.3     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100 80GB PCIe          On  |   00000004:00:00.0 Off |                    0 |
+| N/A   41C    P0             60W /  300W |       4MiB /  81920MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+{"event": "phase", "phase": "volume_commit", "success": true, "seconds": 1.1178333709999997}
+Container terminated due to preemption. Your Function will be restarted with the same input. For more details, see https://modal.com/docs/guide/preemption
+Traceback (most recent call last):
+  File "/pkg/modal/_runtime/container_io_manager.py", line 987, in handle_input_exception
+    yield
+  File "/pkg/modal/_container_entrypoint.py", line 189, in run_input_sync
+    values = io_context.call_function_sync()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/pkg/modal/_runtime/container_io_manager.py", line 266, in call_function_sync
+    expected_value_or_values = self.finalized_function.callable(*args, **kwargs)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/run_modal_experiment.py", line 76, in worker
+    attempt.mkdir(parents=True, exist_ok=False)
+  File "/usr/local/lib/python3.12/pathlib.py", line 1311, in mkdir
+    os.mkdir(self, mode)
+FileExistsError: [Errno 17] File exists: '/persist/gasp-experiment-20261018-0037/attempts/prepare-20261018-003622'
+Stopping app - uncaught exception raised in remote container: FileExistsError(17, 'File exists').
+Traceback (most recent call last):
+  File "/Users/sidvenkatayogi/Documents/Code/gasp/scripts/run_modal_experiment.py", line 301, in <module>
+    main()
+    ~~~~^^
+  File "/Users/sidvenkatayogi/Documents/Code/gasp/scripts/run_modal_experiment.py", line 287, in main
+    data = remote.remote(args.stage, args.condition, manifest["run_id"], attempt_id,
+        manifest["source_sha256"], limit, args.role_steps, args.resume,
+        manifest["prior_gpu_seconds"], manifest["total_gpu_seconds"], manifest["volume"])
+  File "/Users/sidvenkatayogi/Documents/Code/gasp/.venv/lib/python3.13/site-packages/modal/_object.py", line 49, in wrapped
+    return await method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sidvenkatayogi/Documents/Code/gasp/.venv/lib/python3.13/site-packages/modal/_functions.py", line 2081, in remote
+    return await self._call_function(args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sidvenkatayogi/Documents/Code/gasp/.venv/lib/python3.13/site-packages/modal/_functions.py", line 2018, in _call_function
+    return await invocation.run_function()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sidvenkatayogi/Documents/Code/gasp/.venv/lib/python3.13/site-packages/modal/_functions.py", line 517, in run_function
+    return await _process_result(
+           ^^^^^^^^^^^^^^^^^^^^^^
+        await_response.output.result, await_response.output.data_format, self.client._stub, self.client
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/sidvenkatayogi/Documents/Code/gasp/.venv/lib/python3.13/site-packages/modal/_utils/function_utils.py", line 572, in _process_result
+    raise exc_with_hints(exc)
+  File "<ta-01M56717K1Z7A5SHHVJA29KH9R>:/root/run_modal_experiment.py", line 76, in worker
+  File "<ta-01M56717K1Z7A5SHHVJA29KH9R>:/usr/local/lib/python3.12/pathlib.py", line 1311, in mkdir
+FileExistsError: [Errno 17] File exists: '/persist/gasp-experiment-20261018-0037/attempts/prepare-20261018-003622'

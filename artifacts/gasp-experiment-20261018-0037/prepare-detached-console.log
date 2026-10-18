@@ -1,0 +1,16 @@
+Experiment: /Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-experiment-20261018-0037
+Traceback (most recent call last):
+  File "/Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-experiment-20261018-0037/run_detached.py", line 25, in <module>
+    main()
+    ~~~~^^
+  File "/Users/sidvenkatayogi/Documents/Code/gasp/scripts/run_modal_experiment.py", line 286, in main
+    with modal.enable_output(), app.run():
+                                ~~~~~~~^^
+  File "/Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-experiment-20261018-0037/run_detached.py", line 19, in detached_run
+    return original_run(self, *args, **(kwargs | {"detach": True}))
+  File "/opt/miniconda3/lib/python3.13/contextlib.py", line 338, in helper
+    return _AsyncGeneratorContextManager(func, args, kwds)
+  File "/opt/miniconda3/lib/python3.13/contextlib.py", line 109, in __init__
+    self.gen = func(*args, **kwds)
+               ~~~~^^^^^^^^^^^^^^^
+TypeError: _App.run() takes 1 positional argument but 2 positional arguments (and 1 keyword-only argument) were given

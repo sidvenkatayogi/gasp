@@ -1,0 +1,10 @@
+{
+  "scope": "First three retained MATH questions, inspected during preparation; not a statistical audit of all training examples.",
+  "verifier_policy_changed": false,
+  "findings": [
+    {"id": "math-train-5858", "answer": "110 degrees", "check": "Pentagon sum540; consecutive angles106,107,108,109,110.", "filter_scores": [1,1,1,1]},
+    {"id": "math-train-5942", "answer": "19", "check": "Combined mean(5*13+6*24)/11=209/11=19.", "filter_scores": [1,1,1,1]},
+    {"id": "math-train-983", "answer": "3", "check": "Slopes2 and-a/6; product-1 impliesa=3.", "filter_scores": [1,1,1,1]}
+  ],
+  "completion_limit_observation": "Several accepted outputs contain an explicit correct boxed answer in the reasoning segment, then hit the1024-token limit during the repeated visible explanation. The existing declared verifier searches explicit answer tags/boxes over the full generated text and therefore accepts these outputs. This is not an arbitrary last-number fallback, but success does not guarantee a completed visible final response. Preserve this policy across conditions; report capping and distinguish it from complete-response quality."
+}

@@ -164,3 +164,47 @@ historical preflight, not a response reused in a revised corpus. The key stayed 
 Filtered MATH training data, the completed corruption corpus and full paired
 training runs remain pending. See [validation](../artifacts/VALIDATION.md) for
 measurements and the limits of the memory probe.
+
+Current exploratory execution (2026-10-18 UTC) supersedes the full-run sequence
+above for the user's roughly ten-total-GPU-hour budget. Preparation retained
+100 MATH training questions and 100 GSM8K evaluation questions with four contexts
+each. The final paired allocation is 35 updates per role / seven cycles, one seed,
+G=16 and one context per update; 70 of the 100 training questions are visited
+without replacement in each condition. It uses a fresh 70-global-update schedule,
+seven warmup updates and final-seven-agent-update guidance decay. This allocation
+was reduced from the initial 50-per-role target using measured preparation cost,
+before baseline or trained-model scores. See `EXPLORATORY_PLAN.md` and the exact
+budget decision under `artifacts/gasp-experiment-20261018-0037`.
+
+A correct clean reasoning prefix can already contain the answer before a later
+fractional cut. The first GPT preflight exhibits this. Preserve these fixed
+contexts and report the limitation when interpreting late-alpha recovery; do not
+silently remove questions or reselect using model performance. Generated polluted
+windows are separately checked for mathematical error and new answer giveaways.
+
+Source-trace correction before evaluation (2026-10-18 UTC): the full review of
+100 selected clean traces found 11 with definite intermediate mathematical errors
+and one ambiguous trace despite correct final answers. Keep the same questions,
+K=4 evidence, IDs and alpha schedule. Redraw fresh traces from the same initial
+checkpoint, accepting the first numerically correct and semantically sound trace
+in recorded draw order, without hand edits or model-outcome selection. Preserve
+all originals and attempts. This extra semantic acceptance is an explicit
+reconstruction choice enforcing the paper's clean-window assumption, not an
+exact author-described filtering procedure. Online training trace selection and
+rewards remain unchanged. Context cache version 2 records replacement provenance; API
+responses are reusable only when the complete request and context ID match.
+Budget reserves for this correction reduce both arms to 35 updates per role
+before any baseline or trained scores.
+
+Final exploratory evaluation corpus: version 4 contains 100 questions and 400
+GPT-6.1 Sol corruptions, all manually checked to contain a mathematical error.
+After bounded retries with the same prompt, six windows still depart from its
+instructions: one ambiguous application of the editing rule, one incorrect final
+numerical answer, and four correct-answer hints (including two hypothetical checks). Perfect prompt
+compliance is not claimed. The primary comparison uses the fixed full corpus.
+A required pre-outcome sensitivity excludes all four alpha rows for each of the
+five affected questions, leaving 95 questions / 380 corruptions. Both comparisons
+must be reported regardless of direction. This quality-based sensitivity does
+not remove answer information already present in some unmodified prefixes.
+No outputs were manually rewritten and no evaluation outcomes informed selection.
+Exact rows and hashes are in the corpus-v4 review under the execution artifacts.

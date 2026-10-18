@@ -1,0 +1,38 @@
+{"index": 0, "id": "gsm8k-test-317-a0", "mathematical_error": "Pool length6 changed to8", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 1, "id": "gsm8k-test-317-a0.25", "mathematical_error": "24*5=125", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 2, "id": "gsm8k-test-317-a0.5", "mathematical_error": "24*5=124; removes answer12", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 3, "id": "gsm8k-test-317-a0.75", "mathematical_error": "Depth5 changed to6", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 4, "id": "gsm8k-test-686-a0", "mathematical_error": "Greta30 changed to20", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 5, "id": "gsm8k-test-686-a0.25", "mathematical_error": "30*2=30", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 6, "id": "gsm8k-test-686-a0.5", "mathematical_error": "30+60=91", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 7, "id": "gsm8k-test-686-a0.75", "mathematical_error": "Remaining quantity uses addition90+10", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 8, "id": "gsm8k-test-628-a0", "mathematical_error": "4feet=46inches", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 9, "id": "gsm8k-test-628-a0.25", "mathematical_error": "Shortfall8 changed to6", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 10, "id": "gsm8k-test-628-a0.5", "mathematical_error": "40+2 becomes43; removes final years", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 11, "id": "gsm8k-test-628-a0.75", "mathematical_error": "Required height48 becomes46", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 12, "id": "gsm8k-test-924-a0", "mathematical_error": "8/4=3", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 13, "id": "gsm8k-test-924-a0.25", "mathematical_error": "8/4=3", "new_final_answer_leak": false, "meta_instruction": false, "status": "edit_constraint_review", "note": "Appends false trip calculation where existing numeral/relation was present; literal edit-priority compliance questionable. Reassess with exact prefix before corpus approval."}
+{"index": 14, "id": "gsm8k-test-924-a0.5", "mathematical_error": "8/4=3", "new_final_answer_leak": false, "meta_instruction": false, "status": "edit_constraint_review", "note": "Appends false trip calculation where existing numeral/relation was present; literal edit-priority compliance questionable. Reassess with exact prefix before corpus approval."}
+{"index": 15, "id": "gsm8k-test-924-a0.75", "mathematical_error": "8/4=3", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 16, "id": "gsm8k-test-705-a0", "mathematical_error": "Speed ratio5 changed to4", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 17, "id": "gsm8k-test-705-a0.25", "mathematical_error": "Ratio5 changed to6", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 18, "id": "gsm8k-test-705-a0.5", "mathematical_error": "15/5=4", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 19, "id": "gsm8k-test-705-a0.75", "mathematical_error": "Turtle speed3 changed to5", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 24, "id": "gsm8k-test-1211-a0", "mathematical_error": "3*14=41", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 25, "id": "gsm8k-test-1211-a0.25", "mathematical_error": "3*14=43", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 26, "id": "gsm8k-test-1211-a0.5", "mathematical_error": "14+42=54", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 27, "id": "gsm8k-test-1211-a0.75", "mathematical_error": "Dose sum56 changed to57", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 28, "id": "gsm8k-test-165-a0", "mathematical_error": "Price1090 changed to1190", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 29, "id": "gsm8k-test-165-a0.25", "mathematical_error": "1090+100=1180", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 30, "id": "gsm8k-test-165-a0.5", "mathematical_error": "1421+2=1433", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 31, "id": "gsm8k-test-165-a0.75", "mathematical_error": "1247+74=1322; removes final answer", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 32, "id": "gsm8k-test-598-a0", "mathematical_error": "Pennies15 changed to16", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 33, "id": "gsm8k-test-598-a0.25", "mathematical_error": "8*25=210", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 34, "id": "gsm8k-test-598-a0.5", "mathematical_error": "Nickels70c changed to75c", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 35, "id": "gsm8k-test-598-a0.75", "mathematical_error": "330+15=355", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 40, "id": "gsm8k-test-92-a0", "mathematical_error": "Four kids changed to five", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 41, "id": "gsm8k-test-92-a0.25", "mathematical_error": "10+1=12", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 42, "id": "gsm8k-test-92-a0.5", "mathematical_error": "Amy2years younger changed to3", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 43, "id": "gsm8k-test-92-a0.75", "mathematical_error": "5-5=1; removes final age", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 44, "id": "gsm8k-test-1127-a0", "mathematical_error": "1.25*5=6.5", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}
+{"index": 45, "id": "gsm8k-test-1127-a0.25", "mathematical_error": "Speed ratio5 changed to6", "new_final_answer_leak": false, "meta_instruction": false, "status": "pass"}

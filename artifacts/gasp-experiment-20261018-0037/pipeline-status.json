@@ -1,0 +1,7 @@
+{
+  "updated_at": "2026-10-18T10:28:27.379488+00:00",
+  "stage": "paired_endpoints_and_analyses_complete",
+  "comparison": "/Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-experiment-20261018-0037/comparison",
+  "charged_gpu_hours": 9.752238140554724,
+  "note": "Inspect learning-signal and sampled training traces before the scientific interpretation."
+}

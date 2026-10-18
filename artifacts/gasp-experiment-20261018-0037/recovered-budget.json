@@ -1,0 +1,18 @@
+{
+  "prior_gpu_seconds": 2883.0,
+  "total_gpu_seconds": 36000,
+  "source_sha256": "9bd62242c886eb4a843aae33be5edfb00f34231a0633f6b43dc7290952fd189f",
+  "attempts": [
+    {
+      "attempt": "prepare-20261018-003622",
+      "stage": "prepare",
+      "condition": null,
+      "status": "finished",
+      "charged_seconds": 69.070688279,
+      "hard_timeout_seconds": 3600,
+      "startup_allowance_seconds": 60,
+      "success": false,
+      "worker_seconds": 9.070688278999999
+    }
+  ]
+}

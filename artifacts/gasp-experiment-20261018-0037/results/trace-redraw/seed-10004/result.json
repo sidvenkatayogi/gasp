@@ -1,0 +1,16 @@
+{
+  "candidate_sha256": "e4a90c7475b4bff9531f7c2355655e03a7c3d0d005f99bdd6ae43a39999da3d3",
+  "complete": true,
+  "counts": {
+    "semantic_trace_redraw": {
+      "allocated_tokens": 24576,
+      "generated_tokens": 12784,
+      "prompt_tokens": 3450,
+      "sequences": 24
+    }
+  },
+  "gpu": "NVIDIA A100 80GB PCIe",
+  "initial_model_sha256": "53c11399aa12b84b41ba41d55627cdb9bf73cc3c6d1fe99832d0eee79d468f01",
+  "seconds": 84.535746216,
+  "semantic_review": "pending"
+}

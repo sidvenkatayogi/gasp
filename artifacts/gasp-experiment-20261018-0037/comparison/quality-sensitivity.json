@@ -1,0 +1,87 @@
+{
+  "scores": {
+    "initial": {
+      "corrupted_accuracy": 0.5894736842105263,
+      "clean_selected_subset_accuracy": 0.8
+    },
+    "unified": {
+      "corrupted_accuracy": 0.5447368421052632,
+      "clean_selected_subset_accuracy": 0.7157894736842105
+    },
+    "split": {
+      "corrupted_accuracy": 0.5078947368421053,
+      "clean_selected_subset_accuracy": 0.7157894736842105
+    }
+  },
+  "paired_differences": {
+    "split_minus_unified": {
+      "corrupted_accuracy": {
+        "estimate": -0.03684210526315789,
+        "ci95": [
+          -0.08947368421052632,
+          0.015789473684210527
+        ]
+      },
+      "clean_selected_subset_accuracy": {
+        "estimate": 0.0,
+        "ci95": [
+          -0.12631578947368421,
+          0.12631578947368421
+        ]
+      }
+    },
+    "unified_minus_initial": {
+      "corrupted_accuracy": {
+        "estimate": -0.04473684210526316,
+        "ci95": [
+          -0.09736842105263158,
+          0.007894736842105263
+        ]
+      },
+      "clean_selected_subset_accuracy": {
+        "estimate": -0.08421052631578947,
+        "ci95": [
+          -0.21052631578947367,
+          0.042105263157894736
+        ]
+      }
+    },
+    "split_minus_initial": {
+      "corrupted_accuracy": {
+        "estimate": -0.08157894736842106,
+        "ci95": [
+          -0.13421052631578947,
+          -0.02894736842105263
+        ]
+      },
+      "clean_selected_subset_accuracy": {
+        "estimate": -0.08421052631578947,
+        "ci95": [
+          -0.2,
+          0.031578947368421054
+        ]
+      }
+    }
+  },
+  "analysis": "predeclared_quality_sensitivity",
+  "n_questions": 95,
+  "n_corruptions": 380,
+  "excluded_question_ids": [
+    "gsm8k-test-279",
+    "gsm8k-test-596",
+    "gsm8k-test-699",
+    "gsm8k-test-821",
+    "gsm8k-test-924"
+  ],
+  "bootstrap": {
+    "interval": "paired percentile 95%",
+    "samples": 10000,
+    "seed": 10002,
+    "unit": "question"
+  },
+  "training_seed": 42,
+  "full_set_reconstruction_matches_primary": true,
+  "corpus_sha256": "eed191f8d8e1781d6bea0d97dbb58dedf57a31c41d28a479577c8871d2620260",
+  "frozen_review_sha256": "e7b1c124fd525ec98e42e31e478736867d60c7d36df5c468864bb1640ed9010f",
+  "interpretation": "Exclusions use pre-outcome corpus-quality findings. Report alongside the primary400-row result regardless of direction. Unmodified prefixes may still contain answers; one training seed does not establish reproducibility."
+}

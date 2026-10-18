@@ -1,0 +1,24 @@
+{
+  "complete": true,
+  "counts": {
+    "eval_clean_trace": {
+      "allocated_tokens": 148480,
+      "generated_tokens": 70633,
+      "prompt_tokens": 20356,
+      "sequences": 145
+    },
+    "eval_filter": {
+      "allocated_tokens": 2293760,
+      "generated_tokens": 1210299,
+      "prompt_tokens": 327400,
+      "sequences": 2240
+    }
+  },
+  "invocation_wall_seconds": 2286.587670225,
+  "processed": 560,
+  "reason": "target_reached",
+  "retained_target": 100,
+  "selected_questions": 100,
+  "total": 1000,
+  "wall_seconds": 3122.922951995
+}

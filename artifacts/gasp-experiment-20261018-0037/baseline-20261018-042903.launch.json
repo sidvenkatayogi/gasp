@@ -1,0 +1,8 @@
+{
+  "attempt_id": "baseline-20261018-042903",
+  "stage": "baseline",
+  "condition": null,
+  "max_seconds": 1800,
+  "role_steps": 35,
+  "resume": false
+}

@@ -1,0 +1,9 @@
+{
+  "run_id": "gasp-experiment-20261018-0037",
+  "source_sha256": "9bd62242c886eb4a843aae33be5edfb00f34231a0633f6b43dc7290952fd189f",
+  "volume": "gasp-exploratory-artifacts",
+  "prior_gpu_seconds": 2883.0,
+  "total_gpu_seconds": 36000,
+  "gpu": "A100-80GB",
+  "note": "Budget includes prior benchmark GPU time and a 60-second startup allowance per worker."
+}

@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "unique_train_questions": 100,
+  "candidate_rows": 1296,
+  "all_retained_K4_scores_correct": true,
+  "cache_sha256": "6a29c5a3459ce118ce783a2e5b4176657667062833144559f1518d4e503b92df",
+  "initial_model_sha256": "53c11399aa12b84b41ba41d55627cdb9bf73cc3c6d1fe99832d0eee79d468f01",
+  "selection_minutes": 89.06637889141666
+}

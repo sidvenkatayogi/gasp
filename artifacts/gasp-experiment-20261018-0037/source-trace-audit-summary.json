@@ -1,0 +1,24 @@
+{
+  "reviewed_questions": 100,
+  "reviewed_contexts": 400,
+  "definite_defect_questions": 11,
+  "ambiguous_questions": 1,
+  "replacement_question_ids": [
+    "gsm8k-test-902",
+    "gsm8k-test-477",
+    "gsm8k-test-702",
+    "gsm8k-test-331",
+    "gsm8k-test-1233",
+    "gsm8k-test-442",
+    "gsm8k-test-296",
+    "gsm8k-test-404",
+    "gsm8k-test-309",
+    "gsm8k-test-1107",
+    "gsm8k-test-481",
+    "gsm8k-test-712"
+  ],
+  "criterion": "Read original problem and entire pre-answer reasoning; flag explicit incorrect quantities, equations, relations or contradictory mathematical claims, including subsequently corrected ones. Mere uncertainty without an incorrect asserted relation is not rejected. One ambiguous bound claim is conservatively redrawn. Token-boundary fragments are interpreted in the full original trace, not as complete equations.",
+  "before_baseline_or_training_scores": true,
+  "status": "corpus-not-approved; replacement traces required",
+  "input_contexts_sha256": "d1acc6547509538c43b3152be780561f1f4cda5dd667dc7c37ed1b4e71376b5d"
+}

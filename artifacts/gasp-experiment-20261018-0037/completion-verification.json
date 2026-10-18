@@ -1,0 +1,12 @@
+{
+  "verified_at": "2026-10-18T15:20:58.589985+00:00",
+  "both_endpoints_complete": true,
+  "updates_per_role_each": 35,
+  "primary_and_strict_analyses_complete": true,
+  "training_diagnostics_and_qualitative_spotcheck_complete": true,
+  "modal_active_apps": 0,
+  "modal_active_containers": 0,
+  "controller_exit_code": 0,
+  "gpu_budget_hours": 9.752238140554724,
+  "remaining_work": "No remaining work for the frozen experiment. Any new diagnostic or training run requires a new scope/budget decision."
+}

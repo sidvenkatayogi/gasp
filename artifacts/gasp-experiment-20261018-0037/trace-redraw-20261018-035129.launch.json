@@ -1,0 +1,7 @@
+{
+  "attempt_id": "trace-redraw-20261018-035129",
+  "stage": "trace-redraw",
+  "condition": null,
+  "max_seconds": 600,
+  "helper_sha256": "70a622ae1bc039081a3601dd5ebc69fde6046d0b175456aef6f9d16f4f60c6fb"
+}

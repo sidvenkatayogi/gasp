@@ -1,0 +1,93 @@
+{
+  "note": "Post-run diagnostics; no outcomes, prompts, checkpoints, or exclusions are changed. Exact tag compliance is structural, not semantic corruption quality. Individual cap-hit counts are not retained in the training histories.",
+  "conditions": {
+    "unified": {
+      "agent": {
+        "updates": 35,
+        "mixed_reward_groups": 24,
+        "clean_attempts": 47,
+        "pollution_windows": 35,
+        "nonempty_pollutions": 33,
+        "exact_pollution_tag_compliance": 3,
+        "finite_gradients": true,
+        "zero_gradients": 0,
+        "grad_norm_above_clip_1": 35,
+        "grad_norm_min": 2.2129056453704834,
+        "grad_norm_max": 310.9658508300781,
+        "nonempty_repair_targets": 35,
+        "repair_target_tokens_min": 2,
+        "repair_target_tokens_median": 40,
+        "repair_target_tokens_max": 420,
+        "repair_targets_at_most_10_tokens": 9
+      },
+      "polluter": {
+        "updates": 35,
+        "mixed_reward_groups": 34,
+        "clean_attempts": 38,
+        "pollution_windows": 560,
+        "nonempty_pollutions": 521,
+        "exact_pollution_tag_compliance": 30,
+        "finite_gradients": true,
+        "zero_gradients": 1,
+        "grad_norm_above_clip_1": 2,
+        "grad_norm_min": 0.0,
+        "grad_norm_max": 1.1274548768997192
+      },
+      "passed_role_isolation_checks": 14
+    },
+    "split": {
+      "agent": {
+        "updates": 35,
+        "mixed_reward_groups": 21,
+        "clean_attempts": 47,
+        "pollution_windows": 35,
+        "nonempty_pollutions": 33,
+        "exact_pollution_tag_compliance": 3,
+        "finite_gradients": true,
+        "zero_gradients": 2,
+        "grad_norm_above_clip_1": 32,
+        "grad_norm_min": 0.0,
+        "grad_norm_max": 127.21943664550781,
+        "nonempty_repair_targets": 31,
+        "repair_target_tokens_min": 0,
+        "repair_target_tokens_median": 22,
+        "repair_target_tokens_max": 208,
+        "repair_targets_at_most_10_tokens": 4
+      },
+      "polluter": {
+        "updates": 35,
+        "mixed_reward_groups": 33,
+        "clean_attempts": 44,
+        "pollution_windows": 560,
+        "nonempty_pollutions": 520,
+        "exact_pollution_tag_compliance": 32,
+        "finite_gradients": true,
+        "zero_gradients": 2,
+        "grad_norm_above_clip_1": 2,
+        "grad_norm_min": 0.0,
+        "grad_norm_max": 1.0784341096878052
+      },
+      "passed_role_isolation_checks": 14
+    }
+  },
+  "evaluation_format": {
+    "initial": {
+      "corrupted_unparsed": 50,
+      "corrupted_total": 400,
+      "clean_unparsed": 16,
+      "clean_total": 100
+    },
+    "unified": {
+      "corrupted_unparsed": 103,
+      "corrupted_total": 400,
+      "clean_unparsed": 23,
+      "clean_total": 100
+    },
+    "split": {
+      "corrupted_unparsed": 106,
+      "corrupted_total": 400,
+      "clean_unparsed": 26,
+      "clean_total": 100
+    }
+  }
+}

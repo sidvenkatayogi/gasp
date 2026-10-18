@@ -17,6 +17,10 @@ def main():
     p=sub.add_parser("prepare-train");config_arg(p)
     p.add_argument("--source",required=True);p.add_argument("--output",required=True)
     p.add_argument("--candidates",type=int,default=7500)
+    p.add_argument("--retained-target",type=int,help="Stop after this many K=4 all-correct questions")
+    p.add_argument("--max-candidates",type=int,help="Hard raw-candidate bound for target preparation")
+    p.add_argument("--max-seconds",type=float,help="Stop at a completed batch boundary")
+    p.add_argument("--resume",action="store_true",help="Resume a trusted bounded preparation checkpoint")
     p=sub.add_parser("prepare-eval");config_arg(p)
     p.add_argument("--source",required=True);p.add_argument("--output",required=True)
     p.add_argument("--provenance",required=True,
@@ -27,6 +31,8 @@ def main():
     p=sub.add_parser("prepare-eval-contexts");config_arg(p)
     p.add_argument("--source",required=True);p.add_argument("--output",required=True)
     p.add_argument("--questions",type=int,help="Optional first-N question limit for preparation pilots")
+    p.add_argument("--retained-target",type=int,help="Select this many questions in seeded shuffled order")
+    p.add_argument("--max-candidates",type=int,help="Hard raw-candidate bound for target preparation")
     p.add_argument("--resume",action="store_true",help="Resume a trusted preparation checkpoint")
     p.add_argument("--max-seconds",type=float,help="Stop cleanly after a question when the time budget expires")
     p=sub.add_parser("generate-eval",help="Calls GPT-6.1 Sol; needs OPENAI_API_KEY and prepared clean contexts")
@@ -56,13 +62,18 @@ def main():
     if args.command=="download":
         data.download_sources(args.output,math_repo=args.math_repo)
     elif args.command=="prepare-train":
-        data.prepare_train(Config.load(args.config),args.source,args.output,args.candidates)
+        result=data.prepare_train(Config.load(args.config),args.source,args.output,args.candidates,
+            retained_target=args.retained_target,max_candidates=args.max_candidates,
+            max_seconds=args.max_seconds,resume=args.resume)
+        if result is not None:
+            print(json.dumps(result,indent=2))
     elif args.command in ("prepare-eval", "import-eval"):
         data.import_eval(Config.load(args.config),args.source,args.output,args.provenance)
     elif args.command=="prepare-eval-contexts":
         from .eval_corpus import prepare_eval_contexts
         print(json.dumps(prepare_eval_contexts(Config.load(args.config),args.source,args.output,
-                                              args.questions,args.resume,args.max_seconds),indent=2))
+            args.questions,args.resume,args.max_seconds,retained_target=args.retained_target,
+            max_candidates=args.max_candidates),indent=2))
     elif args.command=="generate-eval":
         from .eval_corpus import generate_eval_corpus
         print(json.dumps(generate_eval_corpus(args.source,args.output,args.model,args.effort,

@@ -63,3 +63,54 @@ def test_batch_failure_restores_model_mode(config):
     with pytest.raises(RuntimeError, match="generation failed"):
         rollout.generate_many(model, [[2, 3], [4]], 4, 3, "filter")
     assert model.training and rollout.counts == {}
+
+
+@pytest.mark.parametrize("device,precision", [("cpu", "fp32"), pytest.param("cuda", "bf16",
+    marks=pytest.mark.skipif(not torch.cuda.is_available(), reason="Requires CUDA"))])
+def test_live_batched_rollouts_keep_unpadded_old_logps_and_batch_bound(config, device, precision):
+    from gasp.models import token_logps
+    cfg = config.with_changes(device=device, precision=precision)
+    model, tok = load_model(cfg)
+    cfg = cfg.with_changes(tiny=False, rollout_batch_size=2)
+    rollout = Rollouts(tok, cfg)
+    original = model.generate
+    batch_sizes = []
+    def record(*args, **kwargs):
+        batch_sizes.append(kwargs["num_return_sequences"])
+        return original(*args, **kwargs)
+    model.generate = record
+    samples = rollout.generate(model, [2, 3, 4], 5, 6, "live", old=True)
+    assert batch_sizes == [2, 2, 1]
+    assert len(samples) == 5 and model.training
+    model.eval()
+    for sample in samples:
+        assert sample.prompt == [2, 3, 4]
+        assert sample.old_logps.device.type == "cpu" and not sample.old_logps.requires_grad
+        with torch.no_grad():
+            expected = token_logps(model, sample.prompt, sample.tokens, cfg).cpu()
+        torch.testing.assert_close(sample.old_logps, expected)
+    assert rollout.counts["live"]["sequences"] == 5
+    assert rollout.counts["live"]["generated_tokens"] == sum(len(s.tokens) for s in samples)
+    assert rollout.counts["live"]["allocated_tokens"] == 30
+
+
+def test_batched_polluter_scores_preserve_group_order_and_frozen_opponent(factory):
+    from gasp.models import model_digest
+    reference = factory("split")
+    expected = [reference.step() for _ in range(3)]
+    expected_digest = model_digest(reference.roles.polluter)
+    actual = factory("split")
+    actual.cfg = actual.cfg.with_changes(rollout_batch_size=16)
+    actual.rollouts.cfg = actual.cfg
+    calls = []
+    original = actual.rollouts.generate_many
+    def record(model, prompts, n, limit, purpose, **kwargs):
+        calls.append((model, purpose, len(prompts)))
+        return original(model, prompts, n, limit, purpose, **kwargs)
+    actual.rollouts.generate_many = record
+    observed = [actual.step() for _ in range(3)]
+    # The tiny sampler deliberately keeps its serial RNG stream, allowing an
+    # exact semantic comparison of scoring orchestration and resulting updates.
+    assert [e["contexts"] for e in observed] == [e["contexts"] for e in expected]
+    assert model_digest(actual.roles.polluter) == expected_digest
+    assert calls == [(actual.roles.opponent, "polluter_agent_scoring", actual.cfg.group_size)] * actual.cfg.accumulation

@@ -230,18 +230,28 @@ class Trainer:
             self.prompts.polluter(row["question"], prefix, clean), c.group_size,
             c.corruption_tokens, "polluter_candidate", old=True)
         rewards, tags, windows, correctness, scoring_outputs = [], [], [], [], []
+        scoring_prompts = []
         for sample in samples:
             window, tagged = pollution(sample.text,
                 self.tokenizer.decode(sample.prompt, skip_special_tokens=False))
-            completion = self.rollouts.generate(self.roles.opponent,
-                self.prompts.agent(row["question"], prefix, window), 1, c.completion_tokens,
-                "polluter_agent_scoring")[0]
+            scoring_prompts.append(self.prompts.agent(row["question"], prefix, window))
+            tags.append(tagged)
+            windows.append(window)
+        completions = []
+        for start in range(0, len(scoring_prompts), c.rollout_batch_size):
+            batch = scoring_prompts[start:start + c.rollout_batch_size]
+            if c.rollout_batch_size == 1:
+                completions.append(self.rollouts.generate(self.roles.opponent, batch[0],
+                    1, c.completion_tokens, "polluter_agent_scoring")[0])
+            else:
+                groups = self.rollouts.generate_many(self.roles.opponent, batch, 1,
+                    c.completion_tokens, "polluter_agent_scoring")
+                completions.extend(group[0] for group in groups)
+        for completion in completions:
             score = correct(completion.text, row["answer"], c.verifier)
             rewards.append(polluter_reward(score))
             correctness.append(score)
             scoring_outputs.append(completion.text)
-            tags.append(tagged)
-            windows.append(window)
         loss, informative = self.backward_group(samples, rewards)
         return {"grpo_loss": loss, "rewards": rewards, "polluted_tag_present": tags,
                 "informative_samples": informative, "polluted": windows,

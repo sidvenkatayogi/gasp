@@ -2,6 +2,14 @@
 
 Recorded 2026-10-16, before any real-model GPU comparison.
 
+Exploratory update (2026-10-17): the current ten-total-GPU-hour recommendation and
+its independent paper review are in [EXPLORATORY_PLAN.md](EXPLORATORY_PLAN.md) and
+[EXPLORATORY_PAPER_REVIEW.md](EXPLORATORY_PAPER_REVIEW.md). That recommendation uses
+50 updates/role, one context/update, G=16, one paired seed, a 100-global-update
+schedule and a 2048 input cap. Its uncertainty is paired across held-out questions,
+not across three training seeds. The full-profile defaults below remain recorded
+as such; they are not the reduced experiment's active plan.
+
 ## Question and comparison
 
 The experiment asks: **under one implementation of GASP, what changes when the
@@ -58,6 +66,8 @@ and the current source; `configs/pilot.json` is described separately below.
 | T19 | Reporting intervals | Evaluate initially, every 100 global steps and finally; checkpoint every 10 global steps and at a requested stop. Evaluation saves/restores training RNG state. |
 | T20 | Optimizer storage on Colab | Use `optimizer_offload=true` for both conditions on the 40 GiB A100. Keep the active policy's AdamW moments on CUDA throughout its five-update block and the inactive policy's moments in CPU RAM; evict old moments before loading the next role's moments. Unified has only one shared set, which stays on CUDA. Both models' weights stay on CUDA. No quantization, precision change, model sharing, or optimizer-state reset. Report CPU memory and transfer-inclusive runtime as well as GPU memory. This is an execution choice, not a claim about the paper's runtime. |
 | T21 | Evaluation preparation batching | `preparation_batch_questions=4` batches four questions with four samples per question (16 sequences) using Hugging Face generation and left-padding. Fresh correct traces are still rejection-sampled separately, and all four alpha cuts are retained. K, temperature, top-k/top-p, precision, prompts, verifier and token limits are unchanged. Batching changes RNG consumption and may change floating-point results; `data/full-v4` restarts from the initial seed and is not mixed with serial-v3 traces. Checkpoints commit whole batches, including RNG; interrupted batches replay. This setting affects evaluation preparation, not training updates. |
+| T22 | Exploratory live HF batching | `rollout_batch_size` defaults to 1. The live-cycle diagnostic opts into 16, batching active-policy candidates and frozen-agent scoring on the actual role models. Old log probabilities are computed on unpadded samples with the same weights before updating. Group size, rewards, loss averaging, optimizer and output caps remain unchanged. Batching changes RNG consumption and may change floating-point results; both conditions use the same setting. |
+| T23 | Exploratory input allowance | The live-cycle baseline failed on a 1035-token repair prompt under the paper's 1024-token cap. The revised diagnostic uses 2048 input tokens for both conditions, preserving complete shared context. This is an explicitly documented departure for the exploratory test; all output limits remain 1024. It is not a claim of paper replication. See `docs/CYCLE_BENCHMARK.md`. |
 
 T20 checkpoint exception: restoration temporarily moves model weights to CPU so
 PyTorch's optimizer loader cannot eagerly allocate both moment sets on CUDA. It
@@ -86,6 +96,7 @@ backbone or LoRA experiment requires a separately declared configuration.
 | E5 | Metrics | Primary: `corrupted_initial_clean_solved`; secondary: `corrupted_full` and `clean_full` over the supplied corpus. The historical primary field name means the fixed imported subset. It is not a per-checkpoint clean-solved rate. |
 | E6 | Aggregation | For each of seeds 42,52,62, compute split minus unified on identical evaluation rows. Report the paired differences and their mean/sample standard deviation across seeds, alongside the individual conditions. |
 | E7 | Held-out use | Use the fixed endpoint budget for the primary result. Do not choose the best checkpoint, decay schedule or other settings by the final held-out scores. Development checks need separate data. |
+| E8 | Reduced evaluation target | User selected 100 retained questions / 400 corruptions for the runtime estimate and next corpus plan. Randomize candidate order with a recorded seed, freeze selection before trained-model evaluation, and account for within-question correlation. Construction under this revised plan is pending; old partial corpora are not relabeled. See RUNTIME_PLAN.md. |
 
 The fixed test corpus and denominator are intentional controls for our comparison.
 The [corpus procedure](CORPUS.md) records all construction choices, including the
@@ -145,10 +156,11 @@ comparison using an independently constructed, inspected evaluation corpus.
 
 Execution update (2026-10-17 UTC): an A100-SXM4-40GB passed the CUDA/bf16
 offload-equivalence tests and a full-size accumulated-gradient memory probe. Raw MATH
-and GSM8K data are validated; actual initial-model context preparation is running.
-One real GPT-6.1 Sol corruption was generated and inspected using a committed
-context while DeepSeek preparation continued. Its saved response will be reused
-by final corpus generation after exact request validation. The key stayed local.
+and GSM8K data are validated. The user stopped full context preparation; the last
+verified local v4 checkpoint contains 188 processed questions. A bounded vLLM
+benchmark was then requested before more full GPU jobs. One real GPT-6.1 Sol
+corruption was generated and inspected under serial-v3 preparation. It is a
+historical preflight, not a response reused in a revised corpus. The key stayed local.
 Filtered MATH training data, the completed corruption corpus and full paired
 training runs remain pending. See [validation](../artifacts/VALIDATION.md) for
 measurements and the limits of the memory probe.

@@ -1,0 +1,21 @@
+{
+  "success": false,
+  "requested_gpu": "A100-80GB",
+  "commands": [
+    {
+      "label": "hardware",
+      "returncode": 0,
+      "seconds": 0.3712549449999998
+    },
+    {
+      "label": "packages",
+      "returncode": 2,
+      "seconds": 0.57166702
+    }
+  ],
+  "started_at": 1792217253.141509,
+  "fixed_backward_fixture": "artifacts/gasp-vllm-20261017-053328/results/vllm.json",
+  "fixture_sha256": "0696377421497c0918e7cdddd65e0b2542b15fc83b92bf3bd99bf8fc79671fe4",
+  "error": "Traceback (most recent call last):\n  File \"/root/run_modal_benchmark.py\", line 88, in worker\n    run(\"packages\", [sys.executable, \"-m\", \"pip\", \"freeze\"], 30)\n  File \"/root/run_modal_benchmark.py\", line 84, in run\n    process.check_returncode()\n  File \"/usr/local/lib/python3.12/subprocess.py\", line 502, in check_returncode\n    raise CalledProcessError(self.returncode, self.args, self.stdout,\nsubprocess.CalledProcessError: Command '['/usr/local/bin/python', '-m', 'pip', 'freeze']' returned non-zero exit status 2.\n",
+  "finished_at": 1792217254.0978284
+}

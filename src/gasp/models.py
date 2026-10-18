@@ -209,16 +209,16 @@ class Rollouts:
         self.counts = {}
 
     @torch.no_grad()
-    def generate_many(self, model, prompts, n, limit, purpose, temperature=None):
-        """Offline preparation: n independent samples per left-padded prompt.
+    def generate_many(self, model, prompts, n, limit, purpose, temperature=None, old=False):
+        """n independent samples per left-padded prompt on the supplied live model.
 
-        Keep training's live-policy/log-probability path separate. Batching changes
-        random-number consumption, so it requires a fresh preparation cache.
+        Optional old log probabilities are computed on unpadded trajectories with
+        the same model, before any update. Batching changes RNG consumption.
         """
         if not prompts or n < 1 or any(not prompt for prompt in prompts):
             raise ValueError("Nonempty prompts and a positive sample count are required")
-        if self.cfg.tiny or len(prompts) == 1:
-            return [self.generate(model, prompt, n, limit, purpose, temperature=temperature)
+        if self.cfg.tiny or (len(prompts) == 1 and self.cfg.rollout_batch_size == 1):
+            return [self.generate(model, prompt, n, limit, purpose, temperature=temperature, old=old)
                     for prompt in prompts]
         was_training = model.training
         model.eval()
@@ -255,8 +255,9 @@ class Rollouts:
                         tokens = tokens[:tokens.index(self.tok.eos_token_id)+1]
                     else:
                         tokens = tokens.copy()
+                    old_logps = token_logps(model, prompt, tokens, self.cfg).detach().cpu() if old else None
                     group.append(Sample(prompt.copy(), tokens,
-                                        self.tok.decode(tokens, skip_special_tokens=True)))
+                                        self.tok.decode(tokens, skip_special_tokens=True), old_logps))
                     count["sequences"] += 1
                     count["generated_tokens"] += len(tokens)
                     count["prompt_tokens"] += len(prompt)
@@ -268,6 +269,13 @@ class Rollouts:
 
     @torch.no_grad()
     def generate(self, model, prompt, n, limit, purpose, old=False, temperature=None):
+        if not self.cfg.tiny and self.cfg.rollout_batch_size > 1 and n > 1:
+            outputs = []
+            for start in range(0, n, self.cfg.rollout_batch_size):
+                size = min(self.cfg.rollout_batch_size, n - start)
+                outputs.extend(self.generate_many(model, [prompt], size, limit, purpose,
+                                                  temperature=temperature, old=old)[0])
+            return outputs
         was_training = model.training
         model.eval()
         count = self.counts.setdefault(purpose, {"sequences": 0, "generated_tokens": 0,

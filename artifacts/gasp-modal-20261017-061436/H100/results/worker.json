@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "requested_gpu": "H100!",
+  "commands": [
+    {
+      "label": "hardware",
+      "returncode": 0,
+      "seconds": 0.21926546299999994
+    },
+    {
+      "label": "packages",
+      "returncode": 0,
+      "seconds": 0.5739897300000001
+    },
+    {
+      "label": "tests",
+      "returncode": 0,
+      "seconds": 39.468278141999996
+    },
+    {
+      "label": "hf",
+      "returncode": 0,
+      "seconds": 35.817342763999996
+    },
+    {
+      "label": "inference",
+      "returncode": 0,
+      "seconds": 146.46680606
+    },
+    {
+      "label": "backward-unified",
+      "returncode": 0,
+      "seconds": 84.67056839
+    },
+    {
+      "label": "backward-split",
+      "returncode": 0,
+      "seconds": 97.01339920000004
+    }
+  ],
+  "started_at": 1792218181.2970207,
+  "fixed_backward_fixture": "artifacts/gasp-vllm-20261017-053328/results/vllm.json",
+  "fixture_sha256": "0696377421497c0918e7cdddd65e0b2542b15fc83b92bf3bd99bf8fc79671fe4",
+  "finished_at": 1792218585.5512033
+}

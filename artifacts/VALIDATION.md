@@ -1,3 +1,15 @@
+# vLLM benchmark completed — 2026-10-17 UTC
+
+The user stopped full preparation and requested a bounded vLLM test. It completed
+successfully, passed 94 GPU tests, and measured a 5.92x improvement for the same
+four-question/K=4 inference workload. Both role-shaped gradient components were
+also measured. All GPUs are now released. See [the benchmark and conditional
+runtime estimate](VLLM_BENCHMARK.md); production training has not been switched
+to vLLM or launched. The user selected 100 retained questions / 400 corruptions
+for the revised evaluation plan.
+
+---
+
 # Generation throughput and batched preparation — 2026-10-17 UTC
 
 The serial preparation run was deliberately interrupted and its GPU released

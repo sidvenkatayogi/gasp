@@ -110,8 +110,10 @@ The importer verifies the generated corpus hash and builds shared prompt tokens.
 Both training conditions then use `data/full-v4/eval.jsonl`. Existing externally
 supplied GPT-5 corpora remain importable with their actual provenance; new generation
 uses only the user-selected Sol model. As of 2026-10-17 UTC, the source datasets
-are validated, the model revision is pinned, and DeepSeek context preparation is
-being relaunched with four-question batches on Colab. One live GPT-6.1 Sol response from an already-committed context
+are validated and the model revision is pinned. The user stopped full preparation
+and selected a 100-question / 400-corruption target for the revised plan; see
+[runtime reevaluation](RUNTIME_PLAN.md). The old partial corpus is preserved.
+One live GPT-6.1 Sol response from an already-committed context
 passed format, semantic and prompt-length checks; it is preserved as a serial-v3 preflight artifact. New batched-v4 traces receive
 their own responses; old responses are not mixed into that corpus. The key stays
 on the Mac. The completed corruption corpus is still pending.

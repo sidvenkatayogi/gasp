@@ -1,0 +1,6 @@
+{
+  "success": false,
+  "condition": "split",
+  "error": "Traceback (most recent call last):\n  File \"/root/run_modal_cycle.py\", line 85, in worker\n    raise RuntimeError(\"Cycle subprocess failed\")\nRuntimeError: Cycle subprocess failed\n",
+  "seconds": 278.161548298
+}

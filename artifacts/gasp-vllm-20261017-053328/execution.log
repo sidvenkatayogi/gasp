@@ -1,0 +1,267 @@
+
+[colab] A new version of Colab CLI is available: 0.7.4 (current: 0.6.0)
+[colab] Run 'colab update' to update.
+[colab] To silence this check, set "enable_update_check": false in ~/.config/colab-cli/settings.json
+
+Starting hardware
+Sat Oct 17 05:33:47 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.82.07              Driver Version: 580.82.07      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-SXM4-40GB          Off |   00000000:00:04.0 Off |                    0 |
+| N/A   34C    P0             53W /  400W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+Starting uv
+Collecting uv==0.9.2
+  Downloading uv-0.9.2-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (11 kB)
+Downloading uv-0.9.2-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (21.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 21.2/21.2 MB 109.9 MB/s eta 0:00:00
+Installing collected packages: uv
+Successfully installed uv-0.9.2
+
+Starting venv
+warning: The `--system` flag has no effect, a system Python interpreter is always used in `uv venv`
+Using CPython 3.12.3 interpreter at: /usr/bin/python3.12
+Creating virtual environment at: /content/gasp-benchmark-venv
+Activate with: source /content/gasp-benchmark-venv/bin/activate
+
+Starting dependencies
+arse-cu12==12.5.4.2
+ + nvidia-cusparselt-cu12==0.6.3
+ + nvidia-nccl-cu12==2.26.2
+ + nvidia-nvjitlink-cu12==12.6.85
+ + nvidia-nvtx-cu12==12.6.77
+ + openai==3.33.0
+ + openai-harmony==0.0.8
+ + opencv-python-headless==5.0.0.93
+ + opentelemetry-api==1.45.1
+ + opentelemetry-exporter-http-transport==0.66b1
+ + opentelemetry-exporter-otlp-common==0.66b1
+ + opentelemetry-exporter-otlp-proto-common==1.45.1
+ + opentelemetry-exporter-otlp-proto-http==1.45.1
+ + opentelemetry-proto==1.45.1
+ + opentelemetry-sdk==1.45.1
+ + opentelemetry-semantic-conventions==0.66b1
+ + outlines-core==0.2.10
+ + packaging==26.3
+ + pandas==2.2.3
+ + partial-json-parser==0.2.1.1.post7
+ + peft==0.18.0
+ + pillow==13.0.0
+ + platformdirs==4.13.3
+ + pluggy==1.7.0
+ + prometheus-client==0.26.0
+ + prometheus-fastapi-instrumentator==8.1.0
+ + propcache==0.5.4
+ + protobuf==7.36.2
+ + psutil==7.2.2
+ + py-cpuinfo==9.0.0
+ + pyarrow==26.0.0
+ + pybase64==1.5.1
+ + pycountry==26.2.16
+ + pycparser==3.11
+ + pydantic==2.14.1
+ + pydantic-core==2.50.1
+ + pydantic-extra-types==2.11.1
+ + pydantic-settings==2.16.0
+ + pygments==2.21.0
+ + pyparsing==3.3.3
+ + pytest==9.0.2
+ + python-dateutil==2.9.0.post0
+ + python-dotenv==1.2.4
+ + python-json-logger==4.2.0
+ + python-multipart==0.0.32
+ + pytz==2026.5
+ + pyyaml==6.0.3
+ + pyzmq==27.2.0
+ + ray==2.59.0
+ + referencing==0.37.0
+ + regex==2026.9.29
+ + requests==2.34.2
+ + rich==15.0.0
+ + rich-toolkit==0.20.6
+ + rignore==0.8.1
+ + rpds-py==2026.9.1
+ + safetensors==0.8.0
+ + scipy==1.18.1
+ + sentencepiece==0.2.2
+ + sentry-sdk==2.72.0
+ + setproctitle==1.3.8
+ + setuptools==79.0.1
+ + shellingham==1.5.4
+ + six==1.17.0
+ + sniffio==1.3.1
+ + soundfile==0.14.0
+ + soxr==1.1.0
+ + starlette==1.8.0
+ + sympy==1.14.0
+ + tiktoken==0.14.0
+ + tokenizers==0.22.2
+ + torch==2.7.1
+ + torchaudio==2.7.1
+ + torchvision==0.22.1
+ + tornado==6.5.10
+ + tqdm==4.70.1
+ + traitlets==5.16.1
+ + transformers==4.57.6
+ + triton==3.3.1
+ + truststore==0.10.5
+ + typer==0.27.3
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + tzdata==2026.5
+ + urllib3==2.8.0
+ + uvicorn==0.54.0
+ + uvloop==0.23.0
+ + vllm==0.10.1.1
+ + watchfiles==1.3.0
+ + websockets==17.2
+ + xformers==0.0.31
+ + xgrammar==0.1.21
+ + xxhash==4.0.1
+ + yarl==1.25.1
+
+Starting packages
+a-cublas-cu12==12.6.4.1
+nvidia-cuda-cupti-cu12==12.6.80
+nvidia-cuda-nvrtc-cu12==12.6.77
+nvidia-cuda-runtime-cu12==12.6.77
+nvidia-cudnn-cu12==9.5.1.17
+nvidia-cufft-cu12==11.3.0.4
+nvidia-cufile-cu12==1.11.1.6
+nvidia-curand-cu12==10.3.7.77
+nvidia-cusolver-cu12==11.7.1.2
+nvidia-cusparse-cu12==12.5.4.2
+nvidia-cusparselt-cu12==0.6.3
+nvidia-nccl-cu12==2.26.2
+nvidia-nvjitlink-cu12==12.6.85
+nvidia-nvtx-cu12==12.6.77
+openai==3.33.0
+openai-harmony==0.0.8
+opencv-python-headless==5.0.0.93
+opentelemetry-api==1.45.1
+opentelemetry-exporter-http-transport==0.66b1
+opentelemetry-exporter-otlp-common==0.66b1
+opentelemetry-exporter-otlp-proto-common==1.45.1
+opentelemetry-exporter-otlp-proto-http==1.45.1
+opentelemetry-proto==1.45.1
+opentelemetry-sdk==1.45.1
+opentelemetry-semantic-conventions==0.66b1
+outlines-core==0.2.10
+packaging==26.3
+pandas==2.2.3
+partial-json-parser==0.2.1.1.post7
+peft==0.18.0
+pillow==13.0.0
+platformdirs==4.13.3
+pluggy==1.7.0
+prometheus-client==0.26.0
+prometheus-fastapi-instrumentator==8.1.0
+propcache==0.5.4
+protobuf==7.36.2
+psutil==7.2.2
+py-cpuinfo==9.0.0
+pyarrow==26.0.0
+pybase64==1.5.1
+pycountry==26.2.16
+pycparser==3.11
+pydantic==2.14.1
+pydantic-core==2.50.1
+pydantic-extra-types==2.11.1
+pydantic-settings==2.16.0
+pygments==2.21.0
+pyparsing==3.3.3
+pytest==9.0.2
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.4
+python-json-logger==4.2.0
+python-multipart==0.0.32
+pytz==2026.5
+pyyaml==6.0.3
+pyzmq==27.2.0
+ray==2.59.0
+referencing==0.37.0
+regex==2026.9.29
+requests==2.34.2
+rich==15.0.0
+rich-toolkit==0.20.6
+rignore==0.8.1
+rpds-py==2026.9.1
+safetensors==0.8.0
+scipy==1.18.1
+sentencepiece==0.2.2
+sentry-sdk==2.72.0
+setproctitle==1.3.8
+setuptools==79.0.1
+shellingham==1.5.4
+six==1.17.0
+sniffio==1.3.1
+soundfile==0.14.0
+soxr==1.1.0
+starlette==1.8.0
+sympy==1.14.0
+tiktoken==0.14.0
+tokenizers==0.22.2
+torch==2.7.1
+torchaudio==2.7.1
+torchvision==0.22.1
+tornado==6.5.10
+tqdm==4.70.1
+traitlets==5.16.1
+transformers==4.57.6
+triton==3.3.1
+truststore==0.10.5
+typer==0.27.3
+typing-extensions==4.16.0
+typing-inspection==0.4.4
+tzdata==2026.5
+urllib3==2.8.0
+uvicorn==0.54.0
+uvloop==0.23.0
+vllm==0.10.1.1
+watchfiles==1.3.0
+websockets==17.2
+xformers==0.0.31
+xgrammar==0.1.21
+xxhash==4.0.1
+yarl==1.25.1
+
+Starting tests
+........................................................................ [ 76%]
+......................                                                   [100%]
+94 passed in 52.73s
+
+Starting hf
+220, 151649, 27, 9217, 29, 4226, 1588, 690, 9217, 29, 151644, 75796, 6837, 3937, 700, 389, 264, 2906, 8411, 13, 758, 825, 315, 279, 3807, 7488, 807, 30308, 304, 11, 807, 1033, 17779, 1119, 1378, 6144, 5203, 315, 7571, 323, 13007, 323, 1221, 3937, 700, 369, 264, 82650, 10009, 19073, 315, 511, 988, 6436, 13, 576, 13007, 3937, 700, 369, 279, 2711, 323, 7117, 1182, 220, 21, 15, 42954, 1817, 13, 1416, 279, 7571, 7117, 458, 3311, 6144, 311, 279, 1372, 315, 42954, 7117, 553, 279, 13007, 5519, 3040, 3039, 438, 1657, 511, 988, 6436, 438, 279, 13007, 11, 1246, 1657, 511, 988, 6436, 1033, 7117, 553, 1817, 3743, 30, 151645, 151648, 198]], "question_ids": ["gsm8k-test-317", "gsm8k-test-665", "gsm8k-test-182", "gsm8k-test-534"], "greedy_tokens": [[32313, 11, 773, 358, 1184, 311, 7071, 700, 1246, 1753, 432, 7049, 311, 5155, 3757, 594, 7314, 13, 6771, 752, 1191, 553, 8660, 279, 3491, 13, 576, 7314, 702, 15336, 315, 220, 21, 7541, 553, 220, 19, 7541, 11, 323, 432, 594, 220, 20, 7541, 5538, 13, 576, 2783, 311, 5155, 432, 374, 400, 15, 13, 16, 817, 40899, 4478, 13, 4710, 5338, 11], [32313, 11, 773, 358, 1184, 311, 7071, 700, 1246, 1753, 882, 279, 6888, 13336, 8329, 21127, 304, 825, 1899, 13, 6771, 752, 1438, 419, 1495, 3019, 553, 3019, 382, 5338, 11, 279, 3491, 2727, 1052, 525, 220, 16, 20, 15, 13336, 389, 279, 2906, 19240, 5473, 13, 4371, 315, 1493, 11, 220, 21, 15, 4, 525, 3840, 13336, 13, 2938, 3363, 279, 9664, 11414], [32313, 11, 773, 358, 1184, 311, 7071, 700, 1246, 2310, 19685, 374, 13, 6771, 752, 1191, 553, 14719, 1495, 279, 1995, 2661, 3019, 553, 3019, 382, 5338, 11, 279, 3491, 2727, 19685, 374, 1378, 1635, 9014, 1091, 4389, 13, 2055, 11, 421, 358, 1077, 4389, 594, 1482, 4231, 387, 386, 11, 1221, 19685, 594, 4231, 1035, 387, 386, 488, 220, 17, 13, 2938, 594], [32313, 11, 773, 358, 614, 419, 3491, 1588, 911, 17073, 6837, 2087, 389, 264, 2906, 8411, 13, 2379, 2299, 17779, 1119, 1378, 6144, 5203, 11, 825, 448, 7571, 323, 825, 448, 13007, 13, 2379, 3937, 389, 264, 82650, 10009, 19073, 369, 511, 988, 6436, 13, 576, 13007, 1817, 7117, 220, 21, 15, 42954, 13, 576, 7571, 11, 389, 279, 1008, 1424, 11, 7117, 458]], "scores": [[1, 1, 0, 0], [1, 1, 1, 1], [0, 0, 1, 0], [1, 1, 0, 0]]}
+
+Starting inference
+nds": 7.920458727000096, "sequences": 4, "generated_tokens": 3488, "tokens_per_second": 440.3785336460043, "mean_prompt_tokens": 123.0, "capped": 1, "n": 1, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "agent_corruption", "seconds": 7.851052175999939, "sequences": 4, "generated_tokens": 3231, "tokens_per_second": 411.53719623427264, "mean_prompt_tokens": 676.5, "capped": 1, "n": 1, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "agent_G64", "seconds": 6.821644852999725, "sequences": 256, "generated_tokens": 49515, "tokens_per_second": 7258.513315630387, "mean_prompt_tokens": 373.75, "capped": 0, "n": 64, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "agent_repair", "seconds": 6.69456140200009, "sequences": 4, "generated_tokens": 2065, "tokens_per_second": 308.459341247218, "mean_prompt_tokens": 724.5, "capped": 0, "n": 1, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "polluter_G64", "seconds": 27.14558924799985, "sequences": 256, "generated_tokens": 209189, "tokens_per_second": 7706.187479994141, "mean_prompt_tokens": 676.5, "capped": 80, "n": 64, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "polluter_scoring", "seconds": 14.371132883999962, "sequences": 256, "generated_tokens": 94401, "tokens_per_second": 6568.793202455246, "mean_prompt_tokens": 360.67578125, "capped": 39, "n": 1, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "greedy_evaluation_shape", "seconds": 4.312758393999957, "sequences": 64, "generated_tokens": 16334, "tokens_per_second": 3787.367273512091, "mean_prompt_tokens": 373.75, "capped": 0, "n": 1, "temperature": 0.0, "limit": 1024, "forced_length_diagnostic": false}
+[rank0]:[W1017 05:40:58.485619537 ProcessGroupNCCL.cpp:1479] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+ERROR 10-17 05:40:59 [core_client.py:562] Engine core proc EngineCore_0 died unexpectedly, shutting down client.
+
+Starting backward
+`torch_dtype` is deprecated! Use `dtype` instead!
+{"role": "agent", "transfer_seconds": 0.0012265139998817176, "old_logps_seconds": 10.526075602000219, "backward_seconds": 58.90972572600049, "repair_seconds": 0.8776689589999478, "sample_tokens": 49515, "samples": 256, "optimizer_seconds": 0.20323774600001343, "grad_norm": 86.33956146240234, "peak_allocated_bytes": 37469423104, "peak_reserved_bytes": 39998980096}
+{"role": "polluter", "transfer_seconds": 9.222357172000102, "old_logps_seconds": 12.502243687999453, "backward_seconds": 60.43139795900015, "repair_seconds": 0.0, "sample_tokens": 209189, "samples": 256, "optimizer_seconds": 0.13100354900007005, "grad_norm": 0.15555062890052795, "peak_allocated_bytes": 37472888320, "peak_reserved_bytes": 39998980096}
+
+{"success": true, "commands": [{"label": "hardware", "returncode": 0, "seconds": 0.4653529269999126}, {"label": "uv", "returncode": 0, "seconds": 5.021884612000122}, {"label": "venv", "returncode": 0, "seconds": 0.2652824519996102}, {"label": "dependencies", "returncode": 0, "seconds": 42.31867254300005}, {"label": "packages", "returncode": 0, "seconds": 0.016474330000164628}, {"label": "tests", "returncode": 0, "seconds": 59.73198437600013}, {"label": "hf", "returncode": 0, "seconds": 73.96673354399991}, {"label": "inference", "returncode": 0, "seconds": 251.84377892899965}, {"label": "backward", "returncode": 0, "seconds": 164.34787798200023}], "started_at": 1792215227.6647215, "finished_at": 1792215825.7045143}

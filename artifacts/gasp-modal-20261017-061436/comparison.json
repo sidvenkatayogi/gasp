@@ -1,0 +1,216 @@
+{
+  "basis": "Identical backward fixtures; generation projection scales the original Colab workload by fixed-length diagnostic speed ratios. Not integrated training.",
+  "gpus": {
+    "A100-80GB": {
+      "hourly_rate_minimum": 3.1985279999999996,
+      "worker_seconds": 489.66708397865295,
+      "worker_cost_at_requested_resources": 0.4350594107733535,
+      "fixed_128x512_tokens_per_second": 12901.288944261749,
+      "fixed_16x128_tokens_per_second": 2762.8864613069736,
+      "inference_contexts": 4,
+      "greedy_matches": 4,
+      "engine_start_seconds": 58.94733422800002,
+      "conditions": {
+        "unified": {
+          "update_compute_seconds": {
+            "agent": 38.29864125700004,
+            "polluter": 57.40195388399991
+          },
+          "raw_projected_hours": 43.50490507147223,
+          "provisional_planning_hours": [
+            55,
+            95
+          ],
+          "planning_cost_at_requested_resources": [
+            175.91903999999997,
+            303.86015999999995
+          ],
+          "components": [
+            {
+              "role": "agent",
+              "transfer_seconds": 0.0008463419999884536,
+              "snapshot_seconds": 0.07419806899997639,
+              "old_logps_seconds": 6.720823704999987,
+              "backward_seconds": 31.00783075099997,
+              "repair_seconds": 0.42231137500004934,
+              "sample_tokens": 49515,
+              "samples": 256,
+              "optimizer_seconds": 0.1476754260000348,
+              "grad_norm": 86.36563873291016,
+              "peak_allocated_bytes": 37468374528,
+              "peak_reserved_bytes": 39998980096
+            },
+            {
+              "role": "polluter",
+              "transfer_seconds": 0.0014863639999589395,
+              "snapshot_seconds": 0.03611695200004306,
+              "old_logps_seconds": 11.386119662999931,
+              "backward_seconds": 45.92054383599998,
+              "repair_seconds": 0.0,
+              "sample_tokens": 209189,
+              "samples": 256,
+              "optimizer_seconds": 0.09529038499999842,
+              "grad_norm": 0.1554773598909378,
+              "peak_allocated_bytes": 39567427072,
+              "peak_reserved_bytes": 43318771712
+            }
+          ]
+        },
+        "split": {
+          "update_compute_seconds": {
+            "agent": 38.569184678,
+            "polluter": 57.5120421499999
+          },
+          "raw_projected_hours": 43.61063609563889,
+          "provisional_planning_hours": [
+            55,
+            95
+          ],
+          "planning_cost_at_requested_resources": [
+            175.91903999999997,
+            303.86015999999995
+          ],
+          "components": [
+            {
+              "role": "agent",
+              "transfer_seconds": 0.0008447529999671133,
+              "snapshot_seconds": 9.76190000301358e-05,
+              "old_logps_seconds": 6.768493664000005,
+              "backward_seconds": 31.20481287399997,
+              "repair_seconds": 0.4237756220000506,
+              "sample_tokens": 49515,
+              "samples": 256,
+              "optimizer_seconds": 0.17210251799997422,
+              "grad_norm": 86.3865737915039,
+              "peak_allocated_bytes": 37468374528,
+              "peak_reserved_bytes": 39998980096
+            },
+            {
+              "role": "polluter",
+              "transfer_seconds": 4.629115412999965,
+              "snapshot_seconds": 3.3514000051582116e-05,
+              "old_logps_seconds": 11.449715945999912,
+              "backward_seconds": 45.95810806999998,
+              "repair_seconds": 0.0,
+              "sample_tokens": 209189,
+              "samples": 256,
+              "optimizer_seconds": 0.10421813400000701,
+              "grad_norm": 0.15554101765155792,
+              "peak_allocated_bytes": 37472888320,
+              "peak_reserved_bytes": 39998980096
+            }
+          ]
+        }
+      }
+    },
+    "H100": {
+      "hourly_rate_minimum": 4.649328,
+      "worker_seconds": 404.2541825771332,
+      "worker_cost_at_requested_resources": 0.5220861917147159,
+      "fixed_128x512_tokens_per_second": 19775.63961117708,
+      "fixed_16x128_tokens_per_second": 4029.8501309951066,
+      "inference_contexts": 3,
+      "greedy_matches": 3,
+      "engine_start_seconds": 63.002853533999996,
+      "conditions": {
+        "unified": {
+          "update_compute_seconds": {
+            "agent": 37.782010126000046,
+            "polluter": 38.736262898000064
+          },
+          "raw_projected_hours": 32.49669842503631,
+          "provisional_planning_hours": [
+            40,
+            70
+          ],
+          "planning_cost_at_requested_resources": [
+            185.97312,
+            325.45295999999996
+          ],
+          "components": [
+            {
+              "role": "agent",
+              "transfer_seconds": 0.0007425350000005437,
+              "snapshot_seconds": 0.06453749499999617,
+              "old_logps_seconds": 5.633826350999982,
+              "backward_seconds": 31.36050493000002,
+              "repair_seconds": 0.5770867540000211,
+              "sample_tokens": 49515,
+              "samples": 256,
+              "optimizer_seconds": 0.21059209100002363,
+              "grad_norm": 87.03901672363281,
+              "peak_allocated_bytes": 37518292480,
+              "peak_reserved_bytes": 40049311744
+            },
+            {
+              "role": "polluter",
+              "transfer_seconds": 0.0014904399999977613,
+              "snapshot_seconds": 0.03670291499997802,
+              "old_logps_seconds": 6.4820878750000475,
+              "backward_seconds": 32.196269782,
+              "repair_seconds": 0.0,
+              "sample_tokens": 209189,
+              "samples": 256,
+              "optimizer_seconds": 0.057905241000014485,
+              "grad_norm": 0.15495629608631134,
+              "peak_allocated_bytes": 39621147136,
+              "peak_reserved_bytes": 43369103360
+            }
+          ]
+        },
+        "split": {
+          "update_compute_seconds": {
+            "agent": 39.98044975800008,
+            "polluter": 44.11536035800003
+          },
+          "raw_projected_hours": 34.60156983948075,
+          "provisional_planning_hours": [
+            40,
+            75
+          ],
+          "planning_cost_at_requested_resources": [
+            185.97312,
+            348.6996
+          ],
+          "components": [
+            {
+              "role": "agent",
+              "transfer_seconds": 0.0007896879999975681,
+              "snapshot_seconds": 9.104599996589968e-05,
+              "old_logps_seconds": 5.685930992000067,
+              "backward_seconds": 33.597994956000036,
+              "repair_seconds": 0.5767261979999603,
+              "sample_tokens": 49515,
+              "samples": 256,
+              "optimizer_seconds": 0.11979761200001349,
+              "grad_norm": 87.02306365966797,
+              "peak_allocated_bytes": 37518292480,
+              "peak_reserved_bytes": 40049311744
+            },
+            {
+              "role": "polluter",
+              "transfer_seconds": 4.766689422000013,
+              "snapshot_seconds": 3.648599999905855e-05,
+              "old_logps_seconds": 6.886300123000012,
+              "backward_seconds": 37.164353129999995,
+              "repair_seconds": 0.0,
+              "sample_tokens": 209189,
+              "samples": 256,
+              "optimizer_seconds": 0.06470710500002497,
+              "grad_norm": 0.1554982215166092,
+              "peak_allocated_bytes": 37524477440,
+              "peak_reserved_bytes": 40049311744
+            }
+          ]
+        }
+      }
+    }
+  },
+  "fixture_sha256": "0696377421497c0918e7cdddd65e0b2542b15fc83b92bf3bd99bf8fc79671fe4",
+  "small_generation_seconds_colab_basis": 30.38653103200022,
+  "large_generation_seconds_colab_basis": 48.33836698499954,
+  "planning_multiplier": [
+    1.3,
+    2.1
+  ]
+}

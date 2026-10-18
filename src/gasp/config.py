@@ -18,6 +18,7 @@ class Config:
     gradient_checkpointing: bool = True
     optimizer_offload: bool = False
     preparation_batch_questions: int = 1
+    rollout_batch_size: int = 1  # Opt-in HF batching; changes sampled RNG streams.
     role_steps: int = 1000
     block_steps: int = 5
     accumulation: int = 4
@@ -56,7 +57,7 @@ class Config:
         for key in ("role_steps", "block_steps", "accumulation", "group_size",
                     "max_clean_attempts", "prompt_tokens", "completion_tokens",
                     "corruption_tokens", "repair_tokens", "window_cap",
-                    "eval_every", "checkpoint_every", "preparation_batch_questions"):
+                    "eval_every", "checkpoint_every", "preparation_batch_questions", "rollout_batch_size"):
             if getattr(self, key) < 1:
                 raise ValueError(f"{key} must be positive")
         if self.group_size < 2 or self.role_steps % self.block_steps:

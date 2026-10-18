@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "requested_gpu": "A100-80GB",
+  "commands": [
+    {
+      "label": "hardware",
+      "returncode": 0,
+      "seconds": 0.47138214999999994
+    },
+    {
+      "label": "packages",
+      "returncode": 0,
+      "seconds": 0.5728483170000003
+    },
+    {
+      "label": "tests",
+      "returncode": 0,
+      "seconds": 36.385467074000005
+    },
+    {
+      "label": "hf",
+      "returncode": 0,
+      "seconds": 38.321389487000005
+    },
+    {
+      "label": "inference",
+      "returncode": 0,
+      "seconds": 201.747808722
+    },
+    {
+      "label": "backward-unified",
+      "returncode": 0,
+      "seconds": 103.43028884
+    },
+    {
+      "label": "backward-split",
+      "returncode": 0,
+      "seconds": 108.71657142599997
+    }
+  ],
+  "started_at": 1792217684.5124974,
+  "fixed_backward_fixture": "artifacts/gasp-vllm-20261017-053328/results/vllm.json",
+  "fixture_sha256": "0696377421497c0918e7cdddd65e0b2542b15fc83b92bf3bd99bf8fc79671fe4",
+  "finished_at": 1792218174.1795814
+}

@@ -68,7 +68,7 @@ now changes only update count and evaluation/checkpoint intervals.
 ## Assumptions the paper does not resolve
 
 The complete registry is [ASSUMPTIONS.md](ASSUMPTIONS.md): T1–T21 cover training and
-E1–E7 cover evaluation. It records the exact shared choices, the intended treatment,
+E1–E8 cover evaluation. It records the exact shared choices, the intended treatment,
 the paired GPU run sequence and the conclusions the comparison can support.
 These are declared settings for our experiment, not verified author defaults.
 

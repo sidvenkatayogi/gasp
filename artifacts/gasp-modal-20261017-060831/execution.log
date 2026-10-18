@@ -1,0 +1,259 @@
+Results: /Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-modal-20261017-060831
+✓ Initialized. View run at 
+https://modal.com/apps/sidvenkatayogi/main/ap-jDedXm0NB1UAA6ClsjGq6r
+✓ Created objects.
+├── ✓ Uploaded 
+│   /Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-modal-20261017-0608
+│   31/source.zip
+├── ✓ Uploaded 
+│   /Users/sidvenkatayogi/Documents/Code/gasp/scripts/run_modal_benchmark.py
+└── ✓ Created Function worker.
+Starting hardware
+Sat Oct 17 06:11:34 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 610.57.04              KMD Version: 610.57.04     CUDA UMD Version: 13.3     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100 80GB PCIe          On  |   00000003:00:00.0 Off |                    0 |
+| N/A   37C    P0             54W /  300W |       4MiB /  81920MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+Starting packages
+y",
+    "2.59.0"
+  ],
+  [
+    "referencing",
+    "0.37.0"
+  ],
+  [
+    "regex",
+    "2026.9.29"
+  ],
+  [
+    "requests",
+    "2.34.2"
+  ],
+  [
+    "rich",
+    "15.0.0"
+  ],
+  [
+    "rich-toolkit",
+    "0.20.6"
+  ],
+  [
+    "rignore",
+    "0.8.1"
+  ],
+  [
+    "rpds-py",
+    "2026.9.1"
+  ],
+  [
+    "safetensors",
+    "0.8.0"
+  ],
+  [
+    "scipy",
+    "1.18.1"
+  ],
+  [
+    "sentencepiece",
+    "0.2.2"
+  ],
+  [
+    "sentry-sdk",
+    "2.72.0"
+  ],
+  [
+    "setproctitle",
+    "1.3.8"
+  ],
+  [
+    "setuptools",
+    "79.0.1"
+  ],
+  [
+    "shellingham",
+    "1.5.4"
+  ],
+  [
+    "six",
+    "1.17.0"
+  ],
+  [
+    "sniffio",
+    "1.3.1"
+  ],
+  [
+    "soundfile",
+    "0.14.0"
+  ],
+  [
+    "soxr",
+    "1.1.0"
+  ],
+  [
+    "starlette",
+    "1.8.0"
+  ],
+  [
+    "sympy",
+    "1.14.0"
+  ],
+  [
+    "tiktoken",
+    "0.14.0"
+  ],
+  [
+    "tokenizers",
+    "0.22.2"
+  ],
+  [
+    "torch",
+    "2.7.1"
+  ],
+  [
+    "torchaudio",
+    "2.7.1"
+  ],
+  [
+    "torchvision",
+    "0.22.1"
+  ],
+  [
+    "tornado",
+    "6.5.10"
+  ],
+  [
+    "tqdm",
+    "4.70.1"
+  ],
+  [
+    "traitlets",
+    "5.16.1"
+  ],
+  [
+    "transformers",
+    "4.57.6"
+  ],
+  [
+    "triton",
+    "3.3.1"
+  ],
+  [
+    "truststore",
+    "0.10.5"
+  ],
+  [
+    "typer",
+    "0.27.3"
+  ],
+  [
+    "typing-inspection",
+    "0.4.4"
+  ],
+  [
+    "typing_extensions",
+    "4.16.0"
+  ],
+  [
+    "tzdata",
+    "2026.5"
+  ],
+  [
+    "urllib3",
+    "2.8.0"
+  ],
+  [
+    "uv",
+    "0.7.19"
+  ],
+  [
+    "uvicorn",
+    "0.54.0"
+  ],
+  [
+    "uvloop",
+    "0.23.0"
+  ],
+  [
+    "vllm",
+    "0.10.1.1"
+  ],
+  [
+    "watchfiles",
+    "1.3.0"
+  ],
+  [
+    "websockets",
+    "17.2"
+  ],
+  [
+    "wheel",
+    "0.45.1"
+  ],
+  [
+    "xformers",
+    "0.0.31"
+  ],
+  [
+    "xgrammar",
+    "0.1.21"
+  ],
+  [
+    "xxhash",
+    "4.0.1"
+  ],
+  [
+    "yarl",
+    "1.25.1"
+  ]
+]
+
+Starting tests
+test_fidelity.py::test_unformatted_corruption_does_not_mask_training[polluter]
+FAILED tests/test_fidelity.py::test_old_checkpoint_protocol_cannot_be_silently_resumed
+FAILED tests/test_optimizer_offload.py::test_offload_matches_resident_adam_and_resumes[cpu-fp32-unified]
+FAILED tests/test_optimizer_offload.py::test_offload_matches_resident_adam_and_resumes[cpu-fp32-split]
+FAILED tests/test_optimizer_offload.py::test_offload_matches_resident_adam_and_resumes[cuda-bf16-unified]
+FAILED tests/test_optimizer_offload.py::test_offload_matches_resident_adam_and_resumes[cuda-bf16-split]
+FAILED tests/test_training.py::test_role_updates_and_frozen_snapshot[unified]
+FAILED tests/test_training.py::test_role_updates_and_frozen_snapshot[split]
+FAILED tests/test_training.py::test_old_logps_detached_and_guidance_conditioning
+FAILED tests/test_training.py::test_non_smoke_autoregressive_generation_and_gradients
+FAILED tests/test_training.py::test_resume_exact_inside_and_between_blocks[1-unified]
+FAILED tests/test_training.py::test_resume_exact_inside_and_between_blocks[1-split]
+FAILED tests/test_training.py::test_resume_exact_inside_and_between_blocks[2-unified]
+FAILED tests/test_training.py::test_resume_exact_inside_and_between_blocks[2-split]
+FAILED tests/test_training.py::test_resume_exact_inside_and_between_blocks[3-unified]
+FAILED tests/test_training.py::test_resume_exact_inside_and_between_blocks[3-split]
+FAILED tests/test_training.py::test_optimizer_moments_follow_parameter_ownership[unified]
+FAILED tests/test_training.py::test_optimizer_moments_follow_parameter_ownership[split]
+FAILED tests/test_training.py::test_lora_pilot_updates_and_resume[unified] - ...
+FAILED tests/test_training.py::test_lora_pilot_updates_and_resume[split] - Ty...
+26 failed, 72 passed, 104 warnings in 19.19s
+
+Stopping app - uncaught exception raised locally: RuntimeError('Modal benchmark failed; inspect /Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-modal-20261017-060831/A100-80GB/results/worker.json').
+Traceback (most recent call last):
+  File "/Users/sidvenkatayogi/Documents/Code/gasp/scripts/run_modal_benchmark.py", line 176, in <module>
+    main()
+    ~~~~^^
+  File "/Users/sidvenkatayogi/Documents/Code/gasp/scripts/run_modal_benchmark.py", line 171, in main
+    report = unpack_results(data, target / "results")
+  File "/Users/sidvenkatayogi/Documents/Code/gasp/scripts/run_modal_benchmark.py", line 126, in unpack_results
+    raise RuntimeError("Modal benchmark failed; inspect " + str(destination / "worker.json"))
+RuntimeError: Modal benchmark failed; inspect /Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-modal-20261017-060831/A100-80GB/results/worker.json

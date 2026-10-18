@@ -1,0 +1,954 @@
+{
+  "checkpoint_bytes": 42651359745,
+  "completed_updates": 11,
+  "condition": "split",
+  "notes": [
+    "Real on-policy HF training, batches up to 16, no cached training traces.",
+    "Exploratory input cap 2048 after measured 1035-token overflow; output caps remain 1024.",
+    "Four prior K4-filtered questions reused for timing; not a 200-question experiment.",
+    "One existing GPT corruption times evaluation only; accuracy is not a study result.",
+    "Ten cycle updates plus one return-to-agent update; full 200-update LR schedule."
+  ],
+  "phase_events": [
+    {
+      "phase": "load_model",
+      "seconds": 9.040053290000003,
+      "step": 0,
+      "success": true
+    },
+    {
+      "phase": "initialize_trainer",
+      "seconds": 7.283693452999998,
+      "step": 0,
+      "success": true
+    },
+    {
+      "phase": "initial_evaluation",
+      "seconds": 18.705721991000004,
+      "step": 0,
+      "success": true
+    },
+    {
+      "phase": "opponent_digest_before",
+      "seconds": 7.922313582000001,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "refresh_snapshot",
+      "seconds": 1.52279999952043e-05,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "optimizer_transfer",
+      "seconds": 0.0013169099999998934,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_clean_attempts",
+      "seconds": 12.525473097000003,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_corruption",
+      "seconds": 12.937535894999996,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 0.5913160350000055,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_completion",
+      "seconds": 0.5918063709999899,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "generate/repair_generation",
+      "seconds": 9.773330422000015,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "grpo_backward",
+      "seconds": 3.086478581000023,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "optimizer_step",
+      "seconds": 0.1597281710000118,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "training_update",
+      "seconds": 39.318803137,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "optimizer_transfer",
+      "seconds": 0.0021356299999979456,
+      "step": 2,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_clean_attempts",
+      "seconds": 19.817348426999985,
+      "step": 2,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_corruption",
+      "seconds": 30.370072574000005,
+      "step": 2,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 31.18744404100002,
+      "step": 2,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_completion",
+      "seconds": 31.18794108999998,
+      "step": 2,
+      "success": true
+    },
+    {
+      "phase": "generate/repair_generation",
+      "seconds": 30.21616568500002,
+      "step": 2,
+      "success": true
+    },
+    {
+      "phase": "grpo_backward",
+      "seconds": 3.1752779569999916,
+      "step": 2,
+      "success": true
+    },
+    {
+      "phase": "optimizer_step",
+      "seconds": 0.0800410319999969,
+      "step": 2,
+      "success": true
+    },
+    {
+      "phase": "training_update",
+      "seconds": 114.91231309599996,
+      "step": 2,
+      "success": true
+    },
+    {
+      "phase": "optimizer_transfer",
+      "seconds": 0.0021154690000457776,
+      "step": 3,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_clean_attempts",
+      "seconds": 7.463922758000024,
+      "step": 3,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_corruption",
+      "seconds": 12.395747144999973,
+      "step": 3,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 8.267461749000006,
+      "step": 3,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_completion",
+      "seconds": 8.26820560899995,
+      "step": 3,
+      "success": true
+    },
+    {
+      "phase": "generate/repair_generation",
+      "seconds": 19.26959965399999,
+      "step": 3,
+      "success": true
+    },
+    {
+      "phase": "grpo_backward",
+      "seconds": 3.012684515999979,
+      "step": 3,
+      "success": true
+    },
+    {
+      "phase": "optimizer_step",
+      "seconds": 0.08014540200002784,
+      "step": 3,
+      "success": true
+    },
+    {
+      "phase": "training_update",
+      "seconds": 50.72086345299999,
+      "step": 3,
+      "success": true
+    },
+    {
+      "phase": "optimizer_transfer",
+      "seconds": 0.002286362999996072,
+      "step": 4,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_clean_attempts",
+      "seconds": 30.052643442999965,
+      "step": 4,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_corruption",
+      "seconds": 18.535316233000003,
+      "step": 4,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 29.488765455999953,
+      "step": 4,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_completion",
+      "seconds": 29.489234142999976,
+      "step": 4,
+      "success": true
+    },
+    {
+      "phase": "generate/repair_generation",
+      "seconds": 19.725188503000027,
+      "step": 4,
+      "success": true
+    },
+    {
+      "phase": "grpo_backward",
+      "seconds": 3.1479516769999805,
+      "step": 4,
+      "success": true
+    },
+    {
+      "phase": "optimizer_step",
+      "seconds": 0.0801399389999915,
+      "step": 4,
+      "success": true
+    },
+    {
+      "phase": "training_update",
+      "seconds": 101.73257184900001,
+      "step": 4,
+      "success": true
+    },
+    {
+      "phase": "optimizer_transfer",
+      "seconds": 0.0022564069999475578,
+      "step": 5,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_clean_attempts",
+      "seconds": 30.252369477000002,
+      "step": 5,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_clean_attempts",
+      "seconds": 30.711059522000028,
+      "step": 5,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_clean_attempts",
+      "seconds": 30.81874427100007,
+      "step": 5,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_clean_attempts",
+      "seconds": 30.537695032999977,
+      "step": 5,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_corruption",
+      "seconds": 29.605038486000012,
+      "step": 5,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 31.124970795999957,
+      "step": 5,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_completion",
+      "seconds": 31.12549430399997,
+      "step": 5,
+      "success": true
+    },
+    {
+      "phase": "generate/repair_generation",
+      "seconds": 30.34363156300003,
+      "step": 5,
+      "success": true
+    },
+    {
+      "phase": "grpo_backward",
+      "seconds": 3.0523036900000307,
+      "step": 5,
+      "success": true
+    },
+    {
+      "phase": "optimizer_step",
+      "seconds": 0.08015019900005882,
+      "step": 5,
+      "success": true
+    },
+    {
+      "phase": "training_update",
+      "seconds": 216.80124805600002,
+      "step": 5,
+      "success": true
+    },
+    {
+      "phase": "opponent_digest_after",
+      "seconds": 7.905796014000089,
+      "step": 5,
+      "success": true
+    },
+    {
+      "phase": "opponent_digest_before",
+      "seconds": 7.952845824000065,
+      "step": 6,
+      "success": true
+    },
+    {
+      "phase": "refresh_snapshot",
+      "seconds": 1.4798000051996496e-05,
+      "step": 6,
+      "success": true
+    },
+    {
+      "phase": "optimizer_transfer",
+      "seconds": 3.091888089000008,
+      "step": 6,
+      "success": true
+    },
+    {
+      "phase": "generate/polluter_clean_attempts",
+      "seconds": 26.933478499000103,
+      "step": 6,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 31.570054493000043,
+      "step": 6,
+      "success": true
+    },
+    {
+      "phase": "generate/polluter_candidate",
+      "seconds": 31.570596719000037,
+      "step": 6,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 40.49393631499993,
+      "step": 6,
+      "success": true
+    },
+    {
+      "phase": "grpo_backward",
+      "seconds": 3.4102916749999395,
+      "step": 6,
+      "success": true
+    },
+    {
+      "phase": "optimizer_step",
+      "seconds": 0.09174507599993831,
+      "step": 6,
+      "success": true
+    },
+    {
+      "phase": "training_update",
+      "seconds": 105.71270880099996,
+      "step": 6,
+      "success": true
+    },
+    {
+      "phase": "optimizer_transfer",
+      "seconds": 0.003377213000021584,
+      "step": 7,
+      "success": true
+    },
+    {
+      "phase": "generate/polluter_clean_attempts",
+      "seconds": 6.537608152999951,
+      "step": 7,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 31.433145786999944,
+      "step": 7,
+      "success": true
+    },
+    {
+      "phase": "generate/polluter_candidate",
+      "seconds": 31.433678213999997,
+      "step": 7,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 34.42185080599995,
+      "step": 7,
+      "success": true
+    },
+    {
+      "phase": "grpo_backward",
+      "seconds": 3.1626502540000274,
+      "step": 7,
+      "success": true
+    },
+    {
+      "phase": "optimizer_step",
+      "seconds": 0.08018100799995409,
+      "step": 7,
+      "success": true
+    },
+    {
+      "phase": "training_update",
+      "seconds": 75.79430548799996,
+      "step": 7,
+      "success": true
+    },
+    {
+      "phase": "optimizer_transfer",
+      "seconds": 0.003223414999979468,
+      "step": 8,
+      "success": true
+    },
+    {
+      "phase": "generate/polluter_clean_attempts",
+      "seconds": 24.643405284000096,
+      "step": 8,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 25.816867844999933,
+      "step": 8,
+      "success": true
+    },
+    {
+      "phase": "generate/polluter_candidate",
+      "seconds": 25.817384178999987,
+      "step": 8,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 24.323417762000076,
+      "step": 8,
+      "success": true
+    },
+    {
+      "phase": "grpo_backward",
+      "seconds": 3.055783023999993,
+      "step": 8,
+      "success": true
+    },
+    {
+      "phase": "optimizer_step",
+      "seconds": 0.08014129000002868,
+      "step": 8,
+      "success": true
+    },
+    {
+      "phase": "training_update",
+      "seconds": 77.98939050799993,
+      "step": 8,
+      "success": true
+    },
+    {
+      "phase": "optimizer_transfer",
+      "seconds": 0.003243948999966051,
+      "step": 9,
+      "success": true
+    },
+    {
+      "phase": "generate/polluter_clean_attempts",
+      "seconds": 22.35322157600001,
+      "step": 9,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 32.69713049000006,
+      "step": 9,
+      "success": true
+    },
+    {
+      "phase": "generate/polluter_candidate",
+      "seconds": 32.697683213999994,
+      "step": 9,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 30.430828270999996,
+      "step": 9,
+      "success": true
+    },
+    {
+      "phase": "grpo_backward",
+      "seconds": 3.4461647550000407,
+      "step": 9,
+      "success": true
+    },
+    {
+      "phase": "optimizer_step",
+      "seconds": 0.0801500009999927,
+      "step": 9,
+      "success": true
+    },
+    {
+      "phase": "training_update",
+      "seconds": 89.07645211600004,
+      "step": 9,
+      "success": true
+    },
+    {
+      "phase": "optimizer_transfer",
+      "seconds": 0.00328463499999998,
+      "step": 10,
+      "success": true
+    },
+    {
+      "phase": "generate/polluter_clean_attempts",
+      "seconds": 30.92905583200013,
+      "step": 10,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 31.88895335999996,
+      "step": 10,
+      "success": true
+    },
+    {
+      "phase": "generate/polluter_candidate",
+      "seconds": 31.889478813000096,
+      "step": 10,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 44.84771184400006,
+      "step": 10,
+      "success": true
+    },
+    {
+      "phase": "grpo_backward",
+      "seconds": 3.6189257020000696,
+      "step": 10,
+      "success": true
+    },
+    {
+      "phase": "optimizer_step",
+      "seconds": 0.08031437799991181,
+      "step": 10,
+      "success": true
+    },
+    {
+      "phase": "training_update",
+      "seconds": 111.47743177799987,
+      "step": 10,
+      "success": true
+    },
+    {
+      "phase": "opponent_digest_after",
+      "seconds": 7.331229192999899,
+      "step": 10,
+      "success": true
+    },
+    {
+      "phase": "checkpoint",
+      "seconds": 57.92374856300012,
+      "step": 10,
+      "success": true
+    },
+    {
+      "phase": "resume",
+      "seconds": 47.78689994000001,
+      "step": 10,
+      "success": true
+    },
+    {
+      "phase": "opponent_digest_before",
+      "seconds": 6.397925415999907,
+      "step": 11,
+      "success": true
+    },
+    {
+      "phase": "refresh_snapshot",
+      "seconds": 1.1622000101851881e-05,
+      "step": 11,
+      "success": true
+    },
+    {
+      "phase": "optimizer_transfer",
+      "seconds": 1.3492798150000453,
+      "step": 11,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_clean_attempts",
+      "seconds": 7.984601951999821,
+      "step": 11,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_corruption",
+      "seconds": 12.023523736000016,
+      "step": 11,
+      "success": true
+    },
+    {
+      "phase": "generate_many",
+      "seconds": 0.6230641890001607,
+      "step": 11,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_completion",
+      "seconds": 0.6235479440001654,
+      "step": 11,
+      "success": true
+    },
+    {
+      "phase": "generate/repair_generation",
+      "seconds": 18.85373964900009,
+      "step": 11,
+      "success": true
+    },
+    {
+      "phase": "grpo_backward",
+      "seconds": 3.337517055000035,
+      "step": 11,
+      "success": true
+    },
+    {
+      "phase": "optimizer_step",
+      "seconds": 0.08008299500011162,
+      "step": 11,
+      "success": true
+    },
+    {
+      "phase": "training_update",
+      "seconds": 44.48178014599989,
+      "step": 11,
+      "success": true
+    },
+    {
+      "phase": "opponent_digest_after",
+      "seconds": 6.533812307000062,
+      "step": 11,
+      "success": true
+    },
+    {
+      "phase": "final_evaluation",
+      "seconds": 17.65638627699991,
+      "step": 11,
+      "success": true
+    }
+  ],
+  "success": true,
+  "telemetry": {
+    "checkpoint_wall_seconds": 0.0,
+    "cuda_elapsed_interval_seconds": 1027.8897929687498,
+    "evaluation_wall_seconds": 36.35790754700004,
+    "forward_training_tokens": 188532,
+    "loss_tokens": {
+      "agent": 32213,
+      "polluter": 62249,
+      "repair": 808
+    },
+    "optimizer_bytes": 28433410712,
+    "optimizer_cpu_bytes": 14216706712,
+    "optimizer_cuda_bytes": 14216704000,
+    "peak_gpu_allocated_bytes": 67348799488,
+    "peak_gpu_reserved_bytes": 69541560320,
+    "peak_process_rss_bytes": 83844460544,
+    "rollouts": {
+      "agent_clean_attempts": {
+        "allocated_tokens": 9216,
+        "generated_tokens": 6708,
+        "prompt_tokens": 1147,
+        "sequences": 9
+      },
+      "agent_completion": {
+        "allocated_tokens": 98304,
+        "generated_tokens": 32213,
+        "prompt_tokens": 22880,
+        "sequences": 96
+      },
+      "agent_corruption": {
+        "allocated_tokens": 6144,
+        "generated_tokens": 3900,
+        "prompt_tokens": 4184,
+        "sequences": 6
+      },
+      "polluter_agent_scoring": {
+        "allocated_tokens": 81920,
+        "generated_tokens": 18975,
+        "prompt_tokens": 38192,
+        "sequences": 80
+      },
+      "polluter_candidate": {
+        "allocated_tokens": 81920,
+        "generated_tokens": 62249,
+        "prompt_tokens": 69328,
+        "sequences": 80
+      },
+      "polluter_clean_attempts": {
+        "allocated_tokens": 5120,
+        "generated_tokens": 3697,
+        "prompt_tokens": 643,
+        "sequences": 5
+      },
+      "repair_generation": {
+        "allocated_tokens": 6144,
+        "generated_tokens": 4322,
+        "prompt_tokens": 3402,
+        "sequences": 6
+      }
+    },
+    "snapshot_bytes": 0,
+    "total_accounted_wall_seconds": 1064.251165186,
+    "trainable_parameter_count": 3554176000,
+    "training_wall_seconds": 1027.893257639,
+    "unique_role_parameter_bytes": 14216704000
+  },
+  "updates": [
+    {
+      "alphas": [
+        0.25
+      ],
+      "clean_attempts": [
+        1
+      ],
+      "grad_norm": 55.35673522949219,
+      "informative_samples": [
+        0
+      ],
+      "lr": 1.5000000000000002e-07,
+      "question_ids": [
+        "math-train-5942"
+      ],
+      "role": "agent",
+      "step": 1
+    },
+    {
+      "alphas": [
+        0.25
+      ],
+      "clean_attempts": [
+        1
+      ],
+      "grad_norm": 0.5382408499717712,
+      "informative_samples": [
+        16
+      ],
+      "lr": 3.0000000000000004e-07,
+      "question_ids": [
+        "math-train-1039"
+      ],
+      "role": "agent",
+      "step": 2
+    },
+    {
+      "alphas": [
+        0.25
+      ],
+      "clean_attempts": [
+        1
+      ],
+      "grad_norm": 80.95446014404297,
+      "informative_samples": [
+        16
+      ],
+      "lr": 4.5e-07,
+      "question_ids": [
+        "math-train-1739"
+      ],
+      "role": "agent",
+      "step": 3
+    },
+    {
+      "alphas": [
+        0.0
+      ],
+      "clean_attempts": [
+        1
+      ],
+      "grad_norm": 153.46546936035156,
+      "informative_samples": [
+        16
+      ],
+      "lr": 6.000000000000001e-07,
+      "question_ids": [
+        "math-train-4025"
+      ],
+      "role": "agent",
+      "step": 4
+    },
+    {
+      "alphas": [
+        0.0
+      ],
+      "clean_attempts": [
+        4
+      ],
+      "grad_norm": 185.81455993652344,
+      "informative_samples": [
+        16
+      ],
+      "lr": 7.5e-07,
+      "question_ids": [
+        "math-train-4025"
+      ],
+      "role": "agent",
+      "step": 5
+    },
+    {
+      "alphas": [
+        0.0
+      ],
+      "clean_attempts": [
+        1
+      ],
+      "grad_norm": 0.40477558970451355,
+      "informative_samples": [
+        16
+      ],
+      "lr": 9e-07,
+      "question_ids": [
+        "math-train-1039"
+      ],
+      "role": "polluter",
+      "step": 6
+    },
+    {
+      "alphas": [
+        0.0
+      ],
+      "clean_attempts": [
+        1
+      ],
+      "grad_norm": 0.8686671853065491,
+      "informative_samples": [
+        16
+      ],
+      "lr": 1.05e-06,
+      "question_ids": [
+        "math-train-1739"
+      ],
+      "role": "polluter",
+      "step": 7
+    },
+    {
+      "alphas": [
+        0.25
+      ],
+      "clean_attempts": [
+        1
+      ],
+      "grad_norm": 0.638759434223175,
+      "informative_samples": [
+        16
+      ],
+      "lr": 1.2000000000000002e-06,
+      "question_ids": [
+        "math-train-5942"
+      ],
+      "role": "polluter",
+      "step": 8
+    },
+    {
+      "alphas": [
+        0.25
+      ],
+      "clean_attempts": [
+        1
+      ],
+      "grad_norm": 0.4858620762825012,
+      "informative_samples": [
+        16
+      ],
+      "lr": 1.35e-06,
+      "question_ids": [
+        "math-train-5942"
+      ],
+      "role": "polluter",
+      "step": 9
+    },
+    {
+      "alphas": [
+        0.75
+      ],
+      "clean_attempts": [
+        1
+      ],
+      "grad_norm": 0.5304967761039734,
+      "informative_samples": [
+        16
+      ],
+      "lr": 1.5e-06,
+      "question_ids": [
+        "math-train-4025"
+      ],
+      "role": "polluter",
+      "step": 10
+    },
+    {
+      "alphas": [
+        0.25
+      ],
+      "clean_attempts": [
+        1
+      ],
+      "grad_norm": 73.54755401611328,
+      "informative_samples": [
+        0
+      ],
+      "lr": 1.65e-06,
+      "question_ids": [
+        "math-train-1739"
+      ],
+      "role": "agent",
+      "step": 11
+    }
+  ],
+  "wall_seconds": 1230.9188797210002
+}

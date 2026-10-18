@@ -1,0 +1,400 @@
+Results: /Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-modal-20261017-061436
+✓ Initialized. View run at 
+https://modal.com/apps/sidvenkatayogi/main/ap-5vUzGCOP33JyoZJNuGgjaZ
+✓ Created objects.
+├── ✓ Uploaded 
+│   /Users/sidvenkatayogi/Documents/Code/gasp/scripts/run_modal_benchmark.py
+├── ✓ Uploaded 
+│   /Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-modal-20261017-0614
+│   36/source.zip
+└── ✓ Created Function worker.
+Starting hardware
+Sat Oct 17 06:14:44 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 610.57.04              KMD Version: 610.57.04     CUDA UMD Version: 13.3     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-SXM4-80GB          On  |   00000000:5F:00.0 Off |                    0 |
+| N/A   31C    P0             63W /  500W |       4MiB /  81920MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+Starting packages
+
+openai-harmony==0.0.8
+opencv-python-headless==5.0.0.93
+opentelemetry-api==1.45.1
+opentelemetry-exporter-http-transport==0.66b1
+opentelemetry-exporter-otlp-common==0.66b1
+opentelemetry-exporter-otlp-proto-common==1.45.1
+opentelemetry-exporter-otlp-proto-http==1.45.1
+opentelemetry-proto==1.45.1
+opentelemetry-sdk==1.45.1
+opentelemetry-semantic-conventions==0.66b1
+outlines_core==0.2.10
+packaging==26.3
+pandas==2.2.3
+partial-json-parser==0.2.1.1.post7
+peft==0.18.0
+pillow==13.0.0
+platformdirs==4.13.3
+pluggy==1.7.0
+prometheus-fastapi-instrumentator==8.1.0
+prometheus_client==0.26.0
+propcache==0.5.4
+protobuf==7.36.2
+psutil==7.2.2
+py-cpuinfo==9.0.0
+pyarrow==26.0.0
+pybase64==1.5.1
+pycountry==26.2.16
+pycparser==3.11
+pydantic==2.14.1
+pydantic-extra-types==2.11.1
+pydantic-settings==2.16.0
+pydantic_core==2.50.1
+Pygments==2.21.0
+pyparsing==3.3.3
+pytest==9.0.2
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.4
+python-json-logger==4.2.0
+python-multipart==0.0.32
+pytz==2026.5
+PyYAML==6.0.3
+pyzmq==27.2.0
+ray==2.59.0
+referencing==0.37.0
+regex==2026.9.29
+requests==2.34.2
+rich==15.0.0
+rich-toolkit==0.20.6
+rignore==0.8.1
+rpds-py==2026.9.1
+safetensors==0.8.0
+scipy==1.18.1
+sentencepiece==0.2.2
+sentry-sdk==2.72.0
+setproctitle==1.3.8
+setuptools==79.0.1
+shellingham==1.5.4
+six==1.17.0
+sniffio==1.3.1
+soundfile==0.14.0
+soxr==1.1.0
+starlette==1.8.0
+sympy==1.14.0
+tiktoken==0.14.0
+tokenizers==0.22.2
+torch==2.7.1
+torchaudio==2.7.1
+torchvision==0.22.1
+tornado==6.5.10
+tqdm==4.70.1
+traitlets==5.16.1
+transformers==4.57.6
+triton==3.3.1
+truststore==0.10.5
+typer==0.27.3
+typing-inspection==0.4.4
+typing_extensions==4.16.0
+tzdata==2026.5
+urllib3==2.8.0
+uv==0.7.19
+uvicorn==0.54.0
+uvloop==0.23.0
+vllm==0.10.1.1
+watchfiles==1.3.0
+websockets==17.2
+wheel==0.45.1
+xformers==0.0.31
+xgrammar==0.1.21
+xxhash==4.0.1
+yarl==1.25.1
+
+Starting tests
+........................................................................ [ 73%]
+..........................                                               [100%]
+98 passed in 32.52s
+
+Starting hf
+279, 7571, 7117, 458, 3311, 6144, 311, 279, 1372, 315, 42954, 7117, 553, 279, 13007, 5519, 3040, 3039, 438, 1657, 511, 988, 6436, 438, 279, 13007, 11, 1246, 1657, 511, 988, 6436, 1033, 7117, 553, 1817, 3743, 30, 151645, 151648, 198]], "question_ids": ["gsm8k-test-317", "gsm8k-test-665", "gsm8k-test-182", "gsm8k-test-534"], "greedy_tokens": [[32313, 11, 773, 358, 1184, 311, 7071, 700, 1246, 1753, 432, 7049, 311, 5155, 3757, 594, 7314, 13, 6771, 752, 1191, 553, 8660, 279, 3491, 13, 576, 7314, 702, 15336, 315, 220, 21, 7541, 553, 220, 19, 7541, 11, 323, 432, 594, 220, 20, 7541, 5538, 13, 576, 2783, 311, 5155, 432, 374, 400, 15, 13, 16, 817, 40899, 4478, 13, 4710, 5338, 11], [32313, 11, 773, 358, 1184, 311, 7071, 700, 1246, 1753, 882, 279, 6888, 13336, 8329, 21127, 304, 825, 1899, 13, 6771, 752, 1438, 419, 1495, 3019, 553, 3019, 382, 5338, 11, 279, 3491, 2727, 1052, 525, 220, 16, 20, 15, 13336, 389, 279, 2906, 19240, 5473, 13, 4371, 315, 1493, 11, 220, 21, 15, 4, 525, 3840, 13336, 13, 2938, 3363, 279, 9664, 11414], [32313, 11, 773, 358, 1184, 311, 7071, 700, 1246, 2310, 19685, 374, 13, 6771, 752, 1191, 553, 14719, 1495, 279, 1995, 2661, 3019, 553, 3019, 382, 5338, 11, 279, 3491, 2727, 19685, 374, 1378, 1635, 9014, 1091, 4389, 13, 2055, 11, 421, 358, 1077, 4389, 594, 1482, 4231, 387, 386, 11, 1221, 19685, 594, 4231, 1035, 387, 386, 488, 220, 17, 13, 2938, 594], [32313, 11, 773, 358, 614, 419, 3491, 1588, 911, 17073, 6837, 2087, 389, 264, 2906, 8411, 13, 2379, 2299, 17779, 1119, 1378, 6144, 5203, 11, 825, 448, 7571, 323, 825, 448, 13007, 13, 2379, 3937, 389, 264, 82650, 10009, 19073, 369, 511, 988, 6436, 13, 576, 13007, 1817, 7117, 220, 21, 15, 42954, 13, 576, 7571, 11, 389, 279, 1008, 1424, 11, 7117, 458]], "scores": [[1, 1, 0, 0], [1, 1, 1, 1], [0, 0, 1, 0], [1, 1, 0, 0]]}
+
+Starting inference
+, "sequences": 4, "generated_tokens": 3540, "tokens_per_second": 649.8008587431118, "mean_prompt_tokens": 665.25, "capped": 2, "n": 1, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "agent_G64", "seconds": 8.731878550000005, "sequences": 256, "generated_tokens": 69755, "tokens_per_second": 7988.544458168164, "mean_prompt_tokens": 314.5, "capped": 7, "n": 64, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "agent_repair", "seconds": 4.323004154999978, "sequences": 4, "generated_tokens": 2545, "tokens_per_second": 588.71097707747, "mean_prompt_tokens": 647.0, "capped": 0, "n": 1, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "polluter_G64", "seconds": 20.507436813000027, "sequences": 256, "generated_tokens": 195446, "tokens_per_second": 9530.493829248486, "mean_prompt_tokens": 665.25, "capped": 54, "n": 64, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "polluter_scoring", "seconds": 11.726038176000031, "sequences": 256, "generated_tokens": 94432, "tokens_per_second": 8053.1888590706, "mean_prompt_tokens": 281.38671875, "capped": 38, "n": 1, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "greedy_evaluation_shape", "seconds": 1.1774806740000372, "sequences": 64, "generated_tokens": 7424, "tokens_per_second": 6304.986709276356, "mean_prompt_tokens": 314.5, "capped": 0, "n": 1, "temperature": 0.0, "limit": 1024, "forced_length_diagnostic": false}
+[rank0]:[W1017 06:19:20.670955836 ProcessGroupNCCL.cpp:1479] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+
+Starting backward-unified
+`torch_dtype` is deprecated! Use `dtype` instead!
+{"role": "agent", "transfer_seconds": 0.0008463419999884536, "snapshot_seconds": 0.07419806899997639, "old_logps_seconds": 6.720823704999987, "backward_seconds": 31.00783075099997, "repair_seconds": 0.42231137500004934, "sample_tokens": 49515, "samples": 256, "optimizer_seconds": 0.1476754260000348, "grad_norm": 86.36563873291016, "peak_allocated_bytes": 37468374528, "peak_reserved_bytes": 39998980096}
+{"role": "polluter", "transfer_seconds": 0.0014863639999589395, "snapshot_seconds": 0.03611695200004306, "old_logps_seconds": 11.386119662999931, "backward_seconds": 45.92054383599998, "repair_seconds": 0.0, "sample_tokens": 209189, "samples": 256, "optimizer_seconds": 0.09529038499999842, "grad_norm": 0.1554773598909378, "peak_allocated_bytes": 39567427072, "peak_reserved_bytes": 43318771712}
+
+Starting backward-split
+`torch_dtype` is deprecated! Use `dtype` instead!
+{"role": "agent", "transfer_seconds": 0.0008447529999671133, "snapshot_seconds": 9.76190000301358e-05, "old_logps_seconds": 6.768493664000005, "backward_seconds": 31.20481287399997, "repair_seconds": 0.4237756220000506, "sample_tokens": 49515, "samples": 256, "optimizer_seconds": 0.17210251799997422, "grad_norm": 86.3865737915039, "peak_allocated_bytes": 37468374528, "peak_reserved_bytes": 39998980096}
+{"role": "polluter", "transfer_seconds": 4.629115412999965, "snapshot_seconds": 3.3514000051582116e-05, "old_logps_seconds": 11.449715945999912, "backward_seconds": 45.95810806999998, "repair_seconds": 0.0, "sample_tokens": 209189, "samples": 256, "optimizer_seconds": 0.10421813400000701, "grad_norm": 0.15554101765155792, "peak_allocated_bytes": 37472888320, "peak_reserved_bytes": 39998980096}
+
+{
+  "success": true,
+  "requested_gpu": "A100-80GB",
+  "commands": [
+    {
+      "label": "hardware",
+      "returncode": 0,
+      "seconds": 0.47138214999999994
+    },
+    {
+      "label": "packages",
+      "returncode": 0,
+      "seconds": 0.5728483170000003
+    },
+    {
+      "label": "tests",
+      "returncode": 0,
+      "seconds": 36.385467074000005
+    },
+    {
+      "label": "hf",
+      "returncode": 0,
+      "seconds": 38.321389487000005
+    },
+    {
+      "label": "inference",
+      "returncode": 0,
+      "seconds": 201.747808722
+    },
+    {
+      "label": "backward-unified",
+      "returncode": 0,
+      "seconds": 103.43028884
+    },
+    {
+      "label": "backward-split",
+      "returncode": 0,
+      "seconds": 108.71657142599997
+    }
+  ],
+  "started_at": 1792217684.5124974,
+  "fixed_backward_fixture": "artifacts/gasp-vllm-20261017-053328/results/vllm.json",
+  "fixture_sha256": "0696377421497c0918e7cdddd65e0b2542b15fc83b92bf3bd99bf8fc79671fe4",
+  "finished_at": 1792218174.1795814
+}
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/sidvenkatayogi/main/ap-5vUzGCOP33JyoZJNuGgjaZ
+✓ Initialized. View run at 
+https://modal.com/apps/sidvenkatayogi/main/ap-pmUQsnyI9xJmenfnwL3NEO
+✓ Created objects.
+├── ✓ Uploaded 
+│   /Users/sidvenkatayogi/Documents/Code/gasp/artifacts/gasp-modal-20261017-0614
+│   36/source.zip
+├── ✓ Uploaded 
+│   /Users/sidvenkatayogi/Documents/Code/gasp/scripts/run_modal_benchmark.py
+└── ✓ Created Function worker.
+Starting hardware
+Sat Oct 17 06:23:01 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 610.57.04              KMD Version: 610.57.04     CUDA UMD Version: 13.3     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 80GB HBM3          On  |   00000000:85:00.0 Off |                    0 |
+| N/A   34C    P0             76W /  700W |       4MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+Starting packages
+
+openai-harmony==0.0.8
+opencv-python-headless==5.0.0.93
+opentelemetry-api==1.45.1
+opentelemetry-exporter-http-transport==0.66b1
+opentelemetry-exporter-otlp-common==0.66b1
+opentelemetry-exporter-otlp-proto-common==1.45.1
+opentelemetry-exporter-otlp-proto-http==1.45.1
+opentelemetry-proto==1.45.1
+opentelemetry-sdk==1.45.1
+opentelemetry-semantic-conventions==0.66b1
+outlines_core==0.2.10
+packaging==26.3
+pandas==2.2.3
+partial-json-parser==0.2.1.1.post7
+peft==0.18.0
+pillow==13.0.0
+platformdirs==4.13.3
+pluggy==1.7.0
+prometheus-fastapi-instrumentator==8.1.0
+prometheus_client==0.26.0
+propcache==0.5.4
+protobuf==7.36.2
+psutil==7.2.2
+py-cpuinfo==9.0.0
+pyarrow==26.0.0
+pybase64==1.5.1
+pycountry==26.2.16
+pycparser==3.11
+pydantic==2.14.1
+pydantic-extra-types==2.11.1
+pydantic-settings==2.16.0
+pydantic_core==2.50.1
+Pygments==2.21.0
+pyparsing==3.3.3
+pytest==9.0.2
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.4
+python-json-logger==4.2.0
+python-multipart==0.0.32
+pytz==2026.5
+PyYAML==6.0.3
+pyzmq==27.2.0
+ray==2.59.0
+referencing==0.37.0
+regex==2026.9.29
+requests==2.34.2
+rich==15.0.0
+rich-toolkit==0.20.6
+rignore==0.8.1
+rpds-py==2026.9.1
+safetensors==0.8.0
+scipy==1.18.1
+sentencepiece==0.2.2
+sentry-sdk==2.72.0
+setproctitle==1.3.8
+setuptools==79.0.1
+shellingham==1.5.4
+six==1.17.0
+sniffio==1.3.1
+soundfile==0.14.0
+soxr==1.1.0
+starlette==1.8.0
+sympy==1.14.0
+tiktoken==0.14.0
+tokenizers==0.22.2
+torch==2.7.1
+torchaudio==2.7.1
+torchvision==0.22.1
+tornado==6.5.10
+tqdm==4.70.1
+traitlets==5.16.1
+transformers==4.57.6
+triton==3.3.1
+truststore==0.10.5
+typer==0.27.3
+typing-inspection==0.4.4
+typing_extensions==4.16.0
+tzdata==2026.5
+urllib3==2.8.0
+uv==0.7.19
+uvicorn==0.54.0
+uvloop==0.23.0
+vllm==0.10.1.1
+watchfiles==1.3.0
+websockets==17.2
+wheel==0.45.1
+xformers==0.0.31
+xgrammar==0.1.21
+xxhash==4.0.1
+yarl==1.25.1
+
+Starting tests
+........................................................................ [ 73%]
+..........................                                               [100%]
+98 passed in 34.35s
+
+Starting hf
+279, 7571, 7117, 458, 3311, 6144, 311, 279, 1372, 315, 42954, 7117, 553, 279, 13007, 5519, 3040, 3039, 438, 1657, 511, 988, 6436, 438, 279, 13007, 11, 1246, 1657, 511, 988, 6436, 1033, 7117, 553, 1817, 3743, 30, 151645, 151648, 198]], "question_ids": ["gsm8k-test-317", "gsm8k-test-665", "gsm8k-test-182", "gsm8k-test-534"], "greedy_tokens": [[32313, 11, 773, 358, 1184, 311, 7071, 700, 1246, 1753, 432, 7049, 311, 5155, 3757, 594, 7314, 13, 6771, 752, 1191, 553, 8660, 279, 3491, 13, 576, 7314, 702, 15336, 315, 220, 21, 7541, 553, 220, 19, 7541, 11, 323, 432, 594, 220, 20, 7541, 5538, 13, 576, 2783, 311, 5155, 432, 374, 400, 15, 13, 16, 817, 40899, 4478, 13, 4710, 5338, 11], [32313, 11, 773, 358, 1184, 311, 7071, 700, 1246, 1753, 882, 279, 6888, 13336, 8329, 21127, 304, 825, 1899, 13, 6771, 752, 1438, 419, 1495, 3019, 553, 3019, 382, 5338, 11, 279, 3491, 2727, 1052, 525, 220, 16, 20, 15, 13336, 389, 279, 2906, 19240, 5473, 13, 4371, 315, 1493, 11, 220, 21, 15, 4, 525, 3840, 13336, 13, 2938, 3363, 279, 9664, 11414], [32313, 11, 773, 358, 1184, 311, 7071, 700, 1246, 2310, 19685, 374, 13, 6771, 752, 1191, 553, 14719, 1495, 279, 1995, 2661, 3019, 553, 3019, 382, 5338, 11, 279, 3491, 2727, 19685, 374, 1378, 1635, 9014, 1091, 4389, 13, 2055, 11, 421, 358, 1077, 4389, 594, 1482, 4231, 387, 386, 11, 1221, 19685, 594, 4231, 1035, 387, 386, 488, 220, 17, 13, 2938, 594], [32313, 11, 773, 358, 614, 419, 3491, 1588, 911, 17073, 6837, 2087, 389, 264, 2906, 8411, 13, 2379, 2299, 17779, 1119, 1378, 6144, 5203, 11, 825, 448, 7571, 323, 825, 448, 13007, 13, 2379, 3937, 389, 264, 82650, 10009, 19073, 369, 511, 988, 6436, 13, 576, 13007, 1817, 7117, 220, 21, 15, 42954, 13, 576, 7571, 11, 389, 279, 1008, 1424, 11, 7117, 458]], "scores": [[0, 1, 0, 1], [1, 1, 1, 1], [0, 0, 1, 0], [0, 0, 1, 1]]}
+
+Starting inference
+": 0, "n": 1, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "agent_G64", "seconds": 3.500570094000011, "sequences": 192, "generated_tokens": 47295, "tokens_per_second": 13510.656473088138, "mean_prompt_tokens": 318.0, "capped": 0, "n": 64, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "agent_repair", "seconds": 3.6310040980000053, "sequences": 3, "generated_tokens": 1814, "tokens_per_second": 499.58632682325253, "mean_prompt_tokens": 654.0, "capped": 1, "n": 1, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "polluter_G64", "seconds": 12.364398021, "sequences": 192, "generated_tokens": 161612, "tokens_per_second": 13070.753604462925, "mean_prompt_tokens": 658.3333333333334, "capped": 61, "n": 64, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "polluter_scoring", "seconds": 5.774510539000005, "sequences": 192, "generated_tokens": 49756, "tokens_per_second": 8616.487867492306, "mean_prompt_tokens": 289.8125, "capped": 10, "n": 1, "temperature": 0.7, "limit": 1024, "forced_length_diagnostic": false}
+{"label": "greedy_evaluation_shape", "seconds": 1.600856202999978, "sequences": 48, "generated_tokens": 13194, "tokens_per_second": 8241.839570146689, "mean_prompt_tokens": 318.0, "capped": 0, "n": 1, "temperature": 0.0, "limit": 1024, "forced_length_diagnostic": false}
+[rank0]:[W1017 06:26:41.660658114 ProcessGroupNCCL.cpp:1479] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+ERROR 10-17 06:26:42 [core_client.py:562] Engine core proc EngineCore_0 died unexpectedly, shutting down client.
+
+Starting backward-unified
+`torch_dtype` is deprecated! Use `dtype` instead!
+{"role": "agent", "transfer_seconds": 0.0007425350000005437, "snapshot_seconds": 0.06453749499999617, "old_logps_seconds": 5.633826350999982, "backward_seconds": 31.36050493000002, "repair_seconds": 0.5770867540000211, "sample_tokens": 49515, "samples": 256, "optimizer_seconds": 0.21059209100002363, "grad_norm": 87.03901672363281, "peak_allocated_bytes": 37518292480, "peak_reserved_bytes": 40049311744}
+{"role": "polluter", "transfer_seconds": 0.0014904399999977613, "snapshot_seconds": 0.03670291499997802, "old_logps_seconds": 6.4820878750000475, "backward_seconds": 32.196269782, "repair_seconds": 0.0, "sample_tokens": 209189, "samples": 256, "optimizer_seconds": 0.057905241000014485, "grad_norm": 0.15495629608631134, "peak_allocated_bytes": 39621147136, "peak_reserved_bytes": 43369103360}
+
+Starting backward-split
+`torch_dtype` is deprecated! Use `dtype` instead!
+{"role": "agent", "transfer_seconds": 0.0007896879999975681, "snapshot_seconds": 9.104599996589968e-05, "old_logps_seconds": 5.685930992000067, "backward_seconds": 33.597994956000036, "repair_seconds": 0.5767261979999603, "sample_tokens": 49515, "samples": 256, "optimizer_seconds": 0.11979761200001349, "grad_norm": 87.02306365966797, "peak_allocated_bytes": 37518292480, "peak_reserved_bytes": 40049311744}
+{"role": "polluter", "transfer_seconds": 4.766689422000013, "snapshot_seconds": 3.648599999905855e-05, "old_logps_seconds": 6.886300123000012, "backward_seconds": 37.164353129999995, "repair_seconds": 0.0, "sample_tokens": 209189, "samples": 256, "optimizer_seconds": 0.06470710500002497, "grad_norm": 0.1554982215166092, "peak_allocated_bytes": 37524477440, "peak_reserved_bytes": 40049311744}
+
+{
+  "success": true,
+  "requested_gpu": "H100!",
+  "commands": [
+    {
+      "label": "hardware",
+      "returncode": 0,
+      "seconds": 0.21926546299999994
+    },
+    {
+      "label": "packages",
+      "returncode": 0,
+      "seconds": 0.5739897300000001
+    },
+    {
+      "label": "tests",
+      "returncode": 0,
+      "seconds": 39.468278141999996
+    },
+    {
+      "label": "hf",
+      "returncode": 0,
+      "seconds": 35.817342763999996
+    },
+    {
+      "label": "inference",
+      "returncode": 0,
+      "seconds": 146.46680606
+    },
+    {
+      "label": "backward-unified",
+      "returncode": 0,
+      "seconds": 84.67056839
+    },
+    {
+      "label": "backward-split",
+      "returncode": 0,
+      "seconds": 97.01339920000004
+    }
+  ],
+  "started_at": 1792218181.2970207,
+  "fixed_backward_fixture": "artifacts/gasp-vllm-20261017-053328/results/vllm.json",
+  "fixture_sha256": "0696377421497c0918e7cdddd65e0b2542b15fc83b92bf3bd99bf8fc79671fe4",
+  "finished_at": 1792218585.5512033
+}
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/sidvenkatayogi/main/ap-pmUQsnyI9xJmenfnwL3NEO

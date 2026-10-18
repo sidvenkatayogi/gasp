@@ -1,0 +1,191 @@
+{
+  "completed_updates": 1,
+  "condition": "split",
+  "error": "Traceback (most recent call last):\n  File \"/work/gasp/scripts/probe_cycle.py\", line 106, in run\n    entry = timing.call(\"training_update\", trainer.step)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/gasp/scripts/probe_cycle.py\", line 40, in call\n    result = function(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/gasp/src/gasp/trainer.py\", line 271, in step\n    result = (self.agent_context if role == \"agent\" else self.polluter_context)(row, prefix, clean)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/gasp/src/gasp/trainer.py\", line 202, in agent_context\n    privileged = self.prompts.repair(row[\"question\"], prefix, clean, window)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/gasp/src/gasp/prompts.py\", line 149, in repair\n    return self.fit(lambda p: self.chat(\"You are a helpful reasoning assistant. Solve the user's problem.\",\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/gasp/src/gasp/prompts.py\", line 120, in fit\n    raise ValueError(f\"Role prompt has {len(ids)} tokens, exceeding prompt budget \"\nValueError: Role prompt has 1035 tokens, exceeding prompt budget 1024; refusing to truncate the shared reasoning prefix. An overflow policy needs an explicit protocol decision; changing the cap departs from paper settings.\n",
+  "notes": [
+    "Real on-policy HF training, serial generation, no cached training traces.",
+    "Four prior K4-filtered questions reused for timing; not a 200-question experiment.",
+    "One existing GPT corruption times evaluation only; accuracy is not a study result.",
+    "Ten cycle updates plus one return-to-agent update; full 200-update LR schedule."
+  ],
+  "phase_events": [
+    {
+      "phase": "load_model",
+      "seconds": 12.02390122700001,
+      "step": 0,
+      "success": true
+    },
+    {
+      "phase": "initialize_trainer",
+      "seconds": 8.157036121000004,
+      "step": 0,
+      "success": true
+    },
+    {
+      "phase": "initial_evaluation",
+      "seconds": 20.131062951000004,
+      "step": 0,
+      "success": true
+    },
+    {
+      "phase": "opponent_digest_before",
+      "seconds": 7.9737532879999975,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "refresh_snapshot",
+      "seconds": 1.663099999404949e-05,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "optimizer_transfer",
+      "seconds": 0.0012983310000009851,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_clean_attempts",
+      "seconds": 12.28089061499999,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_corruption",
+      "seconds": 13.125395228000002,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_completion",
+      "seconds": 1.1192796359999875,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "generate/repair_generation",
+      "seconds": 15.171184092000004,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "grpo_backward",
+      "seconds": 3.125533485999995,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "optimizer_step",
+      "seconds": 0.16975457399999527,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "training_update",
+      "seconds": 45.25580050500001,
+      "step": 1,
+      "success": true
+    },
+    {
+      "phase": "optimizer_transfer",
+      "seconds": 0.00226086300000361,
+      "step": 2,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_clean_attempts",
+      "seconds": 14.811299553999987,
+      "step": 2,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_corruption",
+      "seconds": 25.694285487000002,
+      "step": 2,
+      "success": true
+    },
+    {
+      "phase": "generate/agent_completion",
+      "seconds": 80.55342867000002,
+      "step": 2,
+      "success": true
+    },
+    {
+      "phase": "training_update",
+      "seconds": 121.21535846900002,
+      "step": 2,
+      "success": false
+    }
+  ],
+  "success": false,
+  "telemetry": {
+    "checkpoint_wall_seconds": 0.0,
+    "cuda_elapsed_interval_seconds": 45.24605859375,
+    "evaluation_wall_seconds": 20.128418198999995,
+    "forward_training_tokens": 3131,
+    "loss_tokens": {
+      "agent": 16,
+      "polluter": 0,
+      "repair": 38
+    },
+    "optimizer_bytes": 14216705356,
+    "optimizer_cpu_bytes": 1356,
+    "optimizer_cuda_bytes": 14216704000,
+    "peak_gpu_allocated_bytes": 37470622720,
+    "peak_gpu_reserved_bytes": 39652950016,
+    "peak_process_rss_bytes": 14842605568,
+    "rollouts": {
+      "agent_clean_attempts": {
+        "allocated_tokens": 2048,
+        "generated_tokens": 922,
+        "prompt_tokens": 284,
+        "sequences": 2
+      },
+      "agent_completion": {
+        "allocated_tokens": 32768,
+        "generated_tokens": 2656,
+        "prompt_tokens": 14208,
+        "sequences": 32
+      },
+      "agent_corruption": {
+        "allocated_tokens": 2048,
+        "generated_tokens": 1270,
+        "prompt_tokens": 1458,
+        "sequences": 2
+      },
+      "repair_generation": {
+        "allocated_tokens": 1024,
+        "generated_tokens": 514,
+        "prompt_tokens": 473,
+        "sequences": 1
+      }
+    },
+    "snapshot_bytes": 0,
+    "total_accounted_wall_seconds": 65.375169532,
+    "trainable_parameter_count": 3554176000,
+    "training_wall_seconds": 45.246751333000006,
+    "unique_role_parameter_bytes": 14216704000
+  },
+  "updates": [
+    {
+      "alphas": [
+        0.25
+      ],
+      "clean_attempts": [
+        1
+      ],
+      "grad_norm": 73.18202209472656,
+      "informative_samples": [
+        0
+      ],
+      "lr": 1.5000000000000002e-07,
+      "question_ids": [
+        "math-train-5942"
+      ],
+      "role": "agent",
+      "step": 1
+    }
+  ],
+  "wall_seconds": 215.117330733
+}

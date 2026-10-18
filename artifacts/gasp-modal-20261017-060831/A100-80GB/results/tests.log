@@ -1,0 +1,1587 @@
+...................F.F..........................FFFFF....F....FFFFFFFFFF [ 73%]
+FFFF....FFFF..............                                               [100%]
+=================================== FAILURES ===================================
+_______________ test_evaluation_cache_identity_and_rng_isolation _______________
+
+factory = <function factory.<locals>.create at 0x2b3b7671e3e0>
+
+    def test_evaluation_cache_identity_and_rng_isolation(factory):
+>       u,s=factory("unified"),factory("split")
+            ^^^^^^^^^^^^^^^^^^
+
+tests/test_data_eval.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+____________________ test_end_to_end_and_aggregation_guards ____________________
+
+factory = <function factory.<locals>.create at 0x2b3b76683740>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_end_to_end_and_aggregatio0')
+
+    def test_end_to_end_and_aggregation_guards(factory,tmp_path):
+>       u,s=factory("unified"),factory("split")
+            ^^^^^^^^^^^^^^^^^^
+
+tests/test_data_eval.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+_________ test_trainer_does_not_clone_unfinished_privileged_reasoning __________
+
+factory = <function factory.<locals>.create at 0x2b3b76775da0>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x2b3b767a8dd0>
+
+    def test_trainer_does_not_clone_unfinished_privileged_reasoning(factory, monkeypatch):
+>       t=factory("split")
+          ^^^^^^^^^^^^^^^^
+
+tests/test_fidelity.py:80: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+________ test_clean_context_retries_current_policy_and_never_uses_cache ________
+
+factory = <function factory.<locals>.create at 0x2b3b76776700>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x2b3b767a9a60>
+
+    def test_clean_context_retries_current_policy_and_never_uses_cache(factory, monkeypatch):
+>       t=factory("split")
+          ^^^^^^^^^^^^^^^^
+
+tests/test_fidelity.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+____________ test_clean_retry_exhaustion_does_not_advance_optimizer ____________
+
+factory = <function factory.<locals>.create at 0x2b3b76775a80>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x2b3b77f4be60>
+
+    def test_clean_retry_exhaustion_does_not_advance_optimizer(factory, monkeypatch):
+>       t=factory("split")
+          ^^^^^^^^^^^^^^^^
+
+tests/test_fidelity.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+__________ test_unformatted_corruption_does_not_mask_training[agent] ___________
+
+factory = <function factory.<locals>.create at 0x2b3b7660cd60>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x2b3b76620080>
+role = 'agent'
+
+    @pytest.mark.parametrize("role", ["agent", "polluter"])
+    def test_unformatted_corruption_does_not_mask_training(factory, monkeypatch, role):
+>       t=factory("split")
+          ^^^^^^^^^^^^^^^^
+
+tests/test_fidelity.py:131: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+_________ test_unformatted_corruption_does_not_mask_training[polluter] _________
+
+factory = <function factory.<locals>.create at 0x2b3b766836a0>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x2b3b767b1070>
+role = 'polluter'
+
+    @pytest.mark.parametrize("role", ["agent", "polluter"])
+    def test_unformatted_corruption_does_not_mask_training(factory, monkeypatch, role):
+>       t=factory("split")
+          ^^^^^^^^^^^^^^^^
+
+tests/test_fidelity.py:131: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+___________ test_old_checkpoint_protocol_cannot_be_silently_resumed ____________
+
+factory = <function factory.<locals>.create at 0x2b3b7df4cfe0>
+
+    def test_old_checkpoint_protocol_cannot_be_silently_resumed(factory):
+        import torch
+        from gasp.data import sha256, write_json
+>       t=factory()
+          ^^^^^^^^^
+
+tests/test_fidelity.py:217: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+_______ test_offload_matches_resident_adam_and_resumes[cpu-fp32-unified] _______
+
+config = Config(condition='unified', label='smoke-synthetic-not-paper-reproduction', model='tiny-random-qwen2-local', revision=...y_fraction=0.2, eval_every=4, checkpoint_every=2, eval_seed=10001, eval_temperature=0.0, verifier='numeric', tiny=True)
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_offload_matches_resident_0')
+condition = 'unified', device = 'cpu', precision = 'fp32'
+
+    @pytest.mark.parametrize("condition", ["unified", "split"])
+    @pytest.mark.parametrize("device,precision", [("cpu", "fp32"), pytest.param("cuda", "bf16", marks=pytest.mark.skipif(
+        not torch.cuda.is_available(), reason="CUDA transfer equivalence requires a GPU"))])
+    def test_offload_matches_resident_adam_and_resumes(config, tmp_path, condition, device, precision):
+        cfg = config.with_changes(condition=condition, device=device, precision=precision)
+        make_smoke_data(tmp_path / "data", cfg)
+    
+        def create(name, offload):
+            return Trainer(cfg.with_changes(optimizer_offload=offload),
+                tmp_path / "data/train.jsonl", tmp_path / "data/eval.jsonl", tmp_path / name)
+    
+>       resident = create("resident", False)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_optimizer_offload.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_optimizer_offload.py:30: in create
+    return Trainer(cfg.with_changes(optimizer_offload=offload),
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+________ test_offload_matches_resident_adam_and_resumes[cpu-fp32-split] ________
+
+config = Config(condition='unified', label='smoke-synthetic-not-paper-reproduction', model='tiny-random-qwen2-local', revision=...y_fraction=0.2, eval_every=4, checkpoint_every=2, eval_seed=10001, eval_temperature=0.0, verifier='numeric', tiny=True)
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_offload_matches_resident_1')
+condition = 'split', device = 'cpu', precision = 'fp32'
+
+    @pytest.mark.parametrize("condition", ["unified", "split"])
+    @pytest.mark.parametrize("device,precision", [("cpu", "fp32"), pytest.param("cuda", "bf16", marks=pytest.mark.skipif(
+        not torch.cuda.is_available(), reason="CUDA transfer equivalence requires a GPU"))])
+    def test_offload_matches_resident_adam_and_resumes(config, tmp_path, condition, device, precision):
+        cfg = config.with_changes(condition=condition, device=device, precision=precision)
+        make_smoke_data(tmp_path / "data", cfg)
+    
+        def create(name, offload):
+            return Trainer(cfg.with_changes(optimizer_offload=offload),
+                tmp_path / "data/train.jsonl", tmp_path / "data/eval.jsonl", tmp_path / name)
+    
+>       resident = create("resident", False)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_optimizer_offload.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_optimizer_offload.py:30: in create
+    return Trainer(cfg.with_changes(optimizer_offload=offload),
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+______ test_offload_matches_resident_adam_and_resumes[cuda-bf16-unified] _______
+
+config = Config(condition='unified', label='smoke-synthetic-not-paper-reproduction', model='tiny-random-qwen2-local', revision=...y_fraction=0.2, eval_every=4, checkpoint_every=2, eval_seed=10001, eval_temperature=0.0, verifier='numeric', tiny=True)
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_offload_matches_resident_2')
+condition = 'unified', device = 'cuda', precision = 'bf16'
+
+    @pytest.mark.parametrize("condition", ["unified", "split"])
+    @pytest.mark.parametrize("device,precision", [("cpu", "fp32"), pytest.param("cuda", "bf16", marks=pytest.mark.skipif(
+        not torch.cuda.is_available(), reason="CUDA transfer equivalence requires a GPU"))])
+    def test_offload_matches_resident_adam_and_resumes(config, tmp_path, condition, device, precision):
+        cfg = config.with_changes(condition=condition, device=device, precision=precision)
+        make_smoke_data(tmp_path / "data", cfg)
+    
+        def create(name, offload):
+            return Trainer(cfg.with_changes(optimizer_offload=offload),
+                tmp_path / "data/train.jsonl", tmp_path / "data/eval.jsonl", tmp_path / name)
+    
+>       resident = create("resident", False)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_optimizer_offload.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_optimizer_offload.py:30: in create
+    return Trainer(cfg.with_changes(optimizer_offload=offload),
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+_______ test_offload_matches_resident_adam_and_resumes[cuda-bf16-split] ________
+
+config = Config(condition='unified', label='smoke-synthetic-not-paper-reproduction', model='tiny-random-qwen2-local', revision=...y_fraction=0.2, eval_every=4, checkpoint_every=2, eval_seed=10001, eval_temperature=0.0, verifier='numeric', tiny=True)
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_offload_matches_resident_3')
+condition = 'split', device = 'cuda', precision = 'bf16'
+
+    @pytest.mark.parametrize("condition", ["unified", "split"])
+    @pytest.mark.parametrize("device,precision", [("cpu", "fp32"), pytest.param("cuda", "bf16", marks=pytest.mark.skipif(
+        not torch.cuda.is_available(), reason="CUDA transfer equivalence requires a GPU"))])
+    def test_offload_matches_resident_adam_and_resumes(config, tmp_path, condition, device, precision):
+        cfg = config.with_changes(condition=condition, device=device, precision=precision)
+        make_smoke_data(tmp_path / "data", cfg)
+    
+        def create(name, offload):
+            return Trainer(cfg.with_changes(optimizer_offload=offload),
+                tmp_path / "data/train.jsonl", tmp_path / "data/eval.jsonl", tmp_path / name)
+    
+>       resident = create("resident", False)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_optimizer_offload.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_optimizer_offload.py:30: in create
+    return Trainer(cfg.with_changes(optimizer_offload=offload),
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+________________ test_role_updates_and_frozen_snapshot[unified] ________________
+
+factory = <function factory.<locals>.create at 0x2b3b7df4fc40>
+condition = 'unified'
+
+    @pytest.mark.parametrize("condition",["unified","split"])
+    def test_role_updates_and_frozen_snapshot(factory, condition):
+>       t=factory(condition)
+          ^^^^^^^^^^^^^^^^^^
+
+tests/test_training.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+_________________ test_role_updates_and_frozen_snapshot[split] _________________
+
+factory = <function factory.<locals>.create at 0x2b3b7df4ed40>
+condition = 'split'
+
+    @pytest.mark.parametrize("condition",["unified","split"])
+    def test_role_updates_and_frozen_snapshot(factory, condition):
+>       t=factory(condition)
+          ^^^^^^^^^^^^^^^^^^
+
+tests/test_training.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+______________ test_old_logps_detached_and_guidance_conditioning _______________
+
+factory = <function factory.<locals>.create at 0x2b3b7df4e200>
+
+    def test_old_logps_detached_and_guidance_conditioning(factory):
+>       t=factory("split")
+          ^^^^^^^^^^^^^^^^
+
+tests/test_training.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+____________ test_non_smoke_autoregressive_generation_and_gradients ____________
+
+factory = <function factory.<locals>.create at 0x2b3b7df4cc20>
+
+    def test_non_smoke_autoregressive_generation_and_gradients(factory):
+>       t=factory("split")
+          ^^^^^^^^^^^^^^^^
+
+tests/test_training.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+____________ test_resume_exact_inside_and_between_blocks[1-unified] ____________
+
+factory = <function factory.<locals>.create at 0x2b3b7daf7100>
+condition = 'unified', cut = 1
+
+    @pytest.mark.parametrize("condition",["unified","split"])
+    @pytest.mark.parametrize("cut",[1,2,3])
+    def test_resume_exact_inside_and_between_blocks(factory,condition,cut):
+>       uninterrupted=factory(condition)
+                      ^^^^^^^^^^^^^^^^^^
+
+tests/test_training.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+_____________ test_resume_exact_inside_and_between_blocks[1-split] _____________
+
+factory = <function factory.<locals>.create at 0x2b3b7671cea0>
+condition = 'split', cut = 1
+
+    @pytest.mark.parametrize("condition",["unified","split"])
+    @pytest.mark.parametrize("cut",[1,2,3])
+    def test_resume_exact_inside_and_between_blocks(factory,condition,cut):
+>       uninterrupted=factory(condition)
+                      ^^^^^^^^^^^^^^^^^^
+
+tests/test_training.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+____________ test_resume_exact_inside_and_between_blocks[2-unified] ____________
+
+factory = <function factory.<locals>.create at 0x2b3b7671d080>
+condition = 'unified', cut = 2
+
+    @pytest.mark.parametrize("condition",["unified","split"])
+    @pytest.mark.parametrize("cut",[1,2,3])
+    def test_resume_exact_inside_and_between_blocks(factory,condition,cut):
+>       uninterrupted=factory(condition)
+                      ^^^^^^^^^^^^^^^^^^
+
+tests/test_training.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+_____________ test_resume_exact_inside_and_between_blocks[2-split] _____________
+
+factory = <function factory.<locals>.create at 0x2b3b7daf6480>
+condition = 'split', cut = 2
+
+    @pytest.mark.parametrize("condition",["unified","split"])
+    @pytest.mark.parametrize("cut",[1,2,3])
+    def test_resume_exact_inside_and_between_blocks(factory,condition,cut):
+>       uninterrupted=factory(condition)
+                      ^^^^^^^^^^^^^^^^^^
+
+tests/test_training.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+____________ test_resume_exact_inside_and_between_blocks[3-unified] ____________
+
+factory = <function factory.<locals>.create at 0x2b3b7671c0e0>
+condition = 'unified', cut = 3
+
+    @pytest.mark.parametrize("condition",["unified","split"])
+    @pytest.mark.parametrize("cut",[1,2,3])
+    def test_resume_exact_inside_and_between_blocks(factory,condition,cut):
+>       uninterrupted=factory(condition)
+                      ^^^^^^^^^^^^^^^^^^
+
+tests/test_training.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+_____________ test_resume_exact_inside_and_between_blocks[3-split] _____________
+
+factory = <function factory.<locals>.create at 0x2b3b76683e20>
+condition = 'split', cut = 3
+
+    @pytest.mark.parametrize("condition",["unified","split"])
+    @pytest.mark.parametrize("cut",[1,2,3])
+    def test_resume_exact_inside_and_between_blocks(factory,condition,cut):
+>       uninterrupted=factory(condition)
+                      ^^^^^^^^^^^^^^^^^^
+
+tests/test_training.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+__________ test_optimizer_moments_follow_parameter_ownership[unified] __________
+
+factory = <function factory.<locals>.create at 0x2b3b7daf6de0>
+condition = 'unified'
+
+    @pytest.mark.parametrize("condition", ["unified", "split"])
+    def test_optimizer_moments_follow_parameter_ownership(factory, condition):
+>       t=factory(condition)
+          ^^^^^^^^^^^^^^^^^^
+
+tests/test_training.py:166: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+___________ test_optimizer_moments_follow_parameter_ownership[split] ___________
+
+factory = <function factory.<locals>.create at 0x2b3b7df4fce0>
+condition = 'split'
+
+    @pytest.mark.parametrize("condition", ["unified", "split"])
+    def test_optimizer_moments_follow_parameter_ownership(factory, condition):
+>       t=factory(condition)
+          ^^^^^^^^^^^^^^^^^^
+
+tests/test_training.py:166: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/conftest.py:26: in create
+    return Trainer(config.with_changes(condition=condition),tmp_path/"data/train.jsonl",
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+_________________ test_lora_pilot_updates_and_resume[unified] __________________
+
+config = Config(condition='unified', label='smoke-synthetic-not-paper-reproduction', model='tiny-random-qwen2-local', revision=...y_fraction=0.2, eval_every=4, checkpoint_every=2, eval_seed=10001, eval_temperature=0.0, verifier='numeric', tiny=True)
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_lora_pilot_updates_and_re0')
+condition = 'unified'
+
+    @pytest.mark.parametrize("condition",["unified","split"])
+    def test_lora_pilot_updates_and_resume(config,tmp_path,condition):
+        pytest.importorskip("peft")
+        from gasp.data import make_smoke_data
+        from gasp.trainer import Trainer
+        c=config.with_changes(tuning="lora",lora_rank=4,gradient_checkpointing=True,
+                              condition=condition,block_steps=1,role_steps=2)
+        make_smoke_data(tmp_path/"data",c)
+        def make(out):
+            return Trainer(c,tmp_path/"data/train.jsonl",tmp_path/"data/eval.jsonl",tmp_path/out)
+>       t=make("a")
+          ^^^^^^^^^
+
+tests/test_training.py:193: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_training.py:192: in make
+    return Trainer(c,tmp_path/"data/train.jsonl",tmp_path/"data/eval.jsonl",tmp_path/out)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+__________________ test_lora_pilot_updates_and_resume[split] ___________________
+
+config = Config(condition='unified', label='smoke-synthetic-not-paper-reproduction', model='tiny-random-qwen2-local', revision=...y_fraction=0.2, eval_every=4, checkpoint_every=2, eval_seed=10001, eval_temperature=0.0, verifier='numeric', tiny=True)
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_lora_pilot_updates_and_re1')
+condition = 'split'
+
+    @pytest.mark.parametrize("condition",["unified","split"])
+    def test_lora_pilot_updates_and_resume(config,tmp_path,condition):
+        pytest.importorskip("peft")
+        from gasp.data import make_smoke_data
+        from gasp.trainer import Trainer
+        c=config.with_changes(tuning="lora",lora_rank=4,gradient_checkpointing=True,
+                              condition=condition,block_steps=1,role_steps=2)
+        make_smoke_data(tmp_path/"data",c)
+        def make(out):
+            return Trainer(c,tmp_path/"data/train.jsonl",tmp_path/"data/eval.jsonl",tmp_path/out)
+>       t=make("a")
+          ^^^^^^^^^
+
+tests/test_training.py:193: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_training.py:192: in make
+    return Trainer(c,tmp_path/"data/train.jsonl",tmp_path/"data/eval.jsonl",tmp_path/out)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/gasp/trainer.py:107: in __init__
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+src/gasp/data.py:29: in write_json
+    Path(path).write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:202: in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+/usr/local/lib/python3.12/json/encoder.py:432: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dct = {None: None, 'psutil': '7.2.2', 'pillow': '13.0.0', 'nvidia-cuda-cupti-cu12': '12.6.80', ...}
+_current_indent_level = 1
+
+    def _iterencode_dict(dct, _current_indent_level):
+        if not dct:
+            yield '{}'
+            return
+        if markers is not None:
+            markerid = id(dct)
+            if markerid in markers:
+                raise ValueError("Circular reference detected")
+            markers[markerid] = dct
+        yield '{'
+        if _indent is not None:
+            _current_indent_level += 1
+            newline_indent = '\n' + _indent * _current_indent_level
+            item_separator = _item_separator + newline_indent
+            yield newline_indent
+        else:
+            newline_indent = None
+            item_separator = _item_separator
+        first = True
+        if _sort_keys:
+>           items = sorted(dct.items())
+                    ^^^^^^^^^^^^^^^^^^^
+E           TypeError: '<' not supported between instances of 'str' and 'NoneType'
+
+/usr/local/lib/python3.12/json/encoder.py:354: TypeError
+=============================== warnings summary ===============================
+tests/test_data_eval.py: 4 warnings
+tests/test_fidelity.py: 12 warnings
+tests/test_optimizer_offload.py: 8 warnings
+tests/test_training.py: 28 warnings
+  /work/gasp/src/gasp/trainer.py:107: DeprecationWarning: Implicit None on return values is deprecated and will raise KeyErrors.
+    write_json(self.output/"environment.json", {d.metadata["Name"]:d.version for d in distributions()})
+
+tests/test_data_eval.py: 4 warnings
+tests/test_fidelity.py: 12 warnings
+tests/test_optimizer_offload.py: 8 warnings
+tests/test_training.py: 28 warnings
+  /usr/local/lib/python3.12/importlib/metadata/__init__.py:467: DeprecationWarning: Implicit None on return values is deprecated and will raise KeyErrors.
+    return self.metadata['Version']
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_data_eval.py::test_evaluation_cache_identity_and_rng_isolation
+FAILED tests/test_data_eval.py::test_end_to_end_and_aggregation_guards - Type...
+FAILED tests/test_fidelity.py::test_trainer_does_not_clone_unfinished_privileged_reasoning
+FAILED tests/test_fidelity.py::test_clean_context_retries_current_policy_and_never_uses_cache
+FAILED tests/test_fidelity.py::test_clean_retry_exhaustion_does_not_advance_optimizer
+FAILED tests/test_fidelity.py::test_unformatted_corruption_does_not_mask_training[agent]
+FAILED tests/test_fidelity.py::test_unformatted_corruption_does_not_mask_training[polluter]
+FAILED tests/test_fidelity.py::test_old_checkpoint_protocol_cannot_be_silently_resumed
+FAILED tests/test_optimizer_offload.py::test_offload_matches_resident_adam_and_resumes[cpu-fp32-unified]
+FAILED tests/test_optimizer_offload.py::test_offload_matches_resident_adam_and_resumes[cpu-fp32-split]
+FAILED tests/test_optimizer_offload.py::test_offload_matches_resident_adam_and_resumes[cuda-bf16-unified]
+FAILED tests/test_optimizer_offload.py::test_offload_matches_resident_adam_and_resumes[cuda-bf16-split]
+FAILED tests/test_training.py::test_role_updates_and_frozen_snapshot[unified]
+FAILED tests/test_training.py::test_role_updates_and_frozen_snapshot[split]
+FAILED tests/test_training.py::test_old_logps_detached_and_guidance_conditioning
+FAILED tests/test_training.py::test_non_smoke_autoregressive_generation_and_gradients
+FAILED tests/test_training.py::test_resume_exact_inside_and_between_blocks[1-unified]
+FAILED tests/test_training.py::test_resume_exact_inside_and_between_blocks[1-split]
+FAILED tests/test_training.py::test_resume_exact_inside_and_between_blocks[2-unified]
+FAILED tests/test_training.py::test_resume_exact_inside_and_between_blocks[2-split]
+FAILED tests/test_training.py::test_resume_exact_inside_and_between_blocks[3-unified]
+FAILED tests/test_training.py::test_resume_exact_inside_and_between_blocks[3-split]
+FAILED tests/test_training.py::test_optimizer_moments_follow_parameter_ownership[unified]
+FAILED tests/test_training.py::test_optimizer_moments_follow_parameter_ownership[split]
+FAILED tests/test_training.py::test_lora_pilot_updates_and_resume[unified] - ...
+FAILED tests/test_training.py::test_lora_pilot_updates_and_resume[split] - Ty...
+26 failed, 72 passed, 104 warnings in 19.19s

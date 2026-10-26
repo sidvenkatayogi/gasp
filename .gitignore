@@ -13,8 +13,9 @@ runs/
 references/paper.html
 dist/
 build/
-# All experiment artifacts stay local.
+# Experiment artifacts and project documents stay local.
 /artifacts/
+/docs/
 .gasp-ssh-*.sock
 
 # Model exports and packaged runs (keep the source notebooks and paper).

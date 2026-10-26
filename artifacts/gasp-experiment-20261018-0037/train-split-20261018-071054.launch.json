@@ -1,8 +1,0 @@
-{
-  "attempt_id": "train-split-20261018-071054",
-  "stage": "train",
-  "condition": "split",
-  "max_seconds": 12543,
-  "role_steps": 35,
-  "resume": false
-}

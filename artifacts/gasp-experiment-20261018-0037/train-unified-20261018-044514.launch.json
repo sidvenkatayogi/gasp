@@ -1,8 +1,0 @@
-{
-  "attempt_id": "train-unified-20261018-044514",
-  "stage": "train",
-  "condition": "unified",
-  "max_seconds": 10500,
-  "role_steps": 35,
-  "resume": false
-}

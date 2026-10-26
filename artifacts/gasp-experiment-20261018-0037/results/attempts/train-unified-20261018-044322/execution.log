@@ -1,3 +1,0 @@
-`torch_dtype` is deprecated! Use `dtype` instead!
-{"event": "phase", "phase": "initialize_trainer", "seconds": 18.565324878000002}
-{"event": "phase", "phase": "verify_shared_baseline", "seconds": 11.862762447999998}

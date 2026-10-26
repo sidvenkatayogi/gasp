@@ -1,3 +1,0 @@
-`torch_dtype` is deprecated! Use `dtype` instead!
-{"role": "agent", "transfer_seconds": 0.0012265139998817176, "old_logps_seconds": 10.526075602000219, "backward_seconds": 58.90972572600049, "repair_seconds": 0.8776689589999478, "sample_tokens": 49515, "samples": 256, "optimizer_seconds": 0.20323774600001343, "grad_norm": 86.33956146240234, "peak_allocated_bytes": 37469423104, "peak_reserved_bytes": 39998980096}
-{"role": "polluter", "transfer_seconds": 9.222357172000102, "old_logps_seconds": 12.502243687999453, "backward_seconds": 60.43139795900015, "repair_seconds": 0.0, "sample_tokens": 209189, "samples": 256, "optimizer_seconds": 0.13100354900007005, "grad_norm": 0.15555062890052795, "peak_allocated_bytes": 37472888320, "peak_reserved_bytes": 39998980096}

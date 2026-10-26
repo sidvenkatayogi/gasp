@@ -1,7 +1,0 @@
-`torch_dtype` is deprecated! Use `dtype` instead!
-{"question_id": "gsm8k-test-296", "candidate_index": 0, "numeric_correct": 0, "generated_tokens": 564}
-{"question_id": "gsm8k-test-296", "candidate_index": 1, "numeric_correct": 1, "generated_tokens": 438}
-{"question_id": "gsm8k-test-296", "candidate_index": 2, "numeric_correct": 1, "generated_tokens": 504}
-{"question_id": "gsm8k-test-296", "candidate_index": 3, "numeric_correct": 1, "generated_tokens": 294}
-{"event": "phase", "phase": "volume_commit", "success": true, "seconds": 1.232175699999999}
-{"event": "phase", "phase": "volume_commit", "success": true, "seconds": 1.012987332999998}
